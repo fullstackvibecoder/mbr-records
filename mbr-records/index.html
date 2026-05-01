@@ -1,0 +1,2357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multicultural Bureau of Records · Public Ledger of Decisions and Accords</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* USWDS-inspired palette */
+    --c-bg: #ffffff;
+    --c-bg-alt: #f0f0f0;
+    --c-bg-cool: #e7f6f8;
+    --c-bg-cool-2: #d9e8f6;
+    --c-primary: #1a4480;
+    --c-primary-dark: #162e51;
+    --c-primary-darker: #112e51;
+    --c-primary-vivid: #0050d8;
+    --c-primary-light: #aacdec;
+    --c-base: #1b1b1b;
+    --c-base-light: #565c65;
+    --c-base-lighter: #71767a;
+    --c-border: #dfe1e2;
+    --c-border-strong: #c9c9c9;
+    --c-gold: #ffbe2e;
+    --c-gold-dark: #c69505;
+    --c-red: #b50909;
+    --c-red-light: #f8dfe2;
+    --c-green: #00a91c;
+    --c-green-dark: #008817;
+    --c-orange: #e66f0e;
+    --c-cyan: #009ec1;
+    --c-purple: #54278f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font: 16px/1.5 "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    color: var(--c-base);
+    background: var(--c-bg);
+    min-height: 100vh;
+  }
+  a { color: var(--c-primary-vivid); text-underline-offset: 2px; }
+  a:hover { color: var(--c-primary-darker); }
+
+  /* USA Banner */
+  .usa-banner {
+    background: var(--c-bg-alt);
+    font-size: 12px;
+    line-height: 1.4;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--c-border);
+  }
+  .usa-banner-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--c-base);
+  }
+  .usa-banner-flag {
+    width: 24px;
+    height: 16px;
+    flex-shrink: 0;
+    display: inline-block;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .usa-banner em {
+    font-style: italic;
+    color: var(--c-base-light);
+  }
+
+  /* Site Header */
+  .site-header {
+    background: var(--c-primary-darker);
+    color: white;
+    border-bottom: 6px solid var(--c-gold);
+  }
+  .site-header-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+  .agency-seal {
+    width: 84px;
+    height: 84px;
+    flex-shrink: 0;
+    display: block;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
+  }
+  .agency-text { flex: 1; min-width: 0; }
+  .agency-overline {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--c-gold);
+    margin-bottom: 2px;
+  }
+  .site-title {
+    font: 700 26px/1.15 "Source Serif Pro", Georgia, serif;
+    letter-spacing: -0.005em;
+    color: white;
+    margin-bottom: 4px;
+  }
+  .agency-tagline {
+    font-size: 14px;
+    color: rgba(255,255,255,0.85);
+  }
+  .header-meta {
+    text-align: right;
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.5;
+  }
+  .header-meta strong { color: white; }
+
+  /* Tabs (subnav) */
+  nav.tabs {
+    background: var(--c-primary);
+    border-bottom: none;
+    padding: 0;
+    margin-bottom: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  nav.tabs-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 12px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  nav.tabs button {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.85);
+    padding: 14px 18px;
+    cursor: pointer;
+    font: 600 14px/1 inherit;
+    border-bottom: 4px solid transparent;
+    margin-bottom: 0;
+    white-space: nowrap;
+    transition: color 0.15s, background 0.15s, border-color 0.15s;
+  }
+  nav.tabs button:hover { color: white; background: rgba(255,255,255,0.07); }
+  nav.tabs button.active {
+    color: white;
+    border-bottom-color: var(--c-gold);
+    background: rgba(0,0,0,0.18);
+  }
+
+  /* Container */
+  .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 32px 24px 60px;
+  }
+  section.view { display: none; }
+  section.view.active { display: block; }
+
+  /* Page header (under tabs) */
+  .page-header {
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--c-border);
+    margin-bottom: 28px;
+  }
+  .page-header h2 {
+    font: 700 30px/1.2 "Source Serif Pro", Georgia, serif;
+    color: var(--c-primary-darker);
+    margin-bottom: 8px;
+  }
+  .page-header .lede {
+    font-size: 15px;
+    color: var(--c-base-light);
+    max-width: 800px;
+  }
+  .page-header .lede a { color: var(--c-primary-vivid); font-weight: 500; }
+
+  /* Stats grid */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .stat {
+    background: var(--c-bg);
+    border: 1px solid var(--c-border);
+    border-top: 4px solid var(--c-primary);
+    padding: 16px 18px;
+  }
+  .stat .num {
+    font: 700 28px/1 "Source Serif Pro", Georgia, serif;
+    color: var(--c-primary-darker);
+  }
+  .stat .lbl {
+    color: var(--c-base-light);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 6px;
+    font-weight: 700;
+  }
+
+  /* Quick Actions panel */
+  .quick-actions {
+    background: var(--c-bg-cool);
+    border: 1px solid var(--c-primary-light);
+    border-left: 6px solid var(--c-primary);
+    padding: 22px 24px;
+    margin-bottom: 32px;
+  }
+  .qa-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .qa-title-block { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .qa-header h2 {
+    font: 700 18px/1.1 "Source Serif Pro", Georgia, serif;
+    color: var(--c-primary-darker);
+  }
+  .qa-subtitle { color: var(--c-base-light); font-size: 13px; }
+  .qa-toggle {
+    background: white;
+    border: 1px solid var(--c-border-strong);
+    color: var(--c-primary);
+    padding: 6px 12px;
+    font: 600 11px/1 inherit;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .qa-toggle:hover { background: var(--c-primary); color: white; border-color: var(--c-primary); }
+  .qa-filters {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .qa-pill {
+    background: white;
+    border: 1px solid var(--c-border-strong);
+    color: var(--c-base);
+    padding: 7px 14px;
+    font: 600 12px/1 inherit;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .qa-pill:hover { color: var(--c-primary); border-color: var(--c-primary); }
+  .qa-pill.active {
+    color: white;
+    border-color: var(--c-primary);
+    background: var(--c-primary);
+  }
+  .qa-pill .qa-count {
+    display: inline-block;
+    background: var(--c-bg-alt);
+    color: var(--c-base);
+    padding: 2px 6px;
+    font-size: 10px;
+    margin-left: 6px;
+  }
+  .qa-pill.active .qa-count { background: rgba(255,255,255,0.25); color: white; }
+  .qa-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 12px;
+  }
+  .qa-card {
+    background: white;
+    border: 1px solid var(--c-border-strong);
+    border-left: 4px solid var(--c-base-light);
+    padding: 14px 16px;
+    transition: border-color 0.1s, box-shadow 0.1s;
+  }
+  .qa-card:hover { border-color: var(--c-primary); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .qa-card.cat-waiting { border-left-color: var(--c-gold); }
+  .qa-card.cat-contested { border-left-color: var(--c-orange); }
+  .qa-card.cat-deadline { border-left-color: var(--c-red); }
+  .qa-card.cat-postponed { border-left-color: var(--c-purple); }
+  .qa-card.cat-active { border-left-color: var(--c-primary-vivid); }
+  .qa-card.cat-threat { border-left-color: var(--c-red); }
+  .qa-card.cat-review { border-left-color: var(--c-cyan); }
+  .qa-cat-tag {
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--c-base-light);
+    margin-bottom: 6px;
+  }
+  .qa-card.cat-waiting .qa-cat-tag { color: var(--c-gold-dark); }
+  .qa-card.cat-contested .qa-cat-tag { color: var(--c-orange); }
+  .qa-card.cat-deadline .qa-cat-tag { color: var(--c-red); }
+  .qa-card.cat-postponed .qa-cat-tag { color: var(--c-purple); }
+  .qa-card.cat-active .qa-cat-tag { color: var(--c-primary-vivid); }
+  .qa-card.cat-threat .qa-cat-tag { color: var(--c-red); }
+  .qa-card.cat-review .qa-cat-tag { color: var(--c-cyan); }
+  .qa-card-title {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--c-base);
+    margin-bottom: 5px;
+    line-height: 1.3;
+  }
+  .qa-card-desc {
+    color: var(--c-base-light);
+    font-size: 12.5px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .qa-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--c-base-light);
+    border-top: 1px solid var(--c-border);
+    padding-top: 8px;
+    margin-top: 4px;
+    gap: 8px;
+  }
+  .qa-card-meta > div { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .qa-days { font-weight: 600; }
+  .qa-days.urgent { color: var(--c-red); }
+  .qa-days.warn { color: var(--c-orange); }
+  .qa-collapsed .qa-grid, .qa-collapsed .qa-filters { display: none; }
+  .qa-empty {
+    color: var(--c-base-light);
+    font-style: italic;
+    padding: 24px;
+    text-align: center;
+    font-size: 13px;
+    background: white;
+  }
+
+  /* Filters */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+    align-items: center;
+  }
+  .filters input, .filters select {
+    background: white;
+    border: 1px solid var(--c-border-strong);
+    color: var(--c-base);
+    padding: 9px 12px;
+    font: inherit;
+    font-size: 14px;
+  }
+  .filters input { min-width: 240px; flex: 1; max-width: 400px; }
+  .filters input:focus, .filters select:focus {
+    outline: 3px solid var(--c-primary);
+    outline-offset: 0;
+    border-color: var(--c-primary);
+  }
+  .pill-btn {
+    background: white;
+    border: 1px solid var(--c-border-strong);
+    color: var(--c-base);
+    padding: 8px 14px;
+    font: 600 12px/1 inherit;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .pill-btn:hover { background: var(--c-primary); color: white; border-color: var(--c-primary); }
+  .meta-row { color: var(--c-base-light); font-size: 13px; margin-bottom: 14px; font-weight: 500; }
+
+  /* Ledger table */
+  .ledger {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;
+    border: 1px solid var(--c-border);
+  }
+  .ledger th {
+    background: var(--c-primary-darker);
+    text-align: left;
+    padding: 12px 14px;
+    font: 700 11px/1.2 inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: white;
+    border-bottom: none;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+  }
+  .ledger th:hover { background: var(--c-primary); }
+  .ledger th.sorted { background: var(--c-primary); }
+  .ledger th.sorted::after { content: " ↓"; color: var(--c-gold); }
+  .ledger td {
+    padding: 14px;
+    border-bottom: 1px solid var(--c-border);
+    vertical-align: top;
+    font-size: 13.5px;
+  }
+  .ledger tr:nth-child(even) { background: var(--c-bg-alt); }
+  .ledger tr:hover { background: var(--c-bg-cool); }
+  .ledger tr:last-child td { border-bottom: none; }
+  .item-name { font-weight: 700; color: var(--c-base); font-size: 14px; }
+  .conditions, .terms { font-size: 12.5px; color: var(--c-base-light); margin-top: 4px; line-height: 1.5; }
+  .conditions ul { padding-left: 16px; }
+
+  /* Status badges */
+  .badge {
+    display: inline-block;
+    font: 700 10px/1 inherit;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 5px 8px;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+  .badge.ratified { color: white; border-color: var(--c-green-dark); background: var(--c-green-dark); }
+  .badge.pending { color: var(--c-base); border-color: var(--c-gold-dark); background: var(--c-gold); }
+  .badge.proposed { color: var(--c-base); border-color: var(--c-gold-dark); background: #fee685; }
+  .badge.leased { color: white; border-color: var(--c-primary-vivid); background: var(--c-primary-vivid); }
+  .badge.gifted { color: white; border-color: var(--c-cyan); background: var(--c-cyan); }
+  .badge.banned { color: white; border-color: var(--c-red); background: var(--c-red); }
+  .badge.retired { color: var(--c-red); border-color: var(--c-red); background: var(--c-red-light); }
+  .badge.contested { color: white; border-color: var(--c-orange); background: var(--c-orange); }
+  .badge.rejected { color: white; border-color: var(--c-red); background: var(--c-red); }
+
+  .type-badge {
+    display: inline-block;
+    font: 600 11px/1 inherit;
+    color: var(--c-base);
+    background: var(--c-bg-alt);
+    padding: 4px 7px;
+  }
+
+  .arrow { color: var(--c-base-lighter); margin: 0 4px; font-weight: 600; }
+  .delegate-tag {
+    display: inline-block;
+    font-size: 11.5px;
+    color: var(--c-primary-darker);
+    background: var(--c-bg-cool);
+    border: 1px solid var(--c-primary-light);
+    padding: 4px 8px;
+    margin: 1px 2px 1px 0;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .delegate-tag.aunties, .delegate-tag.ogs {
+    background: #faf3d1;
+    border-color: var(--c-gold-dark);
+    color: #714e00;
+  }
+  .delegate-tag.all {
+    background: var(--c-primary-darker);
+    color: white;
+    border-color: var(--c-primary-darker);
+  }
+
+  .source-link {
+    font: 11px/1 ui-monospace, SFMono-Regular, monospace;
+    color: var(--c-primary-vivid);
+    text-decoration: none;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .source-link:hover { color: var(--c-primary-darker); text-decoration: underline; }
+  .item-link {
+    margin-left: auto;
+    font-size: 10.5px;
+    background: var(--c-bg-cool);
+    padding: 3px 7px;
+    border: 1px solid var(--c-primary-light);
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+  }
+  .item-link:hover {
+    background: var(--c-primary);
+    color: white !important;
+    border-color: var(--c-primary);
+    text-decoration: none !important;
+  }
+  .timeline-links {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--c-border);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .timeline-links-label {
+    font-size: 11px;
+    color: var(--c-base-light);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .timeline-links .source-link {
+    background: var(--c-bg-cool);
+    padding: 4px 8px;
+    border: 1px solid var(--c-primary-light);
+  }
+  .timeline-links .source-link:hover {
+    background: var(--c-primary);
+    color: white;
+    border-color: var(--c-primary);
+    text-decoration: none;
+  }
+  .quote {
+    font-style: italic;
+    color: var(--c-base-light);
+    border-left: 3px solid var(--c-primary);
+    padding-left: 12px;
+    font-size: 12.5px;
+    margin-top: 8px;
+    background: var(--c-bg-alt);
+    padding: 8px 12px 8px 12px;
+  }
+  details summary { cursor: pointer; color: var(--c-primary-vivid); font-size: 11px; padding: 4px 0; list-style: none; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::before { content: "▸ "; }
+  details[open] summary::before { content: "▾ "; }
+  details summary:hover { color: var(--c-primary-darker); }
+
+  /* Delegations grid */
+  .deleg-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+  }
+  .deleg-card {
+    background: white;
+    border: 1px solid var(--c-border-strong);
+    border-top: 4px solid var(--c-primary);
+    padding: 22px;
+  }
+  .deleg-card h3 {
+    font: 700 18px/1.2 "Source Serif Pro", Georgia, serif;
+    color: var(--c-primary-darker);
+    margin-bottom: 6px;
+  }
+  .deleg-card .role { font-size: 13px; color: var(--c-base-light); margin-bottom: 14px; line-height: 1.5; }
+  .deleg-card h4 {
+    font: 700 11px/1 inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--c-primary);
+    margin: 14px 0 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--c-border);
+  }
+  .deleg-card ul { list-style: none; padding: 0; }
+  .deleg-card li { padding: 4px 0; font-size: 13px; color: var(--c-base); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+
+  /* Timeline */
+  .timeline { border-left: 4px solid var(--c-primary); padding-left: 28px; margin-left: 6px; }
+  .accord {
+    background: white;
+    border: 1px solid var(--c-border-strong);
+    padding: 22px 24px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .accord::before {
+    content: "";
+    position: absolute;
+    left: -38px;
+    top: 24px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--c-primary);
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px var(--c-primary);
+  }
+  .accord.resolved::before { background: var(--c-green-dark); box-shadow: 0 0 0 2px var(--c-green-dark); }
+  .accord.pending::before { background: var(--c-gold); box-shadow: 0 0 0 2px var(--c-gold-dark); }
+  .accord .date {
+    font: 700 11px/1 ui-monospace, SFMono-Regular, monospace;
+    color: var(--c-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .accord h3 { font: 700 19px/1.3 "Source Serif Pro", Georgia, serif; color: var(--c-primary-darker); margin: 6px 0 10px; }
+  .accord .accord-body { font-size: 13.5px; color: var(--c-base); }
+  .accord .accord-body p { margin-bottom: 10px; }
+  .accord ol, .accord ul { padding-left: 22px; margin: 8px 0 10px; }
+  .accord li { margin: 4px 0; }
+
+  /* Open matters */
+  .open-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 14px;
+  }
+  .open-card {
+    background: white;
+    border: 1px solid var(--c-border-strong);
+    border-left: 4px solid var(--c-gold);
+    padding: 16px 18px;
+  }
+  .open-card .titletop { font: 700 15px/1.3 inherit; margin-bottom: 6px; color: var(--c-primary-darker); }
+  .open-card .desc { font-size: 13px; color: var(--c-base-light); line-height: 1.5; }
+  .open-card .since { font-size: 11px; color: var(--c-base-light); margin-top: 10px; font-family: ui-monospace, SFMono-Regular, monospace; padding-top: 8px; border-top: 1px solid var(--c-border); }
+
+  /* About */
+  .about-block {
+    background: white;
+    border: 1px solid var(--c-border-strong);
+    border-top: 4px solid var(--c-primary);
+    padding: 28px;
+  }
+  .about-block h3 { font: 700 20px/1.2 "Source Serif Pro", Georgia, serif; color: var(--c-primary-darker); margin-bottom: 14px; }
+  .about-block p { margin-bottom: 12px; color: var(--c-base); font-size: 14px; line-height: 1.6; max-width: 800px; }
+  .about-block code { color: var(--c-primary-darker); background: var(--c-bg-alt); padding: 2px 5px; font-size: 13px; }
+
+  /* Footer */
+  footer.site-footer {
+    background: var(--c-primary-darker);
+    color: white;
+    padding: 40px 0 28px;
+    border-top: none;
+    margin-top: 60px;
+  }
+  .site-footer-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .footer-seal {
+    width: 96px;
+    height: 96px;
+    flex-shrink: 0;
+    display: block;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.35));
+  }
+  .footer-content {
+    flex: 1;
+    min-width: 250px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.92);
+  }
+  .footer-content h3 {
+    font: 700 17px/1.2 "Source Serif Pro", Georgia, serif;
+    color: white;
+    margin-bottom: 8px;
+  }
+  .footer-content code {
+    background: rgba(255,255,255,0.12);
+    padding: 2px 6px;
+    font-size: 12px;
+    color: var(--c-gold);
+    font-family: ui-monospace, SFMono-Regular, monospace;
+  }
+  .footer-content a { color: var(--c-gold); }
+  .footer-content a:hover { color: white; }
+  .footer-disclaim {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+  }
+  .site-footer-bottom {
+    background: rgba(0,0,0,0.28);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin-top: 28px;
+    padding: 22px 0;
+  }
+  .site-footer-bottom-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .footer-personal {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    max-width: 820px;
+  }
+  .footer-personal-tag {
+    display: inline-block;
+    background: var(--c-gold);
+    color: var(--c-primary-darker);
+    font-weight: 700;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+  }
+  .footer-personal-text {
+    font-size: 14px;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.92);
+  }
+  .footer-personal-text strong { color: white; font-weight: 700; }
+  .footer-personal-text a {
+    color: var(--c-gold);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px dotted rgba(255,190,46,0.4);
+    padding-bottom: 1px;
+  }
+  .footer-personal-text a:hover {
+    color: white;
+    border-bottom-color: white;
+    border-bottom-style: solid;
+  }
+  .footer-personal-flag {
+    display: inline-block;
+    margin-left: 4px;
+    vertical-align: -1px;
+  }
+  .footer-personal-flag svg {
+    width: 18px;
+    height: 12px;
+    vertical-align: middle;
+  }
+
+  .timelimit { margin-top: 6px; color: var(--c-primary-vivid); font-size: 11px; font-family: ui-monospace, monospace; font-weight: 600; }
+  .ratified-by { margin-top: 6px; font-size: 11px; color: var(--c-base-light); }
+  .owner-line { margin-top: 6px; font-size: 11px; color: var(--c-base-light); }
+  .kind-line { font-size: 11px; color: var(--c-base-lighter); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+
+  @media (max-width: 768px) {
+    .container { padding: 24px 14px 40px; }
+    .site-header-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .header-meta { text-align: left; }
+    .page-header h2 { font-size: 24px; }
+    .ledger { font-size: 12px; }
+    .ledger th, .ledger td { padding: 8px 6px; }
+    .ledger th.col-conditions, .ledger td.col-conditions { display: none; }
+    nav.tabs button { padding: 12px 14px; font-size: 13px; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Inline SVG symbols: flag and seal -->
+<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="mff-flag" viewBox="0 0 60 40">
+      <rect width="60" height="6.67" fill="#ffbe2e"/>
+      <rect y="6.67" width="60" height="26.66" fill="#112e51"/>
+      <rect y="33.33" width="60" height="6.67" fill="#ffbe2e"/>
+      <polygon points="30,12.5 31.8,17.6 37.1,17.7 32.9,20.9 34.4,26.1 30,23 25.6,26.1 27.2,20.9 22.9,17.7 28.2,17.6" fill="#ffbe2e"/>
+    </symbol>
+    <symbol id="mbr-seal" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="49" fill="#c69505"/>
+      <circle cx="50" cy="50" r="46" fill="#112e51"/>
+      <circle cx="50" cy="50" r="43" fill="none" stroke="#ffbe2e" stroke-width="0.4"/>
+      <path id="mbr-arc-top" d="M 16,52 A 34,34 0 0 1 84,52" fill="none"/>
+      <path id="mbr-arc-bot" d="M 18,56 A 32,32 0 0 0 82,56" fill="none"/>
+      <text font-family="'Source Serif Pro', Georgia, serif" font-size="6.8" font-weight="700" fill="#ffbe2e" letter-spacing="0.5">
+        <textPath href="#mbr-arc-top" startOffset="50%" text-anchor="middle">MULTICULTURAL BUREAU</textPath>
+      </text>
+      <text font-family="'Source Serif Pro', Georgia, serif" font-size="6.5" font-weight="700" fill="#ffbe2e" letter-spacing="0.5">
+        <textPath href="#mbr-arc-bot" startOffset="50%" text-anchor="middle">★  OF RECORDS  ★</textPath>
+      </text>
+      <circle cx="50" cy="50" r="14" fill="#ffbe2e"/>
+      <circle cx="50" cy="50" r="12" fill="#112e51"/>
+      <polygon points="50,42 52,47.3 57.6,47.5 53.2,51 54.7,56.5 50,53.4 45.3,56.5 46.8,51 42.4,47.5 48,47.3" fill="#ffbe2e"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="usa-banner" role="banner">
+  <div class="usa-banner-inner">
+    <svg class="usa-banner-flag" viewBox="0 0 60 40" aria-hidden="true"><use href="#mff-flag"/></svg>
+    <span><strong>An official communiqué of the Multicultural Bureau of Records.</strong> &nbsp; <em>This site is decentralized and may contain absurdism.</em></span>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <svg class="agency-seal" viewBox="0 0 100 100" role="img" aria-label="Multicultural Bureau of Records seal"><use href="#mbr-seal"/></svg>
+    <div class="agency-text">
+      <div class="agency-overline">United Delegations of the MF Function</div>
+      <div class="site-title">Multicultural Bureau of Records</div>
+      <div class="agency-tagline">Public Ledger of Decisions, Accords, and Pending Matters</div>
+    </div>
+    <div class="header-meta">
+      <strong>Reporting Period</strong><br>
+      March 4 – April 30, 2026<br>
+      <span style="color: var(--c-gold);">●</span> 49 communiqués on file
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" role="navigation" aria-label="Section navigation">
+  <div class="tabs-inner">
+    <button data-tab="ledger" class="active">Ledger</button>
+    <button data-tab="delegations">Delegations</button>
+    <button data-tab="timeline">Accords Timeline</button>
+    <button data-tab="open">Open Matters</button>
+    <button data-tab="rituals">Rituals &amp; Rules</button>
+    <button data-tab="about">About</button>
+  </div>
+</nav>
+
+<div class="container">
+
+<div class="page-header">
+  <h2 id="page-title">Public Ledger of Decisions and Accords</h2>
+  <div class="lede" id="page-lede">
+    Items, trades, leases, gifts, rulings, and pending matters as recorded in the proceedings of the United Delegations of the MF Function.
+    Source records: <a href="https://www.tiktok.com/@georgebrettolson" target="_blank" rel="noopener">@georgebrettolson</a> ·
+    49 videos transcribed locally via whisper.
+  </div>
+  <div class="stats" id="stats"></div>
+</div>
+
+<section class="quick-actions qa-collapsed" id="quick-actions">
+  <div class="qa-header">
+    <div class="qa-title-block">
+      <h2>Quick Actions</h2>
+      <span class="qa-subtitle" id="qa-subtitle"></span>
+    </div>
+    <button class="qa-toggle" id="qa-toggle">expand</button>
+  </div>
+  <div class="qa-filters" id="qa-filters"></div>
+  <div class="qa-grid" id="qa-grid"></div>
+</section>
+<section class="view active" id="view-ledger">
+  <div class="filters">
+    <input type="text" id="search" placeholder="Search items, terms, conditions, parties...">
+    <select id="filter-type"><option value="">All types</option></select>
+    <select id="filter-status"><option value="">All statuses</option></select>
+    <select id="filter-party"><option value="">All parties</option></select>
+    <button class="pill-btn" id="reset-btn">Reset</button>
+  </div>
+  <div class="meta-row" id="ledger-count"></div>
+  <table class="ledger" id="ledger-table">
+    <thead>
+      <tr>
+        <th data-sort="name">Item</th>
+        <th data-sort="type">Type</th>
+        <th data-sort="status">Status</th>
+        <th>Owner / Direction</th>
+        <th class="col-conditions">Terms / Conditions</th>
+        <th data-sort="date" class="sorted">Date</th>
+        <th>Communiqué</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
+<section class="view" id="view-delegations">
+  <div class="meta-row">Each card shows what the delegation owns, gained, leased, contested, or otherwise touched.</div>
+  <div class="deleg-grid" id="deleg-grid"></div>
+</section>
+<section class="view" id="view-timeline">
+  <div class="meta-row">Major accords, rulings, and ratifications in chronological order.</div>
+  <div class="timeline" id="timeline"></div>
+</section>
+<section class="view" id="view-open">
+  <div class="meta-row">Items still in negotiation, pending ratification, or under review as of April 30, 2026.</div>
+  <div class="open-grid" id="open-grid"></div>
+</section>
+<section class="view" id="view-rituals">
+  <div class="meta-row">Standing protocols, recurring events, and structural conventions.</div>
+  <div id="rituals-list"></div>
+</section>
+<section class="view" id="view-about">
+  <div class="about-block" id="about-block"></div>
+</section>
+
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <svg class="footer-seal" viewBox="0 0 100 100" aria-hidden="true"><use href="#mbr-seal"/></svg>
+    <div class="footer-content">
+      <h3>Multicultural Bureau of Records</h3>
+      <p>An information service of the United Delegations of the MF Function. Records compiled from public proceedings and authenticated communiqués.</p>
+      <p style="margin-top: 10px;">Office of the Caucasian Caucus · Council of Elder Aunties · Auntie Army (Multicultural Bureau of Safety) · Council of OGs · Black Barber Caucus · Black Betterment Consortium · Auxiliary Aunty Division · &amp; allied delegations.</p>
+      <div class="footer-disclaim">
+        Records compiled locally from public TikTok posts at <a href="https://www.tiktok.com/@georgebrettolson" target="_blank" rel="noopener">@georgebrettolson</a>. Re-runnable via <code>yt-dlp + whisper</code>. This is a fan-made satirical archive — no actual federal agency exists by this name and no governmental authority is claimed or implied.
+      </div>
+    </div>
+  </div>
+  <div class="site-footer-bottom">
+    <div class="site-footer-bottom-inner">
+      <div class="footer-personal">
+        <span class="footer-personal-tag">P.S.</span>
+        <div class="footer-personal-text">
+          I'm <strong>Ara</strong>. I made this for the love of the bit — no affiliation, just a fan. If you've got a project that needs building (dashboards, AI tooling, a weird idea), I do this kind of work at <a href="https://bottlenecklabs.ai" target="_blank" rel="noopener">BottleneckLabs</a> and <a href="https://echome.ai" target="_blank" rel="noopener">EchoMe</a>. Say hi.
+          <span class="footer-personal-flag">
+            <svg viewBox="0 0 60 40" aria-hidden="true"><use href="#mff-flag"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+"use strict";
+// ---------- DATA ----------
+const VIDEO_URL = id => "https://www.tiktok.com/@georgebrettolson/video/" + id;
+
+const DELEGATIONS = [
+  { key: "caucasian", name: "Caucasian Caucus", role: "Lead negotiator (George). Subgroups: LBC Spicy Mayo Sapiens, Yallapeño Appalachian Fellowship, North Carolina Soul Glow Division of YAM." },
+  { key: "black", name: "Black Delegation", role: "Counterparty in most slang trades. Subgroups: Bay Area / Yay Area, Atlanta, West Coast, New Orleans, Caribbean Brigade, Black Barber Caucus, Black Betterment Consortium, Bureau of Fanatics, Auntie Army." },
+  { key: "aunties", name: "Council of Elder Aunties", role: "Supreme ratifying body. Issues binding law. Auntie Army is enforcement; Auxiliary Aunty Division handles peacekeeping." },
+  { key: "ogs", name: "Council of OGs", role: "Senior council. Sending Grand Primarch to preside over Summit of Boo Boo the Fool." },
+  { key: "latino", name: "League of Latinos (LOL / Fiero Papa)", role: "Reformatted from Mexican Delegation Mar 14. Brazilian + non-Spanish-speaking delegates pending entry. Italian Consigliere appears." },
+  { key: "asian", name: "Asian Association", role: "Brokered Habibi-for-raisin-veto deal as part of Rush Hour Coalition. Hosts Meiwa Beer Room." },
+  { key: "arab", name: "Arab Delegation", role: "Holds the most powerful single veto: full and permanent control over raisin placement." },
+  { key: "italian", name: "Gabagoo Guild (Italian Delegation)", role: "Formed Mar 24. Has Consigliere. Holds full topping veto on their own pizza table." },
+  { key: "irish", name: "Irish Association", role: "Issued the whimsical-skedaddling decree as Caucasian repentance for Raisin Gate." },
+  { key: "ginger", name: "Ginger Gang Gang", role: "Code Red over mayo+ketchup. Has Ginger Council. Roast battle veteran (Josh Means)." },
+  { key: "lesbian", name: "Rainbow Syndicate", role: "Formed Apr 3. Threatened flannel + Subaru embargo and revocation of 'it's giving'." },
+  { key: "jamaican", name: "Jamaican Delegation", role: "Holds 'Holy Smokes' as Rasta intellectual property; licensing posture toward Caucasian." },
+  { key: "hawaiian", name: "Hawaiian Delegation", role: "Holds 'at this time' privileges." },
+  { key: "indian", name: "Indian Delegation", role: "In bilateral talks with Caucasian on cow word alliance ('moos and don'ts')." },
+  { key: "nativeam", name: "Native American Delegation", role: "Acknowledged Mar 23 (Super Sunday)." },
+  { key: "all", name: "All Delegates / Coalition of Habibis", role: "Collective body. Ratified address: House of Habibi." },
+];
+
+const ITEMS = [
+  { name: "Mark Ass Buster", type: "phrase", status: "ratified", kind: "trade", owner: "Black Delegation",
+    parties: { from: "Black Delegation", to: "in circulation" },
+    terms: "Black Delegation brings Mark Ass Buster back into circulation in exchange for Caucasian phrases also returning.",
+    conditions: ["Originally proposed in exchange for 'scallywag and rapscallion' (Mar 8) — scallywag rejected (already Black via Project Pat)", "Final exchange: numb nuts + supervised 'skating on thin ice' + knuckle sandwich"],
+    timeLimit: null, ratifiedBy: "Mutual delegations", date: "2026-03-20", videoId: "7619387610711985422",
+    sourceQuote: "Final terms for Mark ass bluster, Buster ass Mark." },
+  { name: "Scallywag", type: "phrase", status: "ratified", kind: "ruling", owner: "Black Delegation",
+    parties: { from: "Caucasian Caucus (rejected claim)", to: "Black Delegation" },
+    terms: "Confirmed Black property. Precedent: used by Project Pat in 'Chicken Head'.",
+    conditions: ["Caucasian Caucus initial offer of 'scallywag' rejected Mar 9", "Reaffirmed Mar 28 in delegate recap"],
+    timeLimit: null, ratifiedBy: "Black Delegation", date: "2026-03-09", videoId: "7615276872015940877",
+    sourceQuote: "the word scallywag has been used by Project Pat in the song Chicken Head" },
+  { name: "Rapscallion", type: "phrase", status: "proposed", kind: "trade", owner: "(unresolved)",
+    parties: { from: "Caucasian Caucus", to: "(offered)" },
+    terms: "Offered alongside scallywag in original Mar 8 trade proposal. Never explicitly accepted or rejected.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-03-08", videoId: "7614922992572845326",
+    sourceQuote: "we will bring back Scallywag and Rapscallion" },
+  { name: "Perpetrating", type: "phrase", status: "ratified", kind: "trade", owner: "Black Delegation",
+    parties: { from: "Black Delegation", to: "in circulation" },
+    terms: "Brought back by Black Delegation in exchange for asshat + tomfoolery from Caucasian Caucus.",
+    conditions: ["Shortened forms ratified: purporting, purpin', perp", "West Coast Black added 'fronting' pending Atlanta", "Atlanta still pending re: capping"],
+    timeLimit: null, ratifiedBy: "Council of Elder Aunties", date: "2026-03-28", videoId: "7622328598338342157",
+    sourceQuote: "The Elder Auntie Council has ratified the word perpetrating. Also a shortened version of either purporting, purpin, or perp." },
+  { name: "Get to Steppin'", type: "phrase", status: "pending", kind: "trade", owner: "Black Delegation",
+    parties: { from: "Black Delegation", to: "in circulation (pending)" },
+    terms: "Black agreed to bring back in exchange for Caucasian phrases. Awaiting final confirmation from Supreme Delegate Martin Lawrence.",
+    conditions: ["Caucasian gives: 'take a hike pal/buddy/bucko' + 'you're barking up the wrong tree buddy'", "Caribbean Brigade documents show they have always used 'over' as their version"],
+    timeLimit: null, ratifiedBy: "(awaiting Martin Lawrence)", date: "2026-04-06", videoId: "7625667187675565325",
+    sourceQuote: "The Black Delegation has agreed to bring back get to stepping" },
+  { name: "On My Mama", type: "phrase", status: "ratified", kind: "ruling", owner: "Black Delegation",
+    parties: { from: "Black Delegation", to: "Caucasian Caucus (regulated use)" },
+    terms: "Caucasian Caucus may use 'On My Mama' under strict stipulations. Phrase remains Black property.",
+    conditions: [
+      "May be used by the Caucasian Caucus only ONCE PER YEAR",
+      "First use must be witnessed by a Black person and notarized",
+      "If deemed unseasoned in delivery, use, or context: LIFETIME BAN",
+      "F Around and Find Out (FAFO) Clause attached Apr 27 — outcomes may include: spiritually escorted back to your lane; folded like hot laundry; mouth check (two-piece) followed by hymn 'Try Jesus, Don't Try Me'",
+      "Black Delegation introducing safety addendum (Apr 25)",
+      "Cutie Patootie thrown in free of charge by Caucasian Caucus"
+    ],
+    timeLimit: "Lifetime ban if violated",
+    ratifiedBy: "Black Delegation + Council of Elder Aunties (FAFO Clause)", date: "2026-04-23", videoId: "7631989018875432205",
+    sourceQuote: "On My Mama may only be used by the Caucasian caucus once a year. The first On My Mama must be witnessed by a Black person. If deemed unseasoned in delivery, use, context, lifetime ban." },
+  { name: "Numb Nuts", type: "phrase", status: "ratified", kind: "trade", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "in circulation" },
+    terms: "Caucasian Caucus brings back into circulation as part of Mark Ass Buster trade.",
+    conditions: ["Full provisional terms"],
+    timeLimit: null, ratifiedBy: "Mutual delegations", date: "2026-03-20", videoId: "7619387610711985422",
+    sourceQuote: "Full provisional terms on the use of numb nuts." },
+  { name: "Skating on Thin Ice", type: "phrase", status: "ratified", kind: "trade", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "in circulation" },
+    terms: "Caucasian Caucus regains use, but with mandatory follow-on word.",
+    conditions: ["MUST be followed by 'buddy', 'pal', or 'bucko'"],
+    timeLimit: null, ratifiedBy: "Mutual delegations", date: "2026-03-20", videoId: "7619387610711985422",
+    sourceQuote: "skating on thin ice with the supervision that it must be followed by buddy, pal or bucko" },
+  { name: "Knuckle Sandwich", type: "phrase", status: "ratified", kind: "trade", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "in circulation" },
+    terms: "Substituted for the withdrawn 'ouch bumps and thunder cookies' offer.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Caucasian Caucus", date: "2026-03-21", videoId: "7619740002204929294",
+    sourceQuote: "They would immediately like to substitute it with knuckle sandwich." },
+  { name: "Ouch Bumps and Thunder Cookies", type: "phrase", status: "retired", kind: "ruling", owner: "(withdrawn)",
+    parties: { from: "Caucasian Caucus", to: "(retracted)" },
+    terms: "Proposed by George; withdrawn next day with Caucasian Caucus apology.",
+    conditions: ["Replaced by 'knuckle sandwich'"],
+    timeLimit: null, ratifiedBy: "Caucasian Caucus retraction", date: "2026-03-21", videoId: "7619740002204929294",
+    sourceQuote: "the Caucasian caucus would like to apologize on my behalf for trying to make ouch bumps and thunder cookies happen" },
+  { name: "Asshat", type: "phrase", status: "ratified", kind: "trade", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "in circulation" },
+    terms: "Returned to circulation in exchange for 'perpetrating' from Black Delegation.",
+    conditions: ["LBC Spicy Mayo Sapiens added 'Assclown' as good faith"],
+    timeLimit: null, ratifiedBy: "Council of Elder Aunties", date: "2026-03-28", videoId: "7622328598338342157",
+    sourceQuote: "The LBC Spicy Mayo Sapiens Caucasian Caucus has also thrown in not only Asshat, but as a token of good faith, Assclown." },
+  { name: "Tomfoolery", type: "phrase", status: "ratified", kind: "trade", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "in circulation" },
+    terms: "Returned to circulation in 'perpetrating' trade.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Council of Elder Aunties", date: "2026-03-28", videoId: "7622328598338342157",
+    sourceQuote: "Tom Foolery is now in full effect for all of these perpetrating Asshats." },
+  { name: "Take a Hike Pal/Buddy/Bucko", type: "phrase", status: "pending", kind: "trade", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "(offered)" },
+    terms: "Offered as exchange for 'Get to Steppin' return. Pending Martin Lawrence ratification.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-04-06", videoId: "7625667187675565325",
+    sourceQuote: "we're willing to bring back take a hike pal or a buddy or a bucko" },
+  { name: "You're Barking Up the Wrong Tree Buddy", type: "phrase", status: "pending", kind: "trade", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "(offered)" },
+    terms: "Added to Get to Steppin' deal by Black Delegation request. Pending.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-04-06", videoId: "7625667187675565325",
+    sourceQuote: "the Black Delegation will also like to ask for. You're barking up the wrong tree buddy." },
+  { name: "No Way José", type: "phrase", status: "ratified", kind: "concession", owner: "League of Latinos",
+    parties: { from: "Caucasian Caucus", to: "League of Latinos" },
+    terms: "Caucasian Caucus secedes full rights to the League of Latinos.",
+    conditions: ["In exchange, Caucasian Caucus seeks joint custody of '¡Ay caramba!' (pending)"],
+    timeLimit: null, ratifiedBy: "Caucasian Caucus secession", date: "2026-03-30", videoId: "7623072823354887437",
+    sourceQuote: "The Caucasian Caucus will secede full rights to the word No Way Jose" },
+  { name: "¡Ay caramba!", type: "phrase", status: "pending", kind: "request", owner: "League of Latinos",
+    parties: { from: "League of Latinos", to: "Caucasian Caucus (joint custody requested)" },
+    terms: "Caucasian Caucus requests joint custody as part of No Way José secession. No formal Latino response.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-03-30", videoId: "7623072823354887437",
+    sourceQuote: "would like joint custody of I Caramba" },
+  { name: "Holy Guacamole", type: "phrase", status: "contested", kind: "claim", owner: "League of Latinos",
+    parties: { from: "League of Latinos", to: "(asserted)" },
+    terms: "Latino claim Apr 17. Caucasian conceded Apr 20. Re-opened to floor Apr 30 — Italian Consigliere offered it during sit-downs.",
+    conditions: ["Latino delegation request: trade Holy Toledo or Black yarrr to seal"],
+    timeLimit: null, ratifiedBy: "(under discussion)", date: "2026-04-17", videoId: "7629753233988259085",
+    sourceQuote: "Holy Guacamole is ours" },
+  { name: "Holy Frijoles", type: "phrase", status: "ratified", kind: "concession", owner: "League of Latinos",
+    parties: { from: "Caucasian Caucus", to: "League of Latinos" },
+    terms: "Conceded by Caucasian Caucus along with Holy Guacamole.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Caucasian concession", date: "2026-04-20", videoId: "7630864041950432525",
+    sourceQuote: "the Caucasian Caucus would like to concede to the League of Latinos, Holy Guacamole, and Holy Frijoles" },
+  { name: "Holy Toledo", type: "phrase", status: "ratified", kind: "claim", owner: "League of Latinos",
+    parties: { from: "League of Latinos", to: "(claimed)" },
+    terms: "Latino records show ownership; offer from Caucasian withdrawn.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "League of Latinos record", date: "2026-04-20", videoId: "7630864041950432525",
+    sourceQuote: "our records show Holy Toledo and Holy Mole, that's ours too" },
+  { name: "Holy Mole", type: "phrase", status: "ratified", kind: "claim", owner: "League of Latinos",
+    parties: { from: "League of Latinos", to: "(claimed)" },
+    terms: "Latino records confirm ownership.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "League of Latinos record", date: "2026-04-20", videoId: "7630864041950432525",
+    sourceQuote: "our records show Holy Toledo and Holy Mole, that's ours too" },
+  { name: "Holy Macaroni", type: "phrase", status: "ratified", kind: "ruling", owner: "Italian Delegation (joint w/ Black)",
+    parties: { from: "Italian Delegation", to: "Black Delegation (joint custody)" },
+    terms: "Italian property with joint custody to Black Delegation for mac and cheese contributions.",
+    conditions: ["Black mac and cheese must be made fresh, not from a box"],
+    timeLimit: null, ratifiedBy: "Italian Delegation grant", date: "2026-04-30", videoId: "7634581333309754638",
+    sourceQuote: "Holy Macaroni is ours, but we can see joint custody toward Bison's The Black Delegation, for their contribution to mac and cheese" },
+  { name: "Holy Smokes", type: "phrase", status: "leased", kind: "lease", owner: "Jamaican Delegation",
+    parties: { from: "Jamaican Delegation", to: "Caucasian Delegation" },
+    terms: "Jamaican intellectual property (Rasta), licensed to Caucasian Delegation since Jamaicans don't use it often.",
+    conditions: ["License conditional on Jamaican delegation locating owner of 'Holy Guacamole'"],
+    timeLimit: null, ratifiedBy: "Jamaican Delegation", date: "2026-04-30", videoId: "7634581333309754638",
+    sourceQuote: "Holy Smokes is a Rasta product, so it is indeed Jamaican intellectual property, but we are happy to license it out" },
+  { name: "Gadzooks", type: "phrase", status: "gifted", kind: "gift", owner: "Yallapeño Appalachian Fellowship",
+    parties: { from: "Yallapeño Appalachian Fellowship", to: "Black Delegation (gift)" },
+    terms: "YAF gift in pursuit of Level 1 spice privileges.",
+    conditions: ["YAF asks for nothing in return"],
+    timeLimit: null, ratifiedBy: "YAF gift", date: "2026-03-21", videoId: "7619740002204929294",
+    sourceQuote: "Gatsooks, Heavens to Betsies, and Gee Willikers" },
+  { name: "Heavens to Betsies", type: "phrase", status: "contested", kind: "gift", owner: "(disputed: YAF gift vs. Black request)",
+    parties: { from: "YAF", to: "Black Delegation" },
+    terms: "Originally a YAF gift Mar 21. Subsequently REQUESTED by Black Delegation as part of On My Mama trade Apr 17 — implies the Mar 21 gift was not formally accepted.",
+    conditions: ["Apr 20: Caucasian Caucus offers to lease as part of On My Mama deal", "Final On My Mama Accords (Apr 23) did not include this; status unsettled"],
+    timeLimit: null, ratifiedBy: "(unresolved)", date: "2026-03-21", videoId: "7619740002204929294",
+    sourceQuote: "Heavens to Betsies" },
+  { name: "Gee Willikers", type: "phrase", status: "gifted", kind: "gift", owner: "Yallapeño Appalachian Fellowship",
+    parties: { from: "Yallapeño Appalachian Fellowship", to: "Black Delegation (gift)" },
+    terms: "YAF gift, no exchange requested.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "YAF gift", date: "2026-03-21", videoId: "7619740002204929294",
+    sourceQuote: "Gatsooks, Heavens to Betsies, and Gee Willikers" },
+  { name: "Habibi", type: "phrase", status: "ratified", kind: "concession", owner: "All Delegates",
+    parties: { from: "Arab Delegation", to: "All Delegates" },
+    terms: "Arab Delegation grants full use to all delegates in exchange for permanent veto over raisin placement (ending Raisin Gate).",
+    conditions: ["Brokered by the Rush Hour Coalition (Black Delegation + Asian Association)"],
+    timeLimit: null, ratifiedBy: "Rush Hour Coalition", date: "2026-03-15", videoId: "7617513531096730893",
+    sourceQuote: "the Rush Hour Coalition, formed by the Black Delegation and the Asian Association, brokered a deal for the full use of the word Habibi to all delegates" },
+  { name: "Mamma Mia", type: "phrase", status: "ratified", kind: "concession", owner: "All Delegates",
+    parties: { from: "Italian Delegation", to: "All Delegates" },
+    terms: "Italian Delegation grants full use to all delegates as part of the Pineapple Accords.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Pineapple Accords", date: "2026-03-25", videoId: "7621220230622170381",
+    sourceQuote: "Number three, full use of Mamma Mia to all delegates." },
+  { name: "Cool Your Jets Bro", type: "phrase", status: "leased", kind: "lease", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "Black Delegation" },
+    terms: "Leased to Black Delegation during Spades Accords (for managing Spades intensity — wives calling husbands liabilities).",
+    conditions: ["Time limit not specified — described as 'full leasing terms'"],
+    timeLimit: null, ratifiedBy: "Spades Accords", date: "2026-03-19", videoId: "7618991433898380557",
+    sourceQuote: "we would like to offer the full leasing terms of Cool Your Jets Bro" },
+  { name: "Tranquilo Mommy / Tranquilo Poppy", type: "phrase", status: "ratified", kind: "gift", owner: "League of Latinos",
+    parties: { from: "League of Latinos", to: "All delegates (Spades context)" },
+    terms: "Latino contribution to Spades Accords.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Spades Accords", date: "2026-03-19", videoId: "7618991433898380557",
+    sourceQuote: "we'd also like to ask the Latino League to offer Tranquilo Mommy and Tranquilo Poppy" },
+  { name: "Whimsical Skedaddling (+ skippity-paps)", type: "phrase", status: "gifted", kind: "gift", owner: "All Delegates (1 year)",
+    parties: { from: "Irish Association / Caucasian relinquishment", to: "All Delegates" },
+    terms: "Caucasian Caucus must relinquish 1 year of free use as repentance for raisin-related traumas. Skippity-paps thrown in extra.",
+    conditions: ["Free of charge for one year", "Imposed by Irish Association"],
+    timeLimit: "1 year",
+    ratifiedBy: "Irish Association decree", date: "2026-03-17", videoId: "7618249021106195726",
+    sourceQuote: "I must now relinquish a year of whimsical skedaddling free of charge with extra skippity-paps" },
+  { name: "Adiós Mio", type: "phrase", status: "proposed", kind: "lease", owner: "League of Latinos",
+    parties: { from: "League of Latinos", to: "Caucasian Caucus (requested)" },
+    terms: "Caucasian Caucus asks to use temporarily until gas prices come down.",
+    conditions: ["Conditional time limit: until US gas prices come down"],
+    timeLimit: "Until gas prices fall",
+    ratifiedBy: null, date: "2026-03-13", videoId: "7616767652660301069",
+    sourceQuote: "For a period of time, we would like to say, ¡Adiós mio! At least until gas prices come down." },
+  { name: "Good Gravy", type: "phrase", status: "proposed", kind: "trade", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "League of Latinos (offered)" },
+    terms: "Offered to (then-Mexican) Delegation in Adiós Mio trade.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-03-13", videoId: "7616767652660301069",
+    sourceQuote: "we are willing to offer you good gravy and geez Louise" },
+  { name: "Geez Louise", type: "phrase", status: "proposed", kind: "trade", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "League of Latinos (offered)" },
+    terms: "Offered to Mexican/Latino Delegation in Adiós Mio trade.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-03-13", videoId: "7616767652660301069",
+    sourceQuote: "good gravy and geez Louise" },
+  { name: "Frickin'", type: "phrase", status: "banned", kind: "ruling", owner: "(forbidden)",
+    parties: { from: "Bay Area Black Delegation", to: "(rejected)" },
+    terms: "Bay Area Black Delegation under no circumstance will accept 'frickin'' — caused renaming of 'Motherfucking Function' to 'MF Function'.",
+    conditions: [],
+    timeLimit: "Permanent",
+    ratifiedBy: "Bay Area Black Delegation", date: "2026-03-16", videoId: "7617883075288108302",
+    sourceQuote: "the Bay Area Black Delegation has said to me that under no circumstance will they see the word frickin'" },
+  { name: "Capping", type: "phrase", status: "pending", kind: "trade", owner: "Atlanta Black Delegation",
+    parties: { from: "Atlanta Black Delegation", to: "(retraction sought)" },
+    terms: "Atlanta delegation may retract 'capping' to allow 'perpetrating' to fully return. Awaiting response.",
+    conditions: ["West Coast added 'fronting' pending Atlanta's response of 'peace up A-town' to capping"],
+    timeLimit: null, ratifiedBy: null, date: "2026-03-26", videoId: "7621582873090428173",
+    sourceQuote: "We await word from the delegates of Atlanta to see if they will retract capping." },
+  { name: "Fronting", type: "phrase", status: "pending", kind: "gift", owner: "West Coast Black Delegation",
+    parties: { from: "West Coast Black Delegation", to: "in circulation (pending)" },
+    terms: "Contribution from West Coast pending Atlanta's response on capping.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-03-28", videoId: "7622328598338342157",
+    sourceQuote: "Special shout out to the West Coast Black Delegation for also putting up the word fronting" },
+  { name: "Yo Mama (deprecated)", type: "phrase", status: "retired", kind: "ruling", owner: "Black Delegation",
+    parties: { from: "Black Delegation", to: "(deprecated for clapback use)" },
+    terms: "Officially deprecated due to misuse, abuse, and overuse — 'lost all its potency'. On My Mama replaces it. (However, Apr 27 advisory: still potent in defensive contexts.)",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Black Delegation", date: "2026-04-23", videoId: "7631989018875432205",
+    sourceQuote: "Yo Mama used to be a nuclear arsenal... But due to misuse, abuse, and overuse, it has lost all its potency." },
+  { name: "Cutie Patootie", type: "phrase", status: "gifted", kind: "gift", owner: "All Delegates",
+    parties: { from: "Caucasian Caucus", to: "All Delegates" },
+    terms: "Caucasian Caucus throws in free of charge during On My Mama Accords ratification.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Caucasian Caucus", date: "2026-04-25", videoId: "7632730650902007054",
+    sourceQuote: "The Caucasian caucus is also throwing in free of charge. Cutie patootie." },
+  { name: "China Shop / Bull (full saying)", type: "phrase", status: "ratified", kind: "ruling", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus (E-40 consult)", to: "in circulation" },
+    terms: "New white-people phrase: \"You're in a china shop, buddy, and you're about to get the bull.\"",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "E-40 Accords", date: "2026-04-15", videoId: "7629010277182213390",
+    sourceQuote: "you're in a China shop, buddy, and you're about to get the bull" },
+  { name: "Shooting That Across Their Bow", type: "phrase", status: "ratified", kind: "ruling", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus (E-40 consult)", to: "in circulation" },
+    terms: "New white-people phrase from E-40 consultation.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "E-40 Accords", date: "2026-04-15", videoId: "7629010277182213390",
+    sourceQuote: "Why don't you try shooting that across their bow?" },
+  { name: "Dip Quad", type: "phrase", status: "rejected", kind: "ruling", owner: "(not ratified)",
+    parties: { from: "Caucasian Caucus (proposed)", to: "(rejected)" },
+    terms: "'Numb nuts adjacent' phrase proposed Apr 15. NOT RATIFIED. Council considering 'dip dattle' / 'fiddly quad'.",
+    conditions: ["Try-out period: 'take it for a test drive'"],
+    timeLimit: null, ratifiedBy: null, date: "2026-04-25", videoId: "7632730650902007054",
+    sourceQuote: "dip quad was not ratified. The Council is considering an alternative dip dattle and or fiddly quad." },
+  { name: "Mayonated", type: "phrase", status: "ratified", kind: "ruling", owner: "All Delegates (descriptor)",
+    parties: { from: "Black Betterment Consortium (Dejan Tyler)", to: "in circulation" },
+    terms: "Adjective: white-person counterpart to 'melanated'.",
+    conditions: ["Sample use: 'we outside my mayonated ginger put on some sunscreen'"],
+    timeLimit: null, ratifiedBy: "Council of Elder Aunties", date: "2026-04-25", videoId: "7632730650902007054",
+    sourceQuote: "the word mayonated has been ratified by the Elder Aunty Council." },
+  { name: "Cheetah Fin", type: "phrase", status: "ratified", kind: "ruling", owner: "All Delegates",
+    parties: { from: "Black Betterment Consortium (Dejan Tyler)", to: "in circulation" },
+    terms: "A new word for: a person the size of an elephant in a cheetah-print bodysuit.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "E-40 Accords", date: "2026-04-15", videoId: "7629010277182213390",
+    sourceQuote: "A cheetah fin is a person the size of an elephant that has on a cheetah print bodysuit." },
+  { name: "Holy Moly", type: "phrase", status: "proposed", kind: "trade", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "(offered to Black)" },
+    terms: "Initial Caucasian offer for On My Mama. Black Delegation deemed insufficient.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-04-17", videoId: "7629753233988259085",
+    sourceQuote: "we're willing to bring back Holy Moly and Holy Guacamole" },
+  { name: "Alright Now", type: "phrase", status: "ratified", kind: "gift", owner: "NC Soul Glow Division of YAM",
+    parties: { from: "NC Soul Glow / YAM", to: "Caucasian Caucus dance encouragement" },
+    terms: "Contribution to white-people dance encouragement.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Black Delegation Dance Encouragement Accord", date: "2026-04-13", videoId: "7628266968088431886",
+    sourceQuote: "the North Carolina Soul Glow Division of YAM's encouragement for their contribution of, alright now" },
+  { name: "I See You / You're Doing Your Thing", type: "phrase", status: "ratified", kind: "gift", owner: "Black Delegation",
+    parties: { from: "Black Delegation", to: "white-people dance encouragement" },
+    terms: "Encouragements offered to white people dancing.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Dance Encouragement Accord", date: "2026-04-08", videoId: "7626411445042859277",
+    sourceQuote: "Even if it's a simple, I see you, or you're doing your thing." },
+  { name: "Caribbean 'Over'", type: "phrase", status: "ratified", kind: "claim", owner: "Caribbean Brigade",
+    parties: { from: "Caribbean Brigade", to: "(documented use)" },
+    terms: "Caribbean Brigade documents show they have always used 'over' as their version of 'get to steppin'.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Caribbean Brigade record", date: "2026-04-06", videoId: "7625667187675565325",
+    sourceQuote: "documents show that the Caribbean Brigade has always used the term over" },
+  { name: "Gandalf the White (Sir Ian McKellen)", type: "person", status: "leased", kind: "lease", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "Yay Area Black Delegation" },
+    terms: "1-month lease as part of E-40 Accords. Comes with Shadowfax (petting and riding rights).",
+    conditions: ["Comes with Shadowfax", "Lessee may pet or ride Gandalf", "First proposed Mar 30, accepted Apr 13"],
+    timeLimit: "1 month",
+    ratifiedBy: "Yay Area Black Delegation", date: "2026-04-13", videoId: "7628266968088431886",
+    sourceQuote: "1 month rental of Gandalf the White. He comes with shadow facts and we get to pet or ride him." },
+  { name: "Sir Patrick Stewart (audiobook reading)", type: "service", status: "ratified", kind: "lease", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "Yay Area Black Delegation" },
+    terms: "Sir Patrick Stewart must read an audible book of the Black Delegation's choosing.",
+    conditions: ["Book of their choosing"],
+    timeLimit: "Single audiobook",
+    ratifiedBy: "E-40 Accords", date: "2026-04-13", videoId: "7628266968088431886",
+    sourceQuote: "Sir Patrick Stewart has to read an audible book of our choosing." },
+  { name: "The Big Lebowski (bowling lessons)", type: "service", status: "ratified", kind: "lease", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "Yay Area Black Delegation" },
+    terms: "Free bowling lessons.",
+    conditions: ["Free of charge"],
+    timeLimit: null,
+    ratifiedBy: "E-40 Accords", date: "2026-04-13", videoId: "7628266968088431886",
+    sourceQuote: "We get free bowling lessons from the Big Lebowski." },
+  { name: "Stone Cold Steve Austin", type: "person", status: "leased", kind: "lease", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "Italian Delegation" },
+    terms: "60-day lease for beer drinking and cans of whoop-ass. Offered alongside line dancing in exchange for the Italian hand-gesture.",
+    conditions: ["Use case: beer drinking + cans of whoop-ass"],
+    timeLimit: "60 days",
+    ratifiedBy: "Caucasian–Italian invitation", date: "2026-03-23", videoId: "7620477202320149774",
+    sourceQuote: "lease Stone Cold Steve Austin for 60 days of beer drinking and cans of whoop-ass" },
+  { name: "Line Dancing (instruction)", type: "service", status: "proposed", kind: "trade", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "Italian Delegation" },
+    terms: "Caucasian offer to teach line dancing in exchange for the Italian hand-gesture.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-03-23", videoId: "7620477202320149774",
+    sourceQuote: "we will teach line dancing" },
+  { name: "E-40 Consultation Call", type: "service", status: "ratified", kind: "trade", owner: "Yay Area Black Delegation",
+    parties: { from: "Yay Area Black Delegation", to: "Caucasian Caucus" },
+    terms: "One 2-minute consultation phone call with Supreme Chancellor E-40 for new white-people phrases.",
+    conditions: ["Exactly 2 minutes", "Subject: new white-people phrases", "Granted for full E-40 Accords bundle"],
+    timeLimit: "2 minutes",
+    ratifiedBy: "E-40 Accords", date: "2026-04-13", videoId: "7628266968088431886",
+    sourceQuote: "we will allow one 2 minute consultation phone call with Supreme Chancellor E-40" },
+  { name: "Black Betterment Consortium (new Black phrases)", type: "service", status: "ratified", kind: "trade", owner: "Black Delegation",
+    parties: { from: "Black Delegation", to: "in circulation" },
+    terms: "Black Betterment Consortium produces new Black-people phrases (Dejan Tyler delivered).",
+    conditions: ["Outputs included: mayonated, cheetah fin"],
+    timeLimit: null, ratifiedBy: "E-40 Accords", date: "2026-04-13", videoId: "7628266968088431886",
+    sourceQuote: "We will send a rep from the Black Better Mint Consortium." },
+  { name: "Raisins (placement of)", type: "rule", status: "ratified", kind: "ruling", owner: "Arab Delegation (full veto)",
+    parties: { from: "All Delegates", to: "Arab Delegation" },
+    terms: "Arab Delegation holds full and permanent veto power over the placement of raisins in any food.",
+    conditions: ["Brokered by Rush Hour Coalition (Black + Asian)", "Codified as Provision 3 of the Three Laws of the Potluck (Mar 18)", "Re-confirmed Apr 17", "Granted in exchange for Habibi to all delegates"],
+    timeLimit: "Permanent",
+    ratifiedBy: "Rush Hour Coalition + Council of Elder Aunties", date: "2026-03-15", videoId: "7617513531096730893",
+    sourceQuote: "The Arab delegation has been granted full veto power on the additions of raisins, effectively ending Raisin Gate." },
+  { name: "Pineapple on Pizza", type: "food", status: "ratified", kind: "ruling", owner: "Pineapple Posse (with restrictions)",
+    parties: { from: "Pineapple Posse", to: "(governed)" },
+    terms: "Pineapple Accords (Mar 25). Cross-delegation Pineapple Posse may have pineapple pizza with restrictions.",
+    conditions: ["Pineapple must be baked in (not on the side)", "Pineapple Posse gets a separate fusion-pizza table at MF Function", "Fusion table must be out of sight from the Gabagoo Guild", "Gabagoo Guild retains topping veto AT THEIR OWN table"],
+    timeLimit: "Permanent",
+    ratifiedBy: "Pineapple Accords", date: "2026-03-25", videoId: "7621220230622170381",
+    sourceQuote: "pineapple is not on the side. It must be baked in with all its delicious goodness." },
+  { name: "Pasta Breaking", type: "rule", status: "banned", kind: "ruling", owner: "(forbidden)",
+    parties: { from: "Gabagoo Guild", to: "(banned for all)" },
+    terms: "All breaking of pasta shall cease immediately at MF Function.",
+    conditions: [],
+    timeLimit: "Permanent",
+    ratifiedBy: "Pineapple Accords", date: "2026-03-25", videoId: "7621220230622170381",
+    sourceQuote: "all breaking of pasta shall cease immediately" },
+  { name: "Espresso + Nana's Cannolis", type: "food", status: "ratified", kind: "gift", owner: "Italian Delegation (contribution)",
+    parties: { from: "Italian Delegation", to: "MF Function" },
+    terms: "Italian Delegation will bring espresso and Nana's homemade cannolis to MF Function.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Pineapple Accords", date: "2026-03-25", videoId: "7621220230622170381",
+    sourceQuote: "they will bring the finest espresso and Nana's homemade cannolis to MF function" },
+  { name: "Mayo + Ketchup on Shawarma", type: "food", status: "ratified", kind: "ruling", owner: "Puerto Rican Delegation",
+    parties: { from: "Council of Elder Aunties (ruling)", to: "Puerto Rican Delegation" },
+    terms: "Aunty Council ruled that mayo+ketchup on shawarma has ALWAYS belonged to the Puerto Ricans, retroactively settling all jurisdictional claims.",
+    conditions: ["Triggered by George's Apr 1 declaration", "Apr 3 protested by Ginger Gang Gang (Code Red) and Rainbow Syndicate threats", "Apr 4 roast battle between George and Josh Means — George lost", "Aunty Council overruled the roast battle outcome"],
+    timeLimit: "Permanent / always-was",
+    ratifiedBy: "Council of Elder Aunties", date: "2026-04-04", videoId: "7624926373274045709",
+    sourceQuote: "The Elder Aunty Council has ruled that all mail and ketchup has always belonged to the Puerto Ricans." },
+  { name: "Banana Pudding Recipe (Auntie Army)", type: "recipe", status: "ratified", kind: "ruling", owner: "Auntie Army",
+    parties: { from: "Auntie Army", to: "(retained)" },
+    terms: "Auntie Army (Cookie Williams) REJECTED Caucasian offer of overnight oats. Recipe stays.",
+    conditions: ["Triggered apology Apr 1 — George 'skating on thin ice', dangerously close to having his white card revoked"],
+    timeLimit: null, ratifiedBy: "Auntie Army", date: "2026-03-30", videoId: "7623072823354887437",
+    sourceQuote: "There's no way this white boy is getting the recipe to the banana pudding." },
+  { name: "Overnight Oats Recipe", type: "recipe", status: "ratified", kind: "claim", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "(retained after failed trade)" },
+    terms: "Caucasian Caucus retains. Trade for banana pudding recipe was rejected.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Caucasian Caucus", date: "2026-03-30", videoId: "7623072823354887437",
+    sourceQuote: "we are willing to give up our recipe for overnight oats" },
+  { name: "Gamm Gamm's Snickerdoodle Recipe", type: "recipe", status: "gifted", kind: "gift", owner: "Black Delegation",
+    parties: { from: "Caucasian Caucus", to: "Black Delegation" },
+    terms: "Caucasian Caucus releases free of charge as recompense for the failed banana pudding trade.",
+    conditions: ["Free of charge", "Top secret recipe"],
+    timeLimit: null, ratifiedBy: "Caucasian Caucus", date: "2026-04-01", videoId: "7623825249246661901",
+    sourceQuote: "the Caucasian Caucus is immediately releasing Gamm Gamm's top secret snickerdoodle cookie free of charge" },
+  { name: "WV Pepperoni Rolls + Mountain Moonshine", type: "food", status: "gifted", kind: "gift", owner: "Yallapeño Appalachian Fellowship",
+    parties: { from: "YAF", to: "MF Function" },
+    terms: "YAF supplies these to MF Function as part of their gift bundle. No exchange asked.",
+    conditions: ["YAF asks for nothing in return"],
+    timeLimit: null, ratifiedBy: "YAF gift", date: "2026-03-21", videoId: "7619740002204929294",
+    sourceQuote: "delicious West Virginia pepperoni rolls and clear mountain moonshine. We ask for nothing in return." },
+  { name: "Cornflakes on Asian Dish", type: "food", status: "proposed", kind: "request", owner: "(open question)",
+    parties: { from: "Caucasian Caucus", to: "Asian Association" },
+    terms: "Open question from George — never answered.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-03-13", videoId: "7616767652660301069",
+    sourceQuote: "Asian Association, what dish are you bringing? And can we put cornflakes on it?" },
+  { name: "Casserole Inspection (Provision 1)", type: "rule", status: "ratified", kind: "ruling", owner: "Church Committee",
+    parties: { from: "Council of Elder Aunties", to: "Caucasian Caucus" },
+    terms: "All casseroles prepared by the Caucasian Caucus must be inspected by the Church Committee.",
+    conditions: [],
+    timeLimit: "Permanent",
+    ratifiedBy: "Council of Elder Aunties", date: "2026-03-18", videoId: "7618619141364272397",
+    sourceQuote: "All casseroles prepared by the Caucasian Caucus must be inspected by the Church Committee." },
+  { name: "Dog-Kisser / Cat-Counter-Topper Restrictions (Provision 2)", type: "rule", status: "ratified", kind: "ruling", owner: "Council of Elder Aunties",
+    parties: { from: "Council of Elder Aunties", to: "All Delegates" },
+    terms: "Delegates who kiss their dog on the mouth or allow cats on the countertops may bring ONLY: liquor, ice, cups, utensils, or extra chairs.",
+    conditions: ["Restricted contributions list is exhaustive"],
+    timeLimit: "Permanent",
+    ratifiedBy: "Council of Elder Aunties", date: "2026-03-18", videoId: "7618619141364272397",
+    sourceQuote: "delegates that kiss their dog on the mouth or allow cats on the countertops can bring only liquor, ice, cups, utensils, or extra chairs" },
+  { name: "The Nas Fade (formerly 'Travis Kelce Fade')", type: "hairstyle", status: "ratified", kind: "ruling", owner: "Black Barber Caucus",
+    parties: { from: "Black Barber Caucus", to: "(historical record)" },
+    terms: "Following a forensic audit, the haircut is and shall ever remain THE NAS FADE.",
+    conditions: ["Declared a 'historical clerical heir'", "Forensic audit completed"],
+    timeLimit: "Permanent",
+    ratifiedBy: "Black Barber Caucus", date: "2026-04-01", videoId: "7623825249246661901",
+    sourceQuote: "the Black Barber Caucus has ruled that this is, and shall ever remain, the Nas Fade." },
+  { name: "Jawn (geographic)", type: "phrase", status: "ratified", kind: "ruling", owner: "John Tentendial Congress (Philadelphia)",
+    parties: { from: "Council of Elder Aunties", to: "Philadelphia Delegation" },
+    terms: "Elder Aunty Council formally recognizes all geographic Jawn jurisdiction as Philadelphia's.",
+    conditions: [],
+    timeLimit: "Permanent",
+    ratifiedBy: "Council of Elder Aunties", date: "2026-04-25", videoId: "7632730650902007054",
+    sourceQuote: "the Elder Aunty Council has formally recognized all geographic John jurisdiction" },
+  { name: "House of Habibi (collective address)", type: "ritual", status: "ratified", kind: "ruling", owner: "All Delegates",
+    parties: { from: "All Delegates", to: "(self-address)" },
+    terms: "Council vote determined collective form of address.",
+    conditions: ["Voted from three options: Coalition of Habibis / The Habibis / House of Habibi", "House of Habibi referenced as winning form by Mar 28"],
+    timeLimit: "Permanent",
+    ratifiedBy: "Council vote", date: "2026-03-25", videoId: "7621220230622170381",
+    sourceQuote: "Lastly, the Council of Elder Aunties is putting a vote to ratify when addressing all delegates." },
+  { name: "Naming the Gathering (MF Function)", type: "ritual", status: "ratified", kind: "ruling", owner: "All Delegates",
+    parties: { from: "Vote", to: "MF Function" },
+    terms: "Three-option vote: Shindig / Hoedown / Motherfucking Function. MFF won; renamed to MF Function after Bay Area Black rejection of 'frickin'.",
+    conditions: ["Cornflake Raisin Contingency Plan threatened if vote not concluded by 9 AM Monday PST"],
+    timeLimit: null, ratifiedBy: "Council of Elder Aunties", date: "2026-03-14", videoId: "7617142453681868045",
+    sourceQuote: "Shindig, hoedown, or the motherfucking function." },
+  { name: "League of Latinos (Fiero Papa)", type: "body", status: "ratified", kind: "ruling", owner: "Latino Delegations",
+    parties: { from: "Mexican Delegation", to: "Reformatted as LOL" },
+    terms: "Mexican delegation 'effectively went super sane' to form the League of Latinos.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Mexican Delegation", date: "2026-03-14", videoId: "7617142453681868045",
+    sourceQuote: "the Mexican delegation effectively went super sane, creating the League of Latinos, Fiero Papa" },
+  { name: "Rush Hour Coalition", type: "body", status: "ratified", kind: "ruling", owner: "Black + Asian",
+    parties: { from: "Black Delegation + Asian Association", to: "Coalition" },
+    terms: "Brokering coalition formed to negotiate Habibi for raisin veto.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Black + Asian", date: "2026-03-15", videoId: "7617513531096730893",
+    sourceQuote: "the Rush Hour Coalition, formed by the Black Delegation and the Asian Association" },
+  { name: "Gabagoo Guild (Italian)", type: "body", status: "ratified", kind: "ruling", owner: "Italian Delegation",
+    parties: { from: "Italian Delegation", to: "Formed" },
+    terms: "Italian delegation formalized as the Gabagoo Guild. Has Consigliere.",
+    conditions: ["Banned pineapple on all pizza (their territory) — sparked Pineapple Wars"],
+    timeLimit: null, ratifiedBy: "Italian Delegation", date: "2026-03-24", videoId: "7620846271875632397",
+    sourceQuote: "The Italian delegation formed the Gabagoo Guild" },
+  { name: "Pineapple Posse", type: "body", status: "ratified", kind: "ruling", owner: "Cross-delegation coalition",
+    parties: { from: "All willing delegates", to: "Coalition" },
+    terms: "Cross-delegation 'coalition of the willing' to defend pineapple-on-pizza rights.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Volunteer formation", date: "2026-03-24", videoId: "7620846271875632397",
+    sourceQuote: "the pineapple posse was also formed, a coalition of the willing from all delegations" },
+  { name: "Rainbow Syndicate (Lesbian Delegation)", type: "body", status: "ratified", kind: "ruling", owner: "Lesbian Delegation",
+    parties: { from: "Lesbian Delegation", to: "Formed" },
+    terms: "Formed Apr 3 in protest of mayo+ketchup on shawarma.",
+    conditions: ["Threatened: full trade embargo on flannels and Subarus", "Threatened: revocation of 'it's giving' from Caucasian Caucus"],
+    timeLimit: null, ratifiedBy: "Lesbian Delegation", date: "2026-04-03", videoId: "7624562838714993933",
+    sourceQuote: "the lesbian delegation formed the rainbow syndicate" },
+  { name: "Ginger Gang Gang Code Red", type: "body", status: "ratified", kind: "ruling", owner: "Ginger Gang Gang",
+    parties: { from: "Ginger Gang Gang", to: "Code Red" },
+    terms: "Apr 3 Code Red asserting full jurisprudence over mayonnaise+ketchup. Status superseded Apr 4 by Aunty ruling.",
+    conditions: ["Roast battle clause: George Brett Olson lost to Josh Means", "Aunty Council overruled — mayo+ketchup belongs to Puerto Ricans"],
+    timeLimit: null, ratifiedBy: "Ginger Gang Gang", date: "2026-04-03", videoId: "7624562838714993933",
+    sourceQuote: "a new faction was born last night. The ginger gang formed a code red." },
+  { name: "Multicultural Bureau of Safety", type: "body", status: "ratified", kind: "ruling", owner: "Auntie Army (parent)",
+    parties: { from: "Auntie Army", to: "Enforcement arm" },
+    terms: "Enforcement body dispatched by Auntie Army to enforce On My Mama Accords. Two officers initially.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Auntie Army", date: "2026-04-27", videoId: "7633460188988624142",
+    sourceQuote: "The Aunty Army has dispatched two officers of the Multicultural Bureau of Safety." },
+  { name: "F Around and Find Out (FAFO) Clause", type: "rule", status: "ratified", kind: "ruling", owner: "Atlanta Delegation",
+    parties: { from: "Atlanta Delegation", to: "On My Mama Accords (addendum)" },
+    terms: "Atlanta referendum added to On My Mama Accords. Outcomes of 'Find Out' phase may include but are not limited to:",
+    conditions: ["Being spiritually and expeditiously escorted back to your lane", "Getting folded like hot laundry", "Mouth check (a two-piece) followed by hymn 'Try Jesus, Don't Try Me'"],
+    timeLimit: "Permanent",
+    ratifiedBy: "Council of Elder Aunties", date: "2026-04-27", videoId: "7633460188988624142",
+    sourceQuote: "Once the Find Out phase has commenced, outcomes may include but are not limited to" },
+  { name: "Clapping on the 1 and 3 (abandoned)", type: "rule", status: "banned", kind: "ruling", owner: "Caucasian Caucus",
+    parties: { from: "Caucasian Caucus", to: "(self-restriction)" },
+    terms: "Caucasian Caucus called to completely abandon clapping on the 1 and 3. In search of the 2 and 4.",
+    conditions: ["Search for the 2 and 4 ongoing"],
+    timeLimit: null, ratifiedBy: "Caucasian Caucus", date: "2026-04-13", videoId: "7628266968088431886",
+    sourceQuote: "the Caucasian Caucus is hereby called to completely abandon clapping on the 1 and 3." },
+  { name: "White People Garage Band Return", type: "service", status: "ratified", kind: "trade", owner: "Caucasian Caucus (obligation)",
+    parties: { from: "Caucasian Caucus", to: "All Delegates" },
+    terms: "Black Delegation requests Caucasian Caucus return to garages and start music bands. New Nirvana and a new Hoobastank specifically requested.",
+    conditions: ["As soon as possible / 'as soon as you can afford it'", "Specific asks: new Nirvana, new Hoobastank", "Ratified by end of business Apr 8"],
+    timeLimit: "ASAP",
+    ratifiedBy: "Black Delegation", date: "2026-04-08", videoId: "7626411445042859277",
+    sourceQuote: "please return to the garages to start up some music bands. Because we are in very much need of those." },
+  { name: "At This Time (Hawaiian)", type: "phrase", status: "ratified", kind: "claim", owner: "Hawaiian Delegation",
+    parties: { from: "Hawaiian Delegation", to: "(acknowledged)" },
+    terms: "Acknowledged by Pineapple Accords as Hawaiian property.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Pineapple Accords", date: "2026-03-25", videoId: "7621220230622170381",
+    sourceQuote: "special shout out to the Hawaiian delegation for their use of at this time" },
+  { name: "Cow Word Alliance ('moos and don'ts')", type: "rule", status: "pending", kind: "trade", owner: "(in negotiation)",
+    parties: { from: "Caucasian Caucus", to: "Indian Delegation" },
+    terms: "Bilateral talks. Currently litigating the 'moos and don'ts'.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-04-25", videoId: "7632730650902007054",
+    sourceQuote: "We are currently litigating the moos and don'ts." },
+  { name: "Spicy/Seasoned Whites Level 1 Spice Privileges", type: "ritual", status: "pending", kind: "request", owner: "(under review)",
+    parties: { from: "Spicy/Seasoned Whites + YAF", to: "Auntie Army (review)" },
+    terms: "Spicy and seasoned whites under consideration by Auntie Army for Level 1 spice privileges at MF Function Potluck.",
+    conditions: ["YAF gifts (Mar 21) submitted in support", "Biracial brigade and mixed melanin squad invited as liaisons (Mar 28)"],
+    timeLimit: null, ratifiedBy: null, date: "2026-03-18", videoId: "7618619141364272397",
+    sourceQuote: "The Black delegation is considering your entry into Level 1 seasoned privileges." },
+  { name: "Brazilian + Non-Spanish-Speaking Latinos Entry to LOL", type: "request", status: "pending", kind: "request", owner: "(awaiting LOL)",
+    parties: { from: "Brazilian + non-Spanish delegates", to: "League of Latinos" },
+    terms: "Seeking full entry to League of Latinos.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-03-30", videoId: "7623072823354887437",
+    sourceQuote: "The Brazilian and all non-Spanish speaking delegates are also looking for full entry into the League of Latinos" },
+  { name: "Italian Hand Gesture", type: "gesture", status: "pending", kind: "request", owner: "Italian Delegation",
+    parties: { from: "Italian Delegation", to: "Caucasian Caucus (requested)" },
+    terms: "Caucasian Caucus requests 'that thing you do with your hands'. No formal acceptance recorded.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-03-23", videoId: "7620477202320149774",
+    sourceQuote: "The Caucasian caucus would specifically like to request that you do that thing you do with your hands." },
+  { name: "It's Giving", type: "phrase", status: "contested", kind: "claim", owner: "Caucasian Caucus (contested)",
+    parties: { from: "Caucasian Caucus", to: "Rainbow Syndicate (claim)" },
+    terms: "Currently held by Caucasian Caucus. Rainbow Syndicate threatened revocation Apr 3. No formal action taken.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-04-03", videoId: "7624562838714993933",
+    sourceQuote: "Revocation of the phrase it's giving from the Caucasian caucus" },
+  { name: "Flannel + Subaru Embargo", type: "rule", status: "pending", kind: "ruling", owner: "Rainbow Syndicate (threat)",
+    parties: { from: "Rainbow Syndicate", to: "Caucasian Caucus (threatened)" },
+    terms: "Threatened full trade embargo on flannels and Subarus. Not formally activated.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-04-03", videoId: "7624562838714993933",
+    sourceQuote: "A full trade embargo on flannels and subarus." },
+  { name: "Summit of Boo Boo the Fool", type: "event", status: "pending", kind: "ruling", owner: "Council of OGs",
+    parties: { from: "Council of OGs", to: "(presiding)" },
+    terms: "Postponed due to 'historic development'. Council of OGs sending Grand Primarch (originally Grand Pooba) to preside.",
+    conditions: ["Originally scheduled for Saturday Apr 25", "Council of OGs bypassing standard protocols"],
+    timeLimit: "Postponed (TBD)",
+    ratifiedBy: "Council of OGs", date: "2026-04-25", videoId: "7632730650902007054",
+    sourceQuote: "The Summit of Booboo the Fool has been postponed due to a historic development." },
+  { name: "Super Sunday Acknowledgment", type: "ritual", status: "ratified", kind: "ruling", owner: "Native American + New Orleans Black Delegations",
+    parties: { from: "MF Function", to: "Native American + NOLA Black" },
+    terms: "Formal acknowledgment of an awesome Super Sunday.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Caucasian Caucus", date: "2026-03-23", videoId: "7620477202320149774",
+    sourceQuote: "To the Native American delegation and the Black delegation of New Orleans, congratulations on an awesome Super Sunday." },
+  { name: "Black Delegation Safety Addendum (On My Mama)", type: "rule", status: "pending", kind: "ruling", owner: "Black Delegation",
+    parties: { from: "Black Delegation", to: "On My Mama Accords" },
+    terms: "Black Delegation introducing addendum to ensure the safety of the Caucasian Caucus for potential use of On My Mama. Pending ratification.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-04-25", videoId: "7632730650902007054",
+    sourceQuote: "The black delegation is introducing another addendum to ensure the safety of the Caucasian caucus for potential use." },
+  { name: "Bureau of Fanatics Coach", type: "event", status: "pending", kind: "ruling", owner: "Black Delegations Bureau of Fanatics",
+    parties: { from: "Bureau of Fanatics", to: "Caucasian Caucus" },
+    terms: "Visiting coach scheduled for upcoming week (announced Apr 27).",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-04-27", videoId: "7633460188988624142",
+    sourceQuote: "This week, we will also have a coach from the Black Delegations Bureau of Fanatics." },
+  { name: "Auxiliary Aunty Division (Banana Pudding Peacekeeping)", type: "body", status: "ratified", kind: "ruling", owner: "Auntie Army (subdivision)",
+    parties: { from: "Auntie Army", to: "Peacekeeping arm" },
+    terms: "Acknowledged for banana pudding peacekeeping during the Pineapple Wars.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: "Pineapple Accords", date: "2026-03-25", videoId: "7621220230622170381",
+    sourceQuote: "the Auxiliary Aunty Division for their banana pudding peacekeeping initiatives at this time." },
+  { name: "Yo Mama / Your Mama / Your Mother (potency advisory)", type: "rule", status: "ratified", kind: "ruling", owner: "(advisory)",
+    parties: { from: "Multicultural Bureau of Safety + Gabagoo Guild", to: "All Delegates" },
+    terms: "Formal advisory: despite deprecation of Yo Mama for clapback use, both Yo Mama AND Your Mother remain very much potent in defensive contexts.",
+    conditions: ["'Stay safe out there. Your enemies come with smiles.'"],
+    timeLimit: "Permanent",
+    ratifiedBy: "Multicultural Bureau of Safety", date: "2026-04-27", videoId: "7633460188988624142",
+    sourceQuote: "not only is your mama still in effect, but also your mother. Stay safe out there." },
+  { name: "UNO Rules Exploratory Committee", type: "body", status: "pending", kind: "request", owner: "Tri-delegation committee",
+    parties: { from: "Black Delegation", to: "Arab + Asian + Black" },
+    terms: "Black Delegation requests Arab + Asian + Black tri-committee on UNO rules.",
+    conditions: [],
+    timeLimit: null, ratifiedBy: null, date: "2026-03-19", videoId: "7618991433898380557",
+    sourceQuote: "we would like to ask that the Arab Delegation and the Asian Association form an exploratory committee with the Black Delegation on the Rules of UNO" },
+  { name: "Spades House Rules Acknowledgment", type: "rule", status: "ratified", kind: "ruling", owner: "Black Delegation",
+    parties: { from: "Black Delegation", to: "All Delegates" },
+    terms: "Three formal acknowledgments: (1) house rules in effect, (2) Spades is like Olympic gymnastics — if you're not good by 10–11, you're not going, (3) George shall stop discussing Spades.",
+    conditions: ["George shall stop discussing Spades"],
+    timeLimit: null, ratifiedBy: "Black Delegation", date: "2026-03-20", videoId: "7619387610711985422",
+    sourceQuote: "Number one, house rules. Number two, spades is kind of like Olympic gymnastics... Number three, George, shut up about spades." },
+  { name: "Cookout vs Barbecue Definition", type: "rule", status: "pending", kind: "ruling", owner: "Black Delegation",
+    parties: { from: "Black Delegation (internal)", to: "(unresolved)" },
+    terms: "Internal Black Delegation vote effectively split. Friday 6 PM PST deadline passed without resolution. Caucasian caucus barred from voting.",
+    conditions: ["Original consequence threatened: raisins back in potato salad (later overridden by Arab veto)"],
+    timeLimit: "Friday 6 PM PST (passed)",
+    ratifiedBy: null, date: "2026-03-12", videoId: "7616398308453403918",
+    sourceQuote: "the Black delegation was effectively split on what is a cookout and what is a barbecue. Terms must be defined immediately." },
+  { name: "MF Function Live Shows (Meiwa Beer Room)", type: "event", status: "ratified", kind: "ruling", owner: "MF Function",
+    parties: { from: "MF Function", to: "All Delegates" },
+    terms: "Live shows at Meiwa Beer Room in Asians Association's historical Isleton, run by Mayor Iva (a 6'5 biker lesbian). Stand-up + live negotiations + pizza + Spades.",
+    conditions: ["Sign up by city at mffunction.com", "OG merch drop available for early delegates"],
+    timeLimit: null, ratifiedBy: "MF Function", date: "2026-04-11", videoId: "7627528304005778701",
+    sourceQuote: "we'd like to come to you, tell jokes, hold live negotiations, eat pizza with or without pineapple, and play some spades" }
+];
+
+const ACCORDS = [
+  { title: "Mark Ass Buster Negotiations", period: "Mar 8 – Mar 20", status: "resolved", earliest: "2026-03-08",
+    summary: "Multi-week negotiation to bring Mark Ass Buster back into circulation.",
+    detail: [
+      "Mar 8: Caucasian Caucus offers scallywag + rapscallion → rejected (scallywag is Black via Project Pat)",
+      "Mar 9: Counter — bring back numb nuts + skating on thin ice + raisins in potato salad once a year",
+      "Mar 10: Apology; raisins banned in potato salad in exchange for Spades teaching",
+      "Mar 11: Spades is too hard ('like Olympic gymnastics'); revised to 1 BBQ, 1 Uno, casserole",
+      "Mar 20: Final terms — numb nuts + supervised 'skating on thin ice' + 'ouch bumps and thunder cookies'",
+      "Mar 21: 'Ouch bumps' withdrawn; replaced with 'knuckle sandwich'"
+    ],
+    videoIds: ["7614922992572845326", "7615276872015940877", "7615640476984675597", "7616004766686268686", "7619387610711985422", "7619740002204929294"] },
+  { title: "Raisin Gate", period: "Mar 9 – Mar 18", status: "resolved", earliest: "2026-03-09",
+    summary: "Multi-stage dispute over raisin placement that ended with Arab Delegation gaining permanent veto.",
+    detail: [
+      "Mar 9: Raisins offered as concession (once a year)",
+      "Mar 10: Apology — raisins banned at all functions",
+      "Mar 12: Cookout/BBQ vote threatened to bring raisins back if not resolved",
+      "Mar 14: Cornflake Raisin Contingency Plan invoked as escalation threat",
+      "Mar 15: Rush Hour Coalition (Black + Asian) brokers Habibi-for-raisin-veto deal",
+      "Mar 17: Caucasian Caucus relinquishes 1 year of whimsical skedaddling as Irish-imposed repentance",
+      "Mar 18: Codified as Provision 3 of the Three Laws of the Potluck"
+    ],
+    videoIds: ["7615276872015940877", "7615640476984675597", "7616398308453403918", "7617142453681868045", "7617513531096730893", "7618249021106195726", "7618619141364272397"] },
+  { title: "Naming the Gathering / MF Function", period: "Mar 14 – Mar 16", status: "resolved", earliest: "2026-03-14",
+    summary: "Three-option vote settles the gathering's name; Bay Area Black Delegation forces rename.",
+    detail: [
+      "Mar 14: Vote between Shindig / Hoedown / Motherfucking Function — MFF wins",
+      "Mar 16: Bay Area Black Delegation rejects 'frickin'' → renamed to MF Function"
+    ],
+    videoIds: ["7617142453681868045", "7617883075288108302"] },
+  { title: "Three Laws of the Potluck", period: "Mar 18", status: "resolved", earliest: "2026-03-18",
+    summary: "Council of Elder Aunties ratifies three foundational laws.",
+    detail: [
+      "Provision 1: All Caucasian casseroles must be inspected by the Church Committee",
+      "Provision 2: Dog-mouth-kissers and cat-counter-toppers may bring only liquor, ice, cups, utensils, or extra chairs",
+      "Provision 3: Arab Delegation has full veto over raisin placement"
+    ],
+    videoIds: ["7618619141364272397"] },
+  { title: "UNO & Spades Accords", period: "Mar 19 – Mar 20", status: "resolved", earliest: "2026-03-19",
+    summary: "Spades/UNO governance opened.",
+    detail: [
+      "Tri-delegation exploratory committee on UNO rules (Black + Arab + Asian)",
+      "Cool Your Jets Bro leased to Black Delegation",
+      "Tranquilo Mommy/Poppy contributed by Latino League",
+      "Spades acknowledged as house-rules-driven, 'Olympic gymnastics' difficulty",
+      "George ordered to stop talking about Spades"
+    ],
+    videoIds: ["7618991433898380557", "7619387610711985422"] },
+  { title: "Pineapple Wars + Pineapple Accords", period: "Mar 23 – Mar 25", status: "resolved", earliest: "2026-03-23",
+    summary: "Italian Delegation forms Gabagoo Guild and bans pineapple; Pineapple Posse responds; settled.",
+    detail: [
+      "Italian terms: pasta breaking ceases immediately; espresso + Nana's cannolis; full use of Mamma Mia to all delegates",
+      "Pineapple Posse: pineapple must be baked in (not on side); separate fusion-pizza table out of sight from Gabagoo Guild; Gabagoo Guild has topping veto at their own table",
+      "House of Habibi address ratified by council vote"
+    ],
+    videoIds: ["7620477202320149774", "7620846271875632397", "7621220230622170381"] },
+  { title: "Perpetrating / Asshat Trade", period: "Mar 26 – Mar 28", status: "resolved", earliest: "2026-03-26",
+    summary: "Black Delegation brings back perpetrating; Caucasian gives up asshat + tomfoolery.",
+    detail: [
+      "Black contributions ratified: perpetrating + shortened forms (purporting, purpin, perp); 'fronting' added by West Coast pending Atlanta",
+      "Caucasian contributions: asshat, assclown, tomfoolery (in full effect)",
+      "Pending: Atlanta's response on retracting 'capping'",
+      "Biracial brigade and mixed melanin squad invited as liaisons re: spicy/seasoned whites"
+    ],
+    videoIds: ["7621582873090428173", "7622328598338342157"] },
+  { title: "Banana Pudding Incident", period: "Mar 30 – Apr 1", status: "resolved", earliest: "2026-03-30",
+    summary: "Failed Caucasian attempt to trade for the Auntie Army's banana pudding recipe.",
+    detail: [
+      "Mar 30: Caucasian offers overnight oats recipe in exchange for banana pudding",
+      "Mar 30: Cookie Williams (Auntie Army) hacks the feed to reject categorically",
+      "Apr 1: George 'skating on thin ice', dangerously close to having his white card revoked",
+      "Apr 1: As recompense, Caucasian Caucus releases Gamm Gamm's snickerdoodle recipe free of charge"
+    ],
+    videoIds: ["7623072823354887437", "7623825249246661901"] },
+  { title: "The Nas Fade Ruling", period: "Apr 1", status: "resolved", earliest: "2026-04-01",
+    summary: "Black Barber Caucus formally rules on the haircut also called 'Travis Kelce Fade'.",
+    detail: ["Forensic audit completed", "Declared a historical clerical heir", "Hereby and shall ever remain THE NAS FADE", "Motion passed"],
+    videoIds: ["7623825249246661901"] },
+  { title: "Mayo + Ketchup on Shawarma", period: "Apr 1 – Apr 4", status: "resolved", earliest: "2026-04-01",
+    summary: "Multi-faction conflict over mayo+ketchup on shawarma; resolved by Aunty Council retroactive ruling.",
+    detail: [
+      "Apr 1: George declares mayo+ketchup on shawarma",
+      "Apr 3: Lesbian Delegation (Rainbow Syndicate) threatens flannel/Subaru embargo + 'it's giving' revocation",
+      "Apr 3: Ginger Gang Gang Code Red — Josh Means challenges George to roast battle for veto power",
+      "Apr 4: Roast battle held; George loses",
+      "Apr 4: Elder Aunty Council overrules outcome — mayo+ketchup has ALWAYS belonged to the Puerto Ricans"
+    ],
+    videoIds: ["7623825249246661901", "7624562838714993933", "7624926373274045709"] },
+  { title: "Get to Steppin' Trade", period: "Apr 6", status: "pending", earliest: "2026-04-06",
+    summary: "Black Delegation agreement pending Martin Lawrence ratification.",
+    detail: [
+      "Black agrees to bring back Get to Steppin'",
+      "Caucasian gives: take a hike pal/buddy/bucko + you're barking up the wrong tree buddy",
+      "Caribbean Brigade: documents show they have always used 'over' as their version",
+      "Final ruling passed to Supreme Delegate Martin Lawrence"
+    ],
+    videoIds: ["7625667187675565325"] },
+  { title: "Dance Encouragement & Garage-Band Accord", period: "Apr 8", status: "resolved", earliest: "2026-04-08",
+    summary: "Mutual cultural exchange.",
+    detail: [
+      "Black Delegation will encourage white dancing ('I see you', 'you're doing your thing')",
+      "Caucasian Caucus must return to garages and start music bands ASAP",
+      "Specific asks: a new Nirvana, a new Hoobastank",
+      "Ratified by end of business Apr 8"
+    ],
+    videoIds: ["7626411445042859277"] },
+  { title: "E-40 Accords", period: "Apr 13", status: "resolved", earliest: "2026-04-13",
+    summary: "Yay Area Black Delegation grants 2-min E-40 consultation in exchange for a 5-part bundle.",
+    detail: [
+      "1-month rental of Gandalf the White (Sir Ian McKellen)",
+      "Comes with Shadowfax (petting and riding rights)",
+      "Sir Patrick Stewart reads an audiobook of their choosing",
+      "Free bowling lessons from The Big Lebowski",
+      "Black Betterment Consortium produces new Black-people phrases"
+    ],
+    videoIds: ["7623072823354887437", "7628266968088431886"] },
+  { title: "New Phrases (E-40 Round)", period: "Apr 15 – Apr 25", status: "resolved", earliest: "2026-04-15",
+    summary: "Phrases produced under E-40 Accords; selectively ratified.",
+    detail: [
+      "RATIFIED: 'You're in a china shop, buddy, and you're about to get the bull'",
+      "RATIFIED: 'Shooting that across their bow'",
+      "RATIFIED (Apr 25): Mayonated (white-person counterpart to melanated)",
+      "RATIFIED: Cheetah Fin",
+      "NOT RATIFIED: Dip Quad — alternatives 'dip dattle' / 'fiddly quad' under consideration"
+    ],
+    videoIds: ["7629010277182213390", "7632730650902007054"] },
+  { title: "On My Mama Accords", period: "Apr 17 – Apr 27", status: "resolved", earliest: "2026-04-17",
+    summary: "Multi-stage negotiation governing Caucasian Caucus use of 'On My Mama'.",
+    detail: [
+      "Apr 17: Black asks for Holy Moly + Holy Guacamole + Heavens to Betsies + 'stop cursing at moms in public' (Kevin Durant final ruling)",
+      "Apr 17: Latino claims Holy Guacamole",
+      "Apr 20: Caucasian concedes Holy Guacamole + Holy Frijoles to Latinos; offers 3-month lease of On My Mima/Pippa",
+      "Apr 20: Latinos claim Holy Toledo + Holy Mole as well",
+      "Apr 23: Final stipulations — once-yearly use, witnessed by Black person (notarized), lifetime ban if unseasoned",
+      "Apr 25: Caucasian Caucus accepts; Cutie Patootie thrown in free of charge",
+      "Apr 27: Atlanta delegation adds F Around and Find Out (FAFO) Clause — addendum ratified by Elder Aunty Council"
+    ],
+    videoIds: ["7629753233988259085", "7630864041950432525", "7631989018875432205", "7632730650902007054", "7633460188988624142"] },
+  { title: "Holy Word Jurisdiction", period: "Apr 30", status: "pending", earliest: "2026-04-30",
+    summary: "Open session on ownership of remaining 'Holy ___' phrases.",
+    detail: [
+      "Holy Macaroni: Italian property; joint custody granted to Black Delegation for mac and cheese",
+      "Holy Smokes: Jamaican intellectual property (Rasta product); licensed to Caucasian Delegation",
+      "Holy Guacamole: ownership question RE-OPENED to floor"
+    ],
+    videoIds: ["7634581333309754638"] }
+];
+
+const RITUALS = [
+  { name: "Saturday New Business", desc: "Open floor every Saturday for delegates to propose new business in the comments. Pinned/liked comments forbidden during voting.", date: "2026-03-21", videoId: "7619740002204929294" },
+  { name: "No MF Function on Sunday (Church)", desc: "Council of Elder Aunties decree: MF Function does not run on Sundays because it's church.", date: "2026-03-21", videoId: "7619740002204929294" },
+  { name: "Closing Benediction", desc: "Standard closing — 'God is good all the time, and all the time, God is good.'", date: "2026-03-21", videoId: "7619740002204929294" },
+  { name: "Cornflake Raisin Contingency Plan", desc: "Emergency escalation invoked when terms aren't reached by deadline — first invoked Mar 14 with the Shindig/Hoedown/MFF naming vote.", date: "2026-03-14", videoId: "7617142453681868045" },
+  { name: "Recap on Mondays", desc: "Recurring summary of last week's accords + new business at start of each new cycle.", date: "2026-03-28", videoId: "7622328598338342157" },
+  { name: "Live Shows at Meiwa Beer Room (Isleton)", desc: "Periodic live MF Function events at Meiwa Beer Room in Isleton, CA. Run by Mayor Iva (6'5 biker lesbian).", date: "2026-04-11", videoId: "7627528304005778701" }
+];
+
+const OPEN_MATTERS = [
+  { title: "Holy Guacamole ownership", desc: "Re-opened to floor Apr 30 after Italian Consigliere offered it during sit-downs. Latino claim asserted Apr 17.", since: "2026-04-30", videoId: "7634581333309754638" },
+  { title: "¡Ay caramba! joint custody", desc: "Caucasian Caucus seeks joint custody as part of No Way José secession. No Latino response.", since: "2026-03-30", videoId: "7623072823354887437" },
+  { title: "Cow word alliance", desc: "Bilateral Caucasian × Indian talks. Currently litigating the 'moos and don'ts'.", since: "2026-04-25", videoId: "7632730650902007054" },
+  { title: "Dip Quad replacement", desc: "Council considering 'dip dattle' / 'fiddly quad' after dip quad failed ratification.", since: "2026-04-25", videoId: "7632730650902007054" },
+  { title: "Atlanta response on retracting 'capping'", desc: "Pending Atlanta Black Delegation's 'peace up A-town' to capping. Affects 'fronting' and full perpetrating return.", since: "2026-03-28", videoId: "7622328598338342157" },
+  { title: "Get to Steppin' final ratification", desc: "Awaiting Supreme Delegate Martin Lawrence's confirmation. 'Take a hike pal/bucko/buddy' and 'barking up the wrong tree buddy' offers contingent.", since: "2026-04-06", videoId: "7625667187675565325" },
+  { title: "Summit of Boo Boo the Fool", desc: "Postponed. Council of OGs sending Grand Primarch (originally Grand Pooba). No new date set.", since: "2026-04-25", videoId: "7632730650902007054" },
+  { title: "Rainbow Syndicate threats over 'it's giving'", desc: "Apr 3 threats not formally activated. 'It's giving' status: contested. No flannel/Subaru embargo enacted.", since: "2026-04-03", videoId: "7624562838714993933" },
+  { title: "Spicy/Seasoned Whites Level 1 Spice Privileges", desc: "Under Auntie Army review. YAF gifts (Mar 21) and biracial-brigade liaisons in support.", since: "2026-03-18", videoId: "7618619141364272397" },
+  { title: "Brazilian + non-Spanish Latinos entry to LOL", desc: "Awaiting League of Latinos response.", since: "2026-03-30", videoId: "7623072823354887437" },
+  { title: "UNO Rules Exploratory Committee", desc: "Black Delegation requested Arab + Asian + Black tri-committee. Status of formation unclear.", since: "2026-03-19", videoId: "7618991433898380557" },
+  { title: "Cookout vs Barbecue definition", desc: "Internal Black Delegation vote effectively split. Friday 6 PM PST deadline passed without resolution.", since: "2026-03-12", videoId: "7616398308453403918" },
+  { title: "Italian Hand Gesture", desc: "Caucasian Caucus requested ('that thing you do with your hands'); no formal Italian acceptance.", since: "2026-03-23", videoId: "7620477202320149774" },
+  { title: "Black Delegation Safety Addendum (On My Mama)", desc: "Black Delegation introducing addendum to ensure Caucasian Caucus safety for potential use. Pending.", since: "2026-04-25", videoId: "7632730650902007054" },
+  { title: "Cornflakes on Asian Dish", desc: "George's open question Mar 13. Asian Association never responded.", since: "2026-03-13", videoId: "7616767652660301069" },
+  { title: "Heavens to Betsies status", desc: "Originally a YAF gift Mar 21; later requested by Black Delegation Apr 17 (suggesting non-acceptance); not in final On My Mama Accords.", since: "2026-04-17", videoId: "7629753233988259085" },
+  { title: "Bureau of Fanatics Coach", desc: "Visiting coach scheduled for week of Apr 27. Outcome pending.", since: "2026-04-27", videoId: "7633460188988624142" }
+];
+
+// ---------- QUICK ACTIONS DATA ----------
+const TODAY = "2026-04-30";
+const ACTION_CATEGORIES = [
+  { key: "deadline",  label: "Deadline Passed",  desc: "Hard deadlines that have already lapsed" },
+  { key: "waiting",   label: "Awaiting Party",   desc: "Stuck pending response from a specific party" },
+  { key: "contested", label: "Contested",        desc: "Disputed ownership or jurisdiction" },
+  { key: "active",    label: "Active",           desc: "In motion right now / recently introduced" },
+  { key: "threat",    label: "Standing Threat",  desc: "Formal threats not yet activated" },
+  { key: "postponed", label: "Postponed",        desc: "Scheduled then rescheduled or paused" },
+  { key: "review",    label: "Under Review",     desc: "Long-running exploratory or review processes" },
+];
+
+// "since" = the date the matter became open / last meaningful change
+const ACTION_ITEMS = [
+  // Deadline already passed
+  { cat: "deadline",  title: "Cookout vs Barbecue Definition",
+    desc: "Black Delegation internal vote was effectively split. Friday 6 PM PST deadline passed without resolution. Original consequence (raisins back in potato salad) was overridden by Arab veto.",
+    waitingOn: "Black Delegation (internal)",
+    since: "2026-03-12", videoId: "7616398308453403918" },
+
+  // Awaiting specific party
+  { cat: "waiting",   title: "Get to Steppin' final ratification",
+    desc: "Black Delegation already agreed to bring back. Caucasian's 'take a hike pal/buddy/bucko' and 'barking up the wrong tree buddy' are contingent on this.",
+    waitingOn: "Supreme Delegate Martin Lawrence",
+    since: "2026-04-06", videoId: "7625667187675565325" },
+  { cat: "waiting",   title: "Capping retraction",
+    desc: "Atlanta delegation must respond ('peace up A-town' to capping) for 'perpetrating' to fully return and 'fronting' to be ratified.",
+    waitingOn: "Atlanta Black Delegation",
+    since: "2026-03-26", videoId: "7621582873090428173" },
+  { cat: "waiting",   title: "¡Ay caramba! joint custody",
+    desc: "Caucasian Caucus seeks joint custody as part of No Way José secession. No Latino response.",
+    waitingOn: "League of Latinos",
+    since: "2026-03-30", videoId: "7623072823354887437" },
+  { cat: "waiting",   title: "Brazilian + non-Spanish entry to LOL",
+    desc: "Brazilian and other non-Spanish-speaking delegates seeking full entry to the League of Latinos.",
+    waitingOn: "League of Latinos",
+    since: "2026-03-30", videoId: "7623072823354887437" },
+  { cat: "waiting",   title: "Italian Hand Gesture",
+    desc: "Caucasian Caucus requested 'that thing you do with your hands' on Mar 23. No formal Italian Delegation acceptance.",
+    waitingOn: "Italian Delegation / Gabagoo Guild",
+    since: "2026-03-23", videoId: "7620477202320149774" },
+  { cat: "waiting",   title: "Cornflakes on Asian Dish",
+    desc: "George's open question Mar 13 went unanswered. Oldest unaddressed item.",
+    waitingOn: "Asian Association",
+    since: "2026-03-13", videoId: "7616767652660301069" },
+  { cat: "waiting",   title: "Adiós Mio (until gas prices fall)",
+    desc: "Caucasian Caucus asked for temporary use of 'Adiós mio' until US gas prices come down. Offered Good Gravy + Geez Louise in exchange. No Latino response.",
+    waitingOn: "League of Latinos",
+    since: "2026-03-13", videoId: "7616767652660301069" },
+
+  // Contested
+  { cat: "contested", title: "Holy Guacamole ownership",
+    desc: "Latino claim asserted Apr 17, conceded by Caucasian Apr 20. Re-opened Apr 30 — Italian Consigliere is now offering it during sit-downs.",
+    waitingOn: "Council ruling",
+    since: "2026-04-30", videoId: "7634581333309754638" },
+  { cat: "contested", title: "Heavens to Betsies status",
+    desc: "Originally a YAF gift Mar 21 to Black Delegation. Re-requested by Black Apr 17 (suggesting non-acceptance). Not in final On My Mama Accords.",
+    waitingOn: "Council clarification",
+    since: "2026-04-17", videoId: "7629753233988259085" },
+  { cat: "contested", title: "'It's Giving' (vs Rainbow Syndicate)",
+    desc: "Currently held by Caucasian Caucus. Rainbow Syndicate threatened revocation Apr 3. No formal action taken either way.",
+    waitingOn: "Rainbow Syndicate / Council",
+    since: "2026-04-03", videoId: "7624562838714993933" },
+
+  // Active / in motion
+  { cat: "active",    title: "Cow Word Alliance ('moos and don'ts')",
+    desc: "Bilateral Caucasian × Indian talks. Currently litigating which cow-related words apply where.",
+    waitingOn: "Indian Delegation",
+    since: "2026-04-25", videoId: "7632730650902007054" },
+  { cat: "active",    title: "Black Safety Addendum (On My Mama)",
+    desc: "Black Delegation introducing addendum to ensure the safety of the Caucasian Caucus for potential use of On My Mama.",
+    waitingOn: "Black Delegation",
+    since: "2026-04-25", videoId: "7632730650902007054" },
+  { cat: "active",    title: "Dip Quad replacement",
+    desc: "Dip Quad failed ratification Apr 25. Council considering 'dip dattle' / 'fiddly quad' as alternatives.",
+    waitingOn: "Council of Elder Aunties",
+    since: "2026-04-25", videoId: "7632730650902007054" },
+  { cat: "active",    title: "Bureau of Fanatics Coach visit",
+    desc: "Visiting coach scheduled for week of Apr 27. Outcome and ruling pending.",
+    waitingOn: "Black Delegations Bureau of Fanatics",
+    since: "2026-04-27", videoId: "7633460188988624142" },
+  { cat: "active",    title: "Holy Word Jurisdiction (open session)",
+    desc: "Holy Macaroni and Holy Smokes settled Apr 30. Holy Guacamole ownership re-opened to floor.",
+    waitingOn: "All delegations",
+    since: "2026-04-30", videoId: "7634581333309754638" },
+
+  // Standing threats
+  { cat: "threat",    title: "Rainbow Syndicate flannel/Subaru embargo",
+    desc: "Rainbow Syndicate threatened a full trade embargo on flannels and Subarus after the mayo+ketchup incident. Not formally activated, but not retracted.",
+    waitingOn: "Rainbow Syndicate (status check)",
+    since: "2026-04-03", videoId: "7624562838714993933" },
+
+  // Postponed
+  { cat: "postponed", title: "Summit of Boo Boo the Fool",
+    desc: "Originally scheduled Saturday Apr 25. Postponed due to 'historic development' — Council of OGs now sending Grand Primarch (originally Grand Pooba). No new date.",
+    waitingOn: "Council of OGs",
+    since: "2026-04-25", videoId: "7632730650902007054" },
+
+  // Under review (long-running)
+  { cat: "review",    title: "Spicy/Seasoned Whites Level 1 Spice Privileges",
+    desc: "Under Auntie Army review since Mar 18. YAF gifts and biracial-brigade liaisons submitted in support.",
+    waitingOn: "Auntie Army",
+    since: "2026-03-18", videoId: "7618619141364272397" },
+  { cat: "review",    title: "UNO Rules Exploratory Committee",
+    desc: "Black Delegation requested Arab + Asian + Black tri-committee Mar 19. Formation status unclear.",
+    waitingOn: "Arab + Asian + Black Delegations",
+    since: "2026-03-19", videoId: "7618991433898380557" },
+];
+
+let qaFilter = "";
+
+// videoId → upload date · all 49 videos in the corpus
+const VIDEO_DATES = {"7613407482530057503":"2026-03-04","7613803034925206797":"2026-03-05","7614188393349647629":"2026-03-06","7614922992572845326":"2026-03-08","7614962671879720205":"2026-03-08","7615276872015940877":"2026-03-09","7615640476984675597":"2026-03-10","7616004766686268686":"2026-03-11","7616398308453403918":"2026-03-12","7616767652660301069":"2026-03-13","7616903382090992910":"2026-03-14","7617142453681868045":"2026-03-14","7617513531096730893":"2026-03-15","7617883075288108302":"2026-03-16","7618029030868126990":"2026-03-17","7618249021106195726":"2026-03-17","7618619141364272397":"2026-03-18","7618991433898380557":"2026-03-19","7619387610711985422":"2026-03-20","7619740002204929294":"2026-03-21","7620477202320149774":"2026-03-23","7620535953488104717":"2026-03-23","7620846271875632397":"2026-03-24","7621220230622170381":"2026-03-25","7621582873090428173":"2026-03-26","7622328598338342157":"2026-03-28","7623072823354887437":"2026-03-30","7623825249246661901":"2026-04-01","7624562838714993933":"2026-04-03","7624926373274045709":"2026-04-04","7625667187675565325":"2026-04-06","7626411445042859277":"2026-04-08","7627528304005778701":"2026-04-11","7628266968088431886":"2026-04-13","7629010277182213390":"2026-04-15","7629753233988259085":"2026-04-17","7629775522121190669":"2026-04-17","7630118836187974926":"2026-04-18","7630579957885897997":"2026-04-19","7630864041950432525":"2026-04-20","7631238138983206157":"2026-04-21","7631658018135936270":"2026-04-22","7631989018875432205":"2026-04-23","7632120381020572942":"2026-04-24","7632730650902007054":"2026-04-25","7632770335007427854":"2026-04-25","7633460188988624142":"2026-04-27","7634199419004521741":"2026-04-29","7634581333309754638":"2026-04-30"};
+
+// ---------- DOM HELPERS ----------
+function el(tag, attrs, ...children) {
+  const node = document.createElement(tag);
+  if (attrs) {
+    for (const k of Object.keys(attrs)) {
+      const v = attrs[k];
+      if (v == null) continue;
+      if (k === "class") node.className = v;
+      else if (k === "style") node.style.cssText = v;
+      else if (k === "html") { /* not allowed */ continue; }
+      else if (k.indexOf("on") === 0) node.addEventListener(k.slice(2).toLowerCase(), v);
+      else node.setAttribute(k, v);
+    }
+  }
+  const append = c => {
+    if (c == null || c === false) return;
+    if (Array.isArray(c)) c.forEach(append);
+    else if (typeof c === "string" || typeof c === "number") node.appendChild(document.createTextNode(String(c)));
+    else node.appendChild(c);
+  };
+  children.forEach(append);
+  return node;
+}
+function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
+function fmtDate(d) {
+  const dt = new Date(d + "T00:00:00");
+  return dt.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+function daysSince(d) {
+  const a = new Date(TODAY + "T00:00:00");
+  const b = new Date(d + "T00:00:00");
+  return Math.round((a - b) / (1000 * 60 * 60 * 24));
+}
+function partyKey(p) {
+  if (!p) return "";
+  for (let i = 0; i < DELEGATIONS.length; i++) {
+    const d = DELEGATIONS[i];
+    if (p.indexOf(d.name) !== -1) return d.key;
+    if (p.toLowerCase().indexOf(d.key) !== -1) return d.key;
+  }
+  if (/Yallapeño|Yallapeno|YAF|Spicy/i.test(p)) return "caucasian";
+  if (/Rush Hour|Coalition/i.test(p)) return "black";
+  if (/Aunt(ie|y)|Bureau of Safety/i.test(p)) return "aunties";
+  if (/Pineapple Posse|All/i.test(p)) return "all";
+  return "";
+}
+function tagParty(name) {
+  if (!name) return null;
+  return el("span", { class: "delegate-tag " + partyKey(name) }, name);
+}
+
+// ---------- STATS ----------
+function renderStats() {
+  const stats = document.getElementById("stats");
+  clear(stats);
+  const counts = {
+    total: ITEMS.length,
+    ratified: ITEMS.filter(i => i.status === "ratified").length,
+    pending: ITEMS.filter(i => i.status === "pending" || i.status === "proposed").length,
+    leased: ITEMS.filter(i => i.status === "leased").length,
+    contested: ITEMS.filter(i => i.status === "contested").length,
+    banned: ITEMS.filter(i => i.status === "banned" || i.status === "retired" || i.status === "rejected").length,
+  };
+  const blocks = [
+    { num: counts.total, lbl: "Items in Ledger", color: null },
+    { num: counts.ratified, lbl: "Ratified", color: "var(--green)" },
+    { num: counts.pending, lbl: "Pending / Proposed", color: "var(--yellow)" },
+    { num: counts.leased, lbl: "Leased", color: "var(--blue)" },
+    { num: counts.contested, lbl: "Contested", color: "var(--orange)" },
+    { num: counts.banned, lbl: "Banned / Retired", color: "var(--red)" },
+    { num: ACCORDS.length, lbl: "Major Accords", color: null },
+    { num: OPEN_MATTERS.length, lbl: "Open Matters", color: "var(--orange)" },
+  ];
+  blocks.forEach(b => {
+    const numNode = el("div", { class: "num", style: b.color ? "color:" + b.color : "" }, String(b.num));
+    const lblNode = el("div", { class: "lbl" }, b.lbl);
+    stats.appendChild(el("div", { class: "stat" }, numNode, lblNode));
+  });
+}
+
+// ---------- QUICK ACTIONS ----------
+function renderQuickActions() {
+  const grid = document.getElementById("qa-grid");
+  const filtersRow = document.getElementById("qa-filters");
+  const subtitle = document.getElementById("qa-subtitle");
+  clear(grid);
+  clear(filtersRow);
+
+  // Sort by days open (oldest first = most urgent)
+  const items = ACTION_ITEMS.slice().sort((a, b) => {
+    // Deadline category always first
+    if (a.cat === "deadline" && b.cat !== "deadline") return -1;
+    if (b.cat === "deadline" && a.cat !== "deadline") return 1;
+    return daysSince(b.since) - daysSince(a.since);
+  });
+  const filtered = qaFilter ? items.filter(i => i.cat === qaFilter) : items;
+
+  // Filter pills
+  const allPill = el("button", { class: "qa-pill" + (qaFilter === "" ? " active" : ""), "data-cat": "" },
+    "All ", el("span", { class: "qa-count" }, String(items.length)));
+  allPill.addEventListener("click", () => { qaFilter = ""; renderQuickActions(); });
+  filtersRow.appendChild(allPill);
+
+  ACTION_CATEGORIES.forEach(c => {
+    const count = items.filter(i => i.cat === c.key).length;
+    if (count === 0) return;
+    const p = el("button", { class: "qa-pill" + (qaFilter === c.key ? " active" : ""), "data-cat": c.key, title: c.desc },
+      c.label + " ", el("span", { class: "qa-count" }, String(count)));
+    p.addEventListener("click", () => { qaFilter = (qaFilter === c.key ? "" : c.key); renderQuickActions(); });
+    filtersRow.appendChild(p);
+  });
+
+  // Subtitle: a category breakdown so it stays informative when the panel is collapsed
+  clear(subtitle);
+  if (qaFilter) {
+    subtitle.appendChild(document.createTextNode(filtered.length + " " + qaFilter + " · " + items.length + " total open"));
+  } else {
+    const breakdown = ACTION_CATEGORIES
+      .map(c => ({ label: c.label, count: items.filter(i => i.cat === c.key).length }))
+      .filter(b => b.count > 0);
+    breakdown.forEach((b, idx) => {
+      if (idx > 0) subtitle.appendChild(document.createTextNode(" · "));
+      const span = el("span", null, String(b.count) + " " + b.label.toLowerCase());
+      subtitle.appendChild(span);
+    });
+  }
+
+  // Cards
+  if (filtered.length === 0) {
+    grid.appendChild(el("div", { class: "qa-empty" }, "No items in this category."));
+    return;
+  }
+  filtered.forEach(item => {
+    const days = daysSince(item.since);
+    const urgClass = days >= 30 ? "urgent" : (days >= 14 ? "warn" : "");
+    const catLabel = (ACTION_CATEGORIES.find(c => c.key === item.cat) || {}).label || item.cat;
+    const card = el("div", { class: "qa-card cat-" + item.cat });
+    card.appendChild(el("div", { class: "qa-cat-tag" }, catLabel));
+    card.appendChild(el("div", { class: "qa-card-title" }, item.title));
+    card.appendChild(el("div", { class: "qa-card-desc" }, item.desc));
+
+    const meta = el("div", { class: "qa-card-meta" });
+    const left = el("div", null);
+    if (item.waitingOn) {
+      left.appendChild(document.createTextNode("→ " + item.waitingOn + " · "));
+    }
+    const daysSpan = el("span", { class: "qa-days " + urgClass },
+      days === 0 ? "today" : (days === 1 ? "1 day" : days + " days") + " open");
+    left.appendChild(daysSpan);
+    meta.appendChild(left);
+    meta.appendChild(el("a", { class: "source-link", href: VIDEO_URL(item.videoId), target: "_blank", rel: "noopener" }, "▶ TikTok ↗"));
+    card.appendChild(meta);
+
+    grid.appendChild(card);
+  });
+}
+
+// ---------- LEDGER ----------
+let ledgerSort = { col: "date", dir: "asc" };
+function renderLedger() {
+  const search = document.getElementById("search").value.toLowerCase();
+  const fType = document.getElementById("filter-type").value;
+  const fStatus = document.getElementById("filter-status").value;
+  const fParty = document.getElementById("filter-party").value;
+  let rows = ITEMS.filter(i => {
+    if (fType && i.type !== fType) return false;
+    if (fStatus && i.status !== fStatus) return false;
+    if (fParty) {
+      const blob = [i.owner, i.parties && i.parties.from, i.parties && i.parties.to, i.ratifiedBy].concat(i.conditions || []).join(" ").toLowerCase();
+      if (blob.indexOf(fParty.toLowerCase()) === -1) return false;
+    }
+    if (search) {
+      const hay = [i.name, i.terms, i.owner, i.parties && i.parties.from, i.parties && i.parties.to, i.ratifiedBy, i.sourceQuote, i.timeLimit].concat(i.conditions || []).join(" ").toLowerCase();
+      if (hay.indexOf(search) === -1) return false;
+    }
+    return true;
+  });
+  rows.sort((a, b) => {
+    const c = ledgerSort.col, dir = ledgerSort.dir === "asc" ? 1 : -1;
+    if (c === "date") return (a.date > b.date ? 1 : -1) * dir;
+    return String(a[c]).localeCompare(String(b[c])) * dir;
+  });
+  const tbody = document.querySelector("#ledger-table tbody");
+  clear(tbody);
+  rows.forEach(i => {
+    const conds = (i.conditions || []).filter(Boolean);
+    // cell 1: name + terms + quote (collapsible)
+    const nameCell = el("td", null,
+      el("div", { class: "item-name" }, i.name),
+      i.terms ? el("div", { class: "terms" }, i.terms) : null,
+      i.sourceQuote ? el("details", null,
+        el("summary", null, "quote"),
+        el("div", { class: "quote" }, i.sourceQuote)
+      ) : null
+    );
+    // cell 2: type + kind
+    const typeCell = el("td", null,
+      el("span", { class: "type-badge" }, i.type),
+      el("div", { class: "kind-line" }, i.kind || "")
+    );
+    // cell 3: status
+    const statusCell = el("td", null, el("span", { class: "badge " + i.status }, i.status));
+    // cell 4: from -> to + owner
+    const partyCell = el("td", null);
+    if (i.parties && (i.parties.from || i.parties.to)) {
+      const f = tagParty(i.parties.from || "");
+      const t = tagParty(i.parties.to || "");
+      if (f) partyCell.appendChild(f);
+      partyCell.appendChild(el("span", { class: "arrow" }, " → "));
+      if (t) partyCell.appendChild(t);
+    } else {
+      const o = tagParty(i.owner || "");
+      if (o) partyCell.appendChild(o);
+    }
+    partyCell.appendChild(el("div", { class: "owner-line" }, "Owner: " + (i.owner || "—")));
+    // cell 5: conditions + timeLimit + ratifiedBy
+    const condCell = el("td", { class: "col-conditions" });
+    if (conds.length) {
+      const ul = el("ul", { style: "padding-left:14px; margin-top:6px;" });
+      conds.forEach(c => ul.appendChild(el("li", null, c)));
+      condCell.appendChild(ul);
+    }
+    if (i.timeLimit) condCell.appendChild(el("div", { class: "timelimit" }, "⏱ " + i.timeLimit));
+    if (i.ratifiedBy) condCell.appendChild(el("div", { class: "ratified-by" }, "Ratified by: " + i.ratifiedBy));
+    // cell 6: date
+    const dateCell = el("td", { style: "white-space:nowrap; font-family:ui-monospace,monospace; font-size:12px; color:var(--muted);" }, fmtDate(i.date));
+    // cell 7: source video (TikTok)
+    const srcCell = el("td", null,
+      el("a", {
+        class: "source-link",
+        href: VIDEO_URL(i.videoId),
+        target: "_blank",
+        rel: "noopener",
+        title: "Watch the source TikTok where this record was discussed"
+      }, "▶ TikTok ↗")
+    );
+    tbody.appendChild(el("tr", null, nameCell, typeCell, statusCell, partyCell, condCell, dateCell, srcCell));
+  });
+  document.getElementById("ledger-count").textContent = rows.length + " of " + ITEMS.length + " items";
+}
+
+function populateFilters() {
+  const types = Array.from(new Set(ITEMS.map(i => i.type))).sort();
+  const statuses = Array.from(new Set(ITEMS.map(i => i.status))).sort();
+  const parties = DELEGATIONS.map(d => d.name).sort();
+  const fT = document.getElementById("filter-type");
+  const fS = document.getElementById("filter-status");
+  const fP = document.getElementById("filter-party");
+  types.forEach(t => fT.appendChild(el("option", { value: t }, t)));
+  statuses.forEach(s => fS.appendChild(el("option", { value: s }, s)));
+  parties.forEach(p => fP.appendChild(el("option", { value: p }, p)));
+}
+
+// ---------- DELEGATIONS ----------
+function renderDelegations() {
+  const grid = document.getElementById("deleg-grid");
+  clear(grid);
+  DELEGATIONS.forEach(d => {
+    const owns = ITEMS.filter(i =>
+      (i.owner && i.owner.indexOf(d.name) !== -1) ||
+      (i.owner && i.owner.toLowerCase().indexOf(d.key) !== -1)
+    ).slice(0, 14);
+    const involves = ITEMS.filter(i => {
+      if (owns.indexOf(i) !== -1) return false;
+      const blob = ((i.parties && i.parties.from) || "") + " " + ((i.parties && i.parties.to) || "") + " " + (i.ratifiedBy || "");
+      return blob.toLowerCase().indexOf(d.key) !== -1 || blob.toLowerCase().indexOf(d.name.toLowerCase()) !== -1;
+    }).slice(0, 10);
+
+    const card = el("div", { class: "deleg-card" });
+    card.appendChild(el("h3", null, d.name));
+    card.appendChild(el("div", { class: "role" }, d.role));
+    if (owns.length) {
+      card.appendChild(el("h4", null, "Holds / Owns"));
+      const ul = el("ul");
+      owns.forEach(i => {
+        const li = el("li", null);
+        li.appendChild(el("strong", null, i.name));
+        li.appendChild(document.createTextNode(" "));
+        li.appendChild(el("span", { class: "badge " + i.status }, i.status));
+        li.appendChild(el("a", {
+          class: "source-link item-link",
+          href: VIDEO_URL(i.videoId),
+          target: "_blank",
+          rel: "noopener",
+          title: "Watch the TikTok where this was decided (" + fmtDate(i.date) + ")"
+        }, "▶ TikTok"));
+        ul.appendChild(li);
+      });
+      card.appendChild(ul);
+    }
+    if (involves.length) {
+      card.appendChild(el("h4", null, "Other involvement"));
+      const ul = el("ul");
+      involves.forEach(i => {
+        const li = el("li", null);
+        li.appendChild(document.createTextNode(i.name));
+        li.appendChild(el("a", {
+          class: "source-link item-link",
+          href: VIDEO_URL(i.videoId),
+          target: "_blank",
+          rel: "noopener",
+          title: "Watch the TikTok (" + fmtDate(i.date) + ")"
+        }, "▶ TikTok"));
+        ul.appendChild(li);
+      });
+      card.appendChild(ul);
+    }
+    grid.appendChild(card);
+  });
+}
+
+// ---------- TIMELINE ----------
+function renderTimeline() {
+  const tl = document.getElementById("timeline");
+  clear(tl);
+  const sorted = ACCORDS.slice().sort((a, b) => a.earliest.localeCompare(b.earliest));
+  sorted.forEach(a => {
+    const card = el("div", { class: "accord " + a.status });
+    card.appendChild(el("div", { class: "date" }, a.period + " · " + a.status.toUpperCase()));
+    card.appendChild(el("h3", null, a.title));
+    const body = el("div", { class: "accord-body" });
+    body.appendChild(el("p", null, a.summary));
+    const ul = el("ul");
+    a.detail.forEach(d => ul.appendChild(el("li", null, d)));
+    body.appendChild(ul);
+    const linkRow = el("div", { class: "timeline-links" });
+    linkRow.appendChild(el("span", { class: "timeline-links-label" }, "Watch on TikTok:"));
+    a.videoIds.forEach(id => {
+      const dateStr = VIDEO_DATES[id] ? fmtDate(VIDEO_DATES[id]) : "…" + id.slice(-6);
+      const a2 = el("a", {
+        class: "source-link",
+        href: VIDEO_URL(id),
+        target: "_blank",
+        rel: "noopener",
+        title: "Watch the TikTok from " + dateStr
+      }, "▶ " + dateStr);
+      linkRow.appendChild(a2);
+    });
+    body.appendChild(linkRow);
+    card.appendChild(body);
+    tl.appendChild(card);
+  });
+}
+
+// ---------- OPEN MATTERS ----------
+function renderOpen() {
+  const grid = document.getElementById("open-grid");
+  clear(grid);
+  OPEN_MATTERS.forEach(m => {
+    const card = el("div", { class: "open-card" });
+    card.appendChild(el("div", { class: "titletop" }, m.title));
+    card.appendChild(el("div", { class: "desc" }, m.desc));
+    const since = el("div", { class: "since" }, "since " + fmtDate(m.since) + " · ");
+    since.appendChild(el("a", { class: "source-link", href: VIDEO_URL(m.videoId), target: "_blank", rel: "noopener" }, "▶ TikTok ↗"));
+    card.appendChild(since);
+    grid.appendChild(card);
+  });
+}
+
+// ---------- RITUALS ----------
+function renderRituals() {
+  const wrap = document.getElementById("rituals-list");
+  clear(wrap);
+  const grid = el("div", { class: "deleg-grid" });
+  RITUALS.forEach(r => {
+    const card = el("div", { class: "deleg-card" });
+    card.appendChild(el("h3", null, r.name));
+    card.appendChild(el("div", { class: "role" }, r.desc));
+    const meta = el("div", { style: "margin-top:12px;" });
+    meta.appendChild(el("span", { class: "type-badge" }, "since " + fmtDate(r.date)));
+    meta.appendChild(document.createTextNode(" "));
+    meta.appendChild(el("a", { class: "source-link", href: VIDEO_URL(r.videoId), target: "_blank", rel: "noopener", style: "margin-left:8px;" }, "▶ TikTok ↗"));
+    card.appendChild(meta);
+    grid.appendChild(card);
+  });
+  wrap.appendChild(grid);
+}
+
+// ---------- ABOUT ----------
+function renderAbout() {
+  const w = document.getElementById("about-block");
+  clear(w);
+  w.appendChild(el("h3", null, "About this Public Ledger"));
+  const p1 = el("p", null);
+  p1.appendChild(document.createTextNode("All 49 communiqués issued by "));
+  p1.appendChild(el("a", { href: "https://www.tiktok.com/@georgebrettolson", target: "_blank", rel: "noopener" }, "@georgebrettolson"));
+  p1.appendChild(document.createTextNode(" between March 4 and April 30, 2026 were retrieved using "));
+  p1.appendChild(el("code", null, "yt-dlp"));
+  p1.appendChild(document.createTextNode(" and transcribed locally with "));
+  p1.appendChild(el("code", null, "whisper small.en"));
+  p1.appendChild(document.createTextNode(". Every item, accord, and ruling in this ledger is sourced to a specific communiqué, linked from the rightmost column."));
+  w.appendChild(p1);
+  w.appendChild(el("p", null, "The MF Function is the recurring proceeding in which the Caucasian Caucus conducts negotiations with allied delegations representing other cultural groups. Decisions take the form of accords (multi-clause agreements), rulings (decrees from higher bodies such as the Council of Elder Aunties), trades (slang exchanged for slang), leases (temporary cultural transfers), and concessions (full ownership transfers)."));
+  const p3 = el("p", null);
+  p3.appendChild(el("strong", null, "Status classifications: "));
+  const statuses = [
+    ["ratified", "in effect"], ["pending", "in negotiation"], ["proposed", "offered, no response"],
+    ["leased", "temporary transfer"], ["gifted", "free transfer"], ["contested", "ownership disputed"],
+    ["banned", "forbidden"], ["retired", "withdrawn"], ["rejected", "proposal failed"]
+  ];
+  statuses.forEach(s => {
+    p3.appendChild(el("span", { class: "badge " + s[0] }, s[0]));
+    p3.appendChild(document.createTextNode(" " + s[1] + "  "));
+  });
+  w.appendChild(p3);
+  w.appendChild(el("p", { style: "color:var(--c-base-light); font-size:13px; margin-top:18px; padding-top: 14px; border-top: 1px solid var(--c-border);" }, "Transcription artifacts corrected in this ledger: 'Call the Ephiran' → 'F Around' (FAFO Clause); 'council voges' → 'Council of OGs'; 'Huber Stank' → Hoobastank; 'Mark Asbusta / Mark ass bluster' → Mark Ass Buster; 'good gravy and geez Louise' → Good Gravy and Geez Louise."));
+}
+
+// ---------- TABS / EVENTS ----------
+const TAB_META = {
+  ledger:      { title: "Public Ledger of Decisions and Accords",
+                 lede: "Items, trades, leases, gifts, rulings, and pending matters as recorded in the proceedings of the United Delegations of the MF Function. Source records: @georgebrettolson · 49 videos transcribed locally via whisper." },
+  delegations: { title: "Recognized Delegations and Coalitions",
+                 lede: "Member delegations, councils, and coalitions of the United Delegations, with their holdings, contributions, and entanglements." },
+  timeline:    { title: "Accords Timeline",
+                 lede: "Major accords, rulings, and ratifications in chronological order, from the founding of the MF Function through the present reporting period." },
+  open:        { title: "Open Matters",
+                 lede: "Items still in negotiation, pending ratification, contested, or under review as of the close of the current reporting period." },
+  rituals:     { title: "Rituals and Standing Rules",
+                 lede: "Recurring proceedings, conventions, structural rules, and standing protocols of the MF Function." },
+  about:       { title: "About this Public Ledger",
+                 lede: "Methodology, status classifications, and provenance of records." }
+};
+
+function setTab(tab) {
+  document.querySelectorAll("nav.tabs button").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
+  document.querySelectorAll("section.view").forEach(s => s.classList.toggle("active", s.id === "view-" + tab));
+  const meta = TAB_META[tab];
+  if (meta) {
+    const titleEl = document.getElementById("page-title");
+    const ledeEl = document.getElementById("page-lede");
+    if (titleEl) titleEl.textContent = meta.title;
+    if (ledeEl) {
+      clear(ledeEl);
+      ledeEl.appendChild(document.createTextNode(meta.lede));
+    }
+  }
+  if (window.location.hash !== "#" + tab) {
+    history.replaceState(null, "", "#" + tab);
+  }
+}
+
+document.querySelectorAll("nav.tabs button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    setTab(btn.dataset.tab);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+});
+document.querySelectorAll("#ledger-table th[data-sort]").forEach(th => {
+  th.addEventListener("click", () => {
+    const col = th.dataset.sort;
+    if (ledgerSort.col === col) {
+      ledgerSort.dir = ledgerSort.dir === "asc" ? "desc" : "asc";
+    } else {
+      ledgerSort.col = col;
+      ledgerSort.dir = "asc";
+    }
+    document.querySelectorAll("#ledger-table th").forEach(h => h.classList.remove("sorted"));
+    th.classList.add("sorted");
+    renderLedger();
+  });
+});
+["search", "filter-type", "filter-status", "filter-party"].forEach(id => {
+  document.getElementById(id).addEventListener("input", renderLedger);
+});
+document.getElementById("reset-btn").addEventListener("click", () => {
+  document.getElementById("search").value = "";
+  document.getElementById("filter-type").value = "";
+  document.getElementById("filter-status").value = "";
+  document.getElementById("filter-party").value = "";
+  renderLedger();
+});
+
+// Quick Actions collapse toggle
+document.getElementById("qa-toggle").addEventListener("click", () => {
+  const panel = document.getElementById("quick-actions");
+  const btn = document.getElementById("qa-toggle");
+  panel.classList.toggle("qa-collapsed");
+  btn.textContent = panel.classList.contains("qa-collapsed") ? "expand" : "collapse";
+});
+
+// ---------- INIT ----------
+renderStats();
+renderQuickActions();
+populateFilters();
+renderLedger();
+renderDelegations();
+renderTimeline();
+renderOpen();
+renderRituals();
+renderAbout();
+
+// Honor URL hash on initial load (e.g., /#timeline)
+{
+  const initialHash = (window.location.hash || "").replace(/^#/, "");
+  if (initialHash && TAB_META[initialHash]) setTab(initialHash);
+}
+window.addEventListener("hashchange", () => {
+  const h = (window.location.hash || "").replace(/^#/, "");
+  if (TAB_META[h]) setTab(h);
+});
+</script>
+</body>
+</html>

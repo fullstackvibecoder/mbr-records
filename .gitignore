@@ -1,0 +1,22 @@
+# Source media — re-derive with yt-dlp if needed
+audio/
+
+# Pipeline logs
+download.log
+whisper.log
+enum.log
+download_archive.txt
+
+# Vercel
+.vercel/
+mbr-records/.vercel/
+
+# Node / npm (if ever added)
+node_modules/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
