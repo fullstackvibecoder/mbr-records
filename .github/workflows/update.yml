@@ -1,0 +1,74 @@
+name: Refresh MBR Records
+
+# Runs every 6 hours (4×/day) and can be triggered manually.
+# Pulls new videos from @georgebrettolson, transcribes them, asks Claude to
+# decide relevance + extract structured items, merges into dashboard.html,
+# commits, and triggers a Vercel redeploy.
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # 00:00, 06:00, 12:00, 18:00 UTC
+  workflow_dispatch:         # manual run from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-mbr
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install ffmpeg
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
+
+      - name: Install Python dependencies
+        run: |
+          pip install --quiet --upgrade pip
+          pip install --quiet yt-dlp openai-whisper anthropic
+
+      - name: Cache whisper model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/whisper
+          key: whisper-small-en-v1
+
+      - name: Run refresh pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/update.py
+
+      - name: Commit changes (if any)
+        id: commit
+        run: |
+          git config user.name "MBR Refresh Bot"
+          git config user.email "bot@mbr-records.invalid"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes to commit."
+          else
+            git commit -m "Auto-refresh: new communiqués from @georgebrettolson"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy to Vercel
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          npm i -g vercel@latest --silent
+          cd mbr-records
+          vercel --prod --token "$VERCEL_TOKEN" --yes --scope bottlenecklabs
