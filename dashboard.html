@@ -828,7 +828,7 @@
 <div class="usa-banner" role="banner">
   <div class="usa-banner-inner">
     <svg class="usa-banner-flag" viewBox="0 0 60 40" aria-hidden="true"><use href="#mff-flag"/></svg>
-    <span><strong>An official communiqué of the Multicultural Bureau of Records.</strong> &nbsp; <em>Auto-updated as new communiqués are filed by <a href="https://www.tiktok.com/@georgebrettolson" target="_blank" rel="noopener" style="color: var(--c-primary-vivid);">@georgebrettolson</a>.</em></span>
+    <span><strong>An official publication of the Multicultural Bureau of Records.</strong> &nbsp; <em>This index is amended automatically upon receipt of new filings from the chair, <a href="https://www.tiktok.com/@georgebrettolson" target="_blank" rel="noopener" style="color: var(--c-primary-vivid);">the Hon. @georgebrettolson</a>.</em></span>
   </div>
 </div>
 
@@ -838,15 +838,15 @@
     <div class="agency-text">
       <div class="agency-overline">United Delegations of the MF Function</div>
       <div class="site-title">Multicultural Bureau of Records</div>
-      <div class="agency-tagline">Public Ledger of Decisions, Accords, and Pending Matters</div>
+      <div class="agency-tagline">Public ledger of decisions, accords, and pending matters of the standing assembly</div>
     </div>
     <div class="header-meta">
       <strong>Reporting Period</strong><br>
       <span id="reporting-period">March 4 – April 30, 2026</span><br>
-      <span style="color: var(--c-gold);">●</span> <span id="comms-count">49</span> communiqués on file
+      <span style="color: var(--c-gold);">●</span> <span id="comms-count">49</span> communiqués indexed
       <div class="last-updated">
         <span class="pulse-dot" aria-hidden="true"></span>
-        <span>Auto-refreshed <strong id="last-updated-display">…</strong></span>
+        <span>Last automated review <strong id="last-updated-display">…</strong></span>
       </div>
     </div>
   </div>
@@ -854,23 +854,21 @@
 
 <nav class="tabs" role="navigation" aria-label="Section navigation">
   <div class="tabs-inner">
-    <button data-tab="ledger" class="active">Ledger</button>
-    <button data-tab="delegations">Delegations</button>
-    <button data-tab="timeline">Accords Timeline</button>
-    <button data-tab="open">Open Matters</button>
-    <button data-tab="rituals">Rituals &amp; Rules</button>
-    <button data-tab="about">About</button>
+    <button data-tab="ledger" class="active">Index</button>
+    <button data-tab="delegations">Member Bodies</button>
+    <button data-tab="timeline">Calendar of Accords</button>
+    <button data-tab="open">Unresolved</button>
+    <button data-tab="rituals">Standing Rules</button>
+    <button data-tab="about">Methodology</button>
   </div>
 </nav>
 
 <div class="container">
 
 <div class="page-header">
-  <h2 id="page-title">Public Ledger of Decisions and Accords</h2>
+  <h2 id="page-title">Index of Decisions and Accords</h2>
   <div class="lede" id="page-lede">
-    Items, trades, leases, gifts, rulings, and pending matters as recorded in the proceedings of the United Delegations of the MF Function.
-    Source records: <a href="https://www.tiktok.com/@georgebrettolson" target="_blank" rel="noopener">@georgebrettolson</a> ·
-    49 videos transcribed locally via whisper.
+    A comprehensive index of items, trades, leases, gifts, rulings, and pending matters entered into the record during the proceedings of the United Delegations of the MF Function. Each entry is cross-referenced to its originating communiqué, filed by the chair <a href="https://www.tiktok.com/@georgebrettolson" target="_blank" rel="noopener">@georgebrettolson</a>. Filings are accepted on an ongoing basis.
   </div>
   <div class="stats" id="stats"></div>
 </div>
@@ -878,7 +876,7 @@
 <section class="quick-actions qa-collapsed" id="quick-actions">
   <div class="qa-header">
     <div class="qa-title-block">
-      <h2>Quick Actions</h2>
+      <h2>Matters Requiring Attention</h2>
       <span class="qa-subtitle" id="qa-subtitle"></span>
     </div>
     <button class="qa-toggle" id="qa-toggle">expand</button>
@@ -1785,13 +1783,13 @@ const OPEN_MATTERS = [
 // ---------- QUICK ACTIONS DATA ----------
 const TODAY = "2026-04-30";
 const ACTION_CATEGORIES = [
-  { key: "deadline",  label: "Deadline Passed",  desc: "Hard deadlines that have already lapsed" },
-  { key: "waiting",   label: "Awaiting Party",   desc: "Stuck pending response from a specific party" },
-  { key: "contested", label: "Contested",        desc: "Disputed ownership or jurisdiction" },
-  { key: "active",    label: "Active",           desc: "In motion right now / recently introduced" },
-  { key: "threat",    label: "Standing Threat",  desc: "Formal threats not yet activated" },
-  { key: "postponed", label: "Postponed",        desc: "Scheduled then rescheduled or paused" },
-  { key: "review",    label: "Under Review",     desc: "Long-running exploratory or review processes" },
+  { key: "deadline",  label: "Deadline Lapsed",      desc: "Hard deadlines that have already lapsed" },
+  { key: "waiting",   label: "Awaiting Counterparty", desc: "Pending response from a named party" },
+  { key: "contested", label: "Contested",            desc: "Disputed ownership or jurisdiction" },
+  { key: "active",    label: "On the Floor",         desc: "Recently introduced; in active discussion" },
+  { key: "threat",    label: "Standing Threat",      desc: "Formal threats not yet activated" },
+  { key: "postponed", label: "Tabled",               desc: "Scheduled then rescheduled or paused" },
+  { key: "review",    label: "In Committee",         desc: "Referred to a committee for review" },
 ];
 
 // "since" = the date the matter became open / last meaningful change
@@ -2290,24 +2288,24 @@ function renderRituals() {
 function renderAbout() {
   const w = document.getElementById("about-block");
   clear(w);
-  w.appendChild(el("h3", null, "About this Public Ledger"));
+  w.appendChild(el("h3", null, "Notes on Methodology and Classification"));
   const p1 = el("p", null);
-  p1.appendChild(document.createTextNode("All 49 communiqués issued by "));
-  p1.appendChild(el("a", { href: "https://www.tiktok.com/@georgebrettolson", target: "_blank", rel: "noopener" }, "@georgebrettolson"));
-  p1.appendChild(document.createTextNode(" between March 4 and April 30, 2026 were retrieved using "));
+  p1.appendChild(document.createTextNode("All communiqués issued by the chair, "));
+  p1.appendChild(el("a", { href: "https://www.tiktok.com/@georgebrettolson", target: "_blank", rel: "noopener" }, "the Hon. @georgebrettolson"));
+  p1.appendChild(document.createTextNode(", since the opening of the current session (March 4, 2026) are retrieved by way of "));
   p1.appendChild(el("code", null, "yt-dlp"));
-  p1.appendChild(document.createTextNode(" and transcribed locally with "));
+  p1.appendChild(document.createTextNode(" and transcribed for the record using "));
   p1.appendChild(el("code", null, "whisper small.en"));
-  p1.appendChild(document.createTextNode(". Every item, accord, and ruling in this ledger is sourced to a specific communiqué, linked from the rightmost column."));
+  p1.appendChild(document.createTextNode(". Each item, accord, and ruling appearing in this index is cross-referenced to its originating communiqué, accessible from the rightmost column of the Ledger."));
   w.appendChild(p1);
-  w.appendChild(el("p", null, "The MF Function is the recurring proceeding in which the Caucasian Caucus conducts negotiations with allied delegations representing other cultural groups. Decisions take the form of accords (multi-clause agreements), rulings (decrees from higher bodies such as the Council of Elder Aunties), trades (slang exchanged for slang), leases (temporary cultural transfers), and concessions (full ownership transfers)."));
+  w.appendChild(el("p", null, "The MF Function is the standing assembly in which the Caucasian Caucus conducts negotiations with allied delegations of the chamber. Resolutions take the form of: accords (multi-clause agreements between two or more parties), rulings (decrees of the Council of Elder Aunties or other supreme body), trades (terms exchanged for terms), leases (temporary transfers, typically time-bound), concessions (full ownership transferred in perpetuity), and gifts (one-way transfers, no exchange asked). Where a matter is contested, both parties' claims are noted on the record pending disposition."));
 
-  // Auto-update explainer
+  // Auto-update explainer — formal procedural voice
   const updateBox = el("p", { style: "margin-top: 18px; padding: 14px 18px; background: var(--c-bg-cool); border-left: 4px solid var(--c-primary); font-size: 13px;" });
   const dot = el("span", { class: "pulse-dot", style: "margin-right: 8px; vertical-align: middle;" });
   updateBox.appendChild(dot);
-  updateBox.appendChild(el("strong", null, "This ledger updates itself."));
-  updateBox.appendChild(document.createTextNode(" A scheduled job checks @georgebrettolson for new posts several times a day. New videos are downloaded, transcribed locally with whisper, and analyzed to determine whether they belong to the MF Function continuity (vs. unrelated standup). Relevant communiqués are extracted into structured records and merged into this ledger. Last refresh: "));
+  updateBox.appendChild(el("strong", null, "Continuous filing service in effect."));
+  updateBox.appendChild(document.createTextNode(" The Bureau retrieves new communiqués from the chair at six-hour intervals, transcribes them for the record, and reviews each for jurisdictional relevance. Items meeting the threshold of relevance are entered into this index without further intervention. Communiqués found to fall outside the bit's continuity — including but not limited to standup engagements, song fragments, and impressions of unrelated parties — are noted in the master file but not indexed. Last automated review concluded "));
   const ts = el("strong", { style: "color: var(--c-primary-darker);" }, fmtRelativeTime(LAST_UPDATED));
   updateBox.appendChild(ts);
   updateBox.appendChild(document.createTextNode("."));
@@ -2329,18 +2327,18 @@ function renderAbout() {
 
 // ---------- TABS / EVENTS ----------
 const TAB_META = {
-  ledger:      { title: "Public Ledger of Decisions and Accords",
-                 lede: "Items, trades, leases, gifts, rulings, and pending matters as recorded in the proceedings of the United Delegations of the MF Function. Source records: @georgebrettolson · 49 videos transcribed locally via whisper." },
-  delegations: { title: "Recognized Delegations and Coalitions",
-                 lede: "Member delegations, councils, and coalitions of the United Delegations, with their holdings, contributions, and entanglements." },
-  timeline:    { title: "Accords Timeline",
-                 lede: "Major accords, rulings, and ratifications in chronological order, from the founding of the MF Function through the present reporting period." },
-  open:        { title: "Open Matters",
-                 lede: "Items still in negotiation, pending ratification, contested, or under review as of the close of the current reporting period." },
-  rituals:     { title: "Rituals and Standing Rules",
-                 lede: "Recurring proceedings, conventions, structural rules, and standing protocols of the MF Function." },
-  about:       { title: "About this Public Ledger",
-                 lede: "Methodology, status classifications, and provenance of records." }
+  ledger:      { title: "Index of Decisions and Accords",
+                 lede: "A comprehensive index of items, trades, leases, gifts, rulings, and pending matters entered into the record during the proceedings of the United Delegations of the MF Function. Each entry is cross-referenced to its originating communiqué. Filings are accepted on an ongoing basis." },
+  delegations: { title: "Member Bodies of the Standing Assembly",
+                 lede: "Recognized delegations, councils, and coalitions of the United Delegations, with their current holdings, contributions to the chamber, and outstanding entanglements. Subgroups and subsidiary committees are noted where applicable." },
+  timeline:    { title: "Calendar of Accords",
+                 lede: "Major accords, rulings, and ratifications listed in the order convened. Each proceeding is annotated with its constituent communiqués; status indicators reflect the latest position of the chamber." },
+  open:        { title: "Matters Not Yet Resolved",
+                 lede: "Items not yet disposed of as of the close of the current reporting period. Includes pending ratifications, contested ownership, lapsed deadlines, and standing threats not yet activated." },
+  rituals:     { title: "Standing Rules and Recurring Proceedings",
+                 lede: "Standing protocols, recurring proceedings, and structural conventions of the United Delegations. The chamber does not convene Sundays." },
+  about:       { title: "Notes on Methodology and Classification",
+                 lede: "Provenance of records, classification of statuses, and notes on the automated review process maintained by the Bureau." }
 };
 
 function setTab(tab) {
