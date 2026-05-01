@@ -118,9 +118,35 @@
     text-align: right;
     font-size: 11px;
     color: rgba(255,255,255,0.7);
-    line-height: 1.5;
+    line-height: 1.6;
   }
   .header-meta strong { color: white; }
+  .last-updated {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.85);
+    white-space: nowrap;
+  }
+  .last-updated strong { color: var(--c-gold); font-weight: 700; }
+  .pulse-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    background: var(--c-green);
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(0, 169, 28, 0.6);
+    animation: mbr-pulse 2.4s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes mbr-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 169, 28, 0.7); }
+    70% { box-shadow: 0 0 0 6px rgba(0, 169, 28, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 169, 28, 0); }
+  }
 
   /* Tabs (subnav) */
   nav.tabs {
@@ -802,7 +828,7 @@
 <div class="usa-banner" role="banner">
   <div class="usa-banner-inner">
     <svg class="usa-banner-flag" viewBox="0 0 60 40" aria-hidden="true"><use href="#mff-flag"/></svg>
-    <span><strong>An official communiqué of the Multicultural Bureau of Records.</strong> &nbsp; <em>This site is decentralized and may contain absurdism.</em></span>
+    <span><strong>An official communiqué of the Multicultural Bureau of Records.</strong> &nbsp; <em>Auto-updated as new communiqués are filed by <a href="https://www.tiktok.com/@georgebrettolson" target="_blank" rel="noopener" style="color: var(--c-primary-vivid);">@georgebrettolson</a>.</em></span>
   </div>
 </div>
 
@@ -816,8 +842,12 @@
     </div>
     <div class="header-meta">
       <strong>Reporting Period</strong><br>
-      March 4 – April 30, 2026<br>
-      <span style="color: var(--c-gold);">●</span> 49 communiqués on file
+      <span id="reporting-period">March 4 – April 30, 2026</span><br>
+      <span style="color: var(--c-gold);">●</span> <span id="comms-count">49</span> communiqués on file
+      <div class="last-updated">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <span>Auto-refreshed <strong id="last-updated-display">…</strong></span>
+      </div>
     </div>
   </div>
 </header>
@@ -935,6 +965,9 @@
 <script>
 "use strict";
 // ---------- DATA ----------
+// LAST_UPDATED is rewritten by scripts/update.py on each cron run.
+// Format: ISO 8601 (UTC).
+const LAST_UPDATED = "2026-04-30T20:45:00Z";
 const VIDEO_URL = id => "https://www.tiktok.com/@georgebrettolson/video/" + id;
 
 const DELEGATIONS = [
@@ -1896,6 +1929,18 @@ function daysSince(d) {
   const b = new Date(d + "T00:00:00");
   return Math.round((a - b) / (1000 * 60 * 60 * 24));
 }
+function fmtRelativeTime(iso) {
+  const then = new Date(iso);
+  const now = new Date();
+  const diffMin = Math.floor((now - then) / 60000);
+  if (diffMin < 1) return "just now";
+  if (diffMin < 60) return diffMin + " min ago";
+  const diffHr = Math.floor(diffMin / 60);
+  if (diffHr < 24) return diffHr + (diffHr === 1 ? " hour ago" : " hours ago");
+  const diffDay = Math.floor(diffHr / 24);
+  if (diffDay < 14) return diffDay + (diffDay === 1 ? " day ago" : " days ago");
+  return then.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
 function partyKey(p) {
   if (!p) return "";
   for (let i = 0; i < DELEGATIONS.length; i++) {
@@ -2256,6 +2301,17 @@ function renderAbout() {
   p1.appendChild(document.createTextNode(". Every item, accord, and ruling in this ledger is sourced to a specific communiqué, linked from the rightmost column."));
   w.appendChild(p1);
   w.appendChild(el("p", null, "The MF Function is the recurring proceeding in which the Caucasian Caucus conducts negotiations with allied delegations representing other cultural groups. Decisions take the form of accords (multi-clause agreements), rulings (decrees from higher bodies such as the Council of Elder Aunties), trades (slang exchanged for slang), leases (temporary cultural transfers), and concessions (full ownership transfers)."));
+
+  // Auto-update explainer
+  const updateBox = el("p", { style: "margin-top: 18px; padding: 14px 18px; background: var(--c-bg-cool); border-left: 4px solid var(--c-primary); font-size: 13px;" });
+  const dot = el("span", { class: "pulse-dot", style: "margin-right: 8px; vertical-align: middle;" });
+  updateBox.appendChild(dot);
+  updateBox.appendChild(el("strong", null, "This ledger updates itself."));
+  updateBox.appendChild(document.createTextNode(" A scheduled job checks @georgebrettolson for new posts several times a day. New videos are downloaded, transcribed locally with whisper, and analyzed to determine whether they belong to the MF Function continuity (vs. unrelated standup). Relevant communiqués are extracted into structured records and merged into this ledger. Last refresh: "));
+  const ts = el("strong", { style: "color: var(--c-primary-darker);" }, fmtRelativeTime(LAST_UPDATED));
+  updateBox.appendChild(ts);
+  updateBox.appendChild(document.createTextNode("."));
+  w.appendChild(updateBox);
   const p3 = el("p", null);
   p3.appendChild(el("strong", null, "Status classifications: "));
   const statuses = [
@@ -2344,7 +2400,26 @@ document.getElementById("qa-toggle").addEventListener("click", () => {
   btn.textContent = panel.classList.contains("qa-collapsed") ? "expand" : "collapse";
 });
 
+// ---------- LAST UPDATED + DYNAMIC HEADER ----------
+function renderLastUpdated() {
+  const el2 = document.getElementById("last-updated-display");
+  if (el2 && LAST_UPDATED) {
+    el2.textContent = fmtRelativeTime(LAST_UPDATED);
+    el2.title = "Last refreshed: " + new Date(LAST_UPDATED).toLocaleString();
+  }
+  // Also keep counts in sync with embedded data
+  const commsEl = document.getElementById("comms-count");
+  if (commsEl) commsEl.textContent = String(Object.keys(VIDEO_DATES).length);
+  // And the reporting period
+  const dates = Object.values(VIDEO_DATES).sort();
+  const periodEl = document.getElementById("reporting-period");
+  if (periodEl && dates.length) {
+    periodEl.textContent = fmtDate(dates[0]) + " – " + fmtDate(dates[dates.length - 1]) + ", 2026";
+  }
+}
+
 // ---------- INIT ----------
+renderLastUpdated();
 renderStats();
 renderQuickActions();
 populateFilters();

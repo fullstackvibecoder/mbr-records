@@ -20,7 +20,41 @@ This is a fan-made satirical archive. No actual federal agency exists by this na
 
 The dashboard is a single self-contained HTML file (~130KB) with embedded JSON and vanilla JS. No build step, no dependencies, no framework. Drop it in any folder and open it in a browser.
 
-## Pipeline
+## Auto-refresh
+
+The dashboard updates itself. A GitHub Actions workflow at
+`.github/workflows/update.yml` runs every six hours and:
+
+1. Enumerates new posts on `@georgebrettolson` via `yt-dlp`
+2. Diffs against `videos.jsonl` to find what's new
+3. Downloads audio for each new video, transcribes locally with `whisper`
+4. Calls Claude (Opus, tool-use mode) to (a) decide whether the video
+   is part of the MF Function continuity and (b) extract structured
+   items in the existing schema
+5. Appends new items to the `ITEMS` array in `dashboard.html`,
+   adds the videoId→date entry to `VIDEO_DATES`, drops the new
+   transcript into `transcripts/`, and updates `LAST_UPDATED`
+6. Commits, pushes, and triggers a Vercel redeploy
+
+The pipeline only **appends** — it never modifies or removes existing
+records. If Claude is uncertain about a video, the video is skipped.
+
+### Required GitHub secrets
+
+Set these in **Settings → Secrets and variables → Actions** for the
+repo:
+
+| Secret | Source |
+|---|---|
+| `ANTHROPIC_API_KEY` | https://console.anthropic.com → API Keys |
+| `VERCEL_TOKEN` | https://vercel.com/account/tokens (scope: `bottlenecklabs` team) |
+
+### Manual run
+
+Trigger a refresh manually from the **Actions** tab → *Refresh MBR
+Records* → *Run workflow*. Useful for testing or after a long gap.
+
+## Manual pipeline (no cron)
 
 ```bash
 # 1. Enumerate all videos for an account
