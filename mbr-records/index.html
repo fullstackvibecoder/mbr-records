@@ -1101,7 +1101,7 @@
 // ---------- DATA ----------
 // LAST_UPDATED is rewritten by scripts/update.py on each cron run.
 // Format: ISO 8601 (UTC).
-const LAST_UPDATED = "2026-05-02T12:30:43Z";
+const LAST_UPDATED = "2026-05-02T18:30:54Z";
 const VIDEO_URL = id => "https://www.tiktok.com/@georgebrettolson/video/" + id;
 
 const DELEGATIONS = [
@@ -1222,7 +1222,7 @@ const ITEMS = [
     conditions: ["In exchange, Caucasian Caucus seeks joint custody of '¡Ay caramba!' (pending)"],
     timeLimit: null, ratifiedBy: "Caucasian Caucus secession", date: "2026-03-30", videoId: "7623072823354887437",
     sourceQuote: "The Caucasian Caucus will secede full rights to the word No Way Jose" },
-  { name: "¡Ay caramba!", type: "phrase", status: "pending", kind: "request", owner: "League of Latinos",
+  { name: "¡Ay caramba!", type: "phrase", status: "contested", kind: "request", owner: "League of Latinos",
     parties: { from: "League of Latinos", to: "Caucasian Caucus (joint custody requested)" },
     terms: "Caucasian Caucus requests joint custody as part of No Way José secession. No formal Latino response.",
     conditions: [],
@@ -1240,7 +1240,7 @@ const ITEMS = [
     conditions: [],
     timeLimit: null, ratifiedBy: "Caucasian concession", date: "2026-04-20", videoId: "7630864041950432525",
     sourceQuote: "the Caucasian Caucus would like to concede to the League of Latinos, Holy Guacamole, and Holy Frijoles" },
-  { name: "Holy Toledo", type: "phrase", status: "ratified", kind: "claim", owner: "League of Latinos",
+  { name: "Holy Toledo", type: "phrase", status: "contested", kind: "claim", owner: "League of Latinos",
     parties: { from: "League of Latinos", to: "(claimed)" },
     terms: "Latino records show ownership; offer from Caucasian withdrawn.",
     conditions: [],
@@ -1741,7 +1741,12 @@ const ITEMS = [
   { name: "Holy Smokes", type: "phrase", status: "ratified", kind: "claim", owner: "Jamaican Delegation", parties: { from: "", to: "" }, terms: "Holy Smokes ruled a Rasta product and therefore Jamaican intellectual property.", conditions: [], timeLimit: null, ratifiedBy: null, date: "2026-05-01", videoId: "7634974179518893326", sourceQuote: "Holy Smokes is a Rasta product, so it is indeed a Jamaican intellectual property." },
   { name: "Holy Guacamole", type: "phrase", status: "ratified", kind: "claim", owner: "League of Latinos", parties: { from: "", to: "" }, terms: "Holy Guacamole claimed by La Raza/League of Latinos as 'extra extra'; partial court-ordered custody granted to other delegations every other weekend.", conditions: ["Other delegations receive partial custody every other weekend"], timeLimit: null, ratifiedBy: null, date: "2026-05-01", videoId: "7634974179518893326", sourceQuote: "League of Latinos here, here to take claim of Holy Guacamole. That's ours. That's La Rassas." },
   { name: "Holy Guacamole partial custody", type: "rule", status: "ratified", kind: "concession", owner: "League of Latinos", parties: { from: "League of Latinos", to: "All delegations" }, terms: "Every other weekend, other delegates may freely use Holy Guacamole.", conditions: [], timeLimit: null, ratifiedBy: null, date: "2026-05-01", videoId: "7634974179518893326", sourceQuote: "you can have partial court-ordered custody of Holy Guacamole. Like every other weekend, it's yours." },
-  { name: "Holy Cow", type: "phrase", status: "pending", kind: "claim", owner: "unassigned", parties: { from: "", to: "" }, terms: "Ownership of Holy Cow opened for claim; no delegation has yet been awarded it.", conditions: [], timeLimit: null, ratifiedBy: null, date: "2026-05-01", videoId: "7634974179518893326", sourceQuote: "But we gotta know, who takes claim of Holy Cow?" }
+  { name: "Holy Cow", type: "phrase", status: "ratified", kind: "claim", owner: "unassigned", parties: { from: "", to: "" }, terms: "Ownership of Holy Cow opened for claim; no delegation has yet been awarded it.", conditions: [], timeLimit: null, ratifiedBy: null, date: "2026-05-01", videoId: "7634974179518893326", sourceQuote: "But we gotta know, who takes claim of Holy Cow?" }
+,
+  { name: "Holy Snikeys", type: "phrase", status: "ratified", kind: "claim", owner: "Caucasian Caucus", parties: { from: "", to: "" }, terms: "Claimed by the Caucasian Caucus on the basis of Chris Farley's contribution to the phrase's cultural footprint.", conditions: [], timeLimit: null, ratifiedBy: "Caucasian Caucus", date: "2026-05-02", videoId: "7635353511156305166", sourceQuote: "Holy Snikeys is ours due to Chris Farley's contribution." },
+  { name: "Multicultural Bureau of Records", type: "body", status: "ratified", kind: "protocol", owner: "Armenian Delegation", parties: { from: "", to: "" }, terms: "Bureau established by the Armenian Delegation to track negotiations, delegations, finalized trades, ongoing discussions, and unresolved issues.", conditions: [], timeLimit: null, ratifiedBy: "MF Function", date: "2026-05-02", videoId: "7635353511156305166", sourceQuote: "Armenian delegation here, I'd like to introduce you to the Multicultural Bureau of Records, where you can track negotiations, delegations, finalized trades, and ongoing discussions." },
+  { name: "Armenian Delegation", type: "body", status: "ratified", kind: "protocol", owner: "Armenian Delegation", parties: { from: "", to: "" }, terms: "Armenian Delegation seated at the MF Function and assigned stewardship of the Multicultural Bureau of Records as Record Keeper.", conditions: [], timeLimit: null, ratifiedBy: "MF Function", date: "2026-05-02", videoId: "7635353511156305166", sourceQuote: "Armenian delegation here...Thank you, Record Keeper." },
+  { name: "Cinco de Mayo White People Taco Night Inquiry", type: "event", status: "contested", kind: "claim", owner: "League of Latinos (Mexican Delegation)", parties: { from: "", to: "" }, terms: "Reports that some Caucasians intend to host white people taco night on Cinco de Mayo have triggered an emergency summit of the Mexican Delegation.", conditions: [], timeLimit: null, ratifiedBy: null, date: "2026-05-02", videoId: "7635353511156305166", sourceQuote: "We also have learned that some Caucasians are thinking about having white people taco night on Cinco de Mayo. The Mexican delegation is holding an emergency summit next week." }
 ];
 
 const ACCORDS = [
@@ -2055,10 +2060,13 @@ const LORE_BULLETINS = [
   { tag: "Standing",     text: "The Coalition of the Willing, also styled the Pineapple Posse, retains a separate fusion table at MF Function out of sight from the Gabagoo Guild." },
   { tag: "Dispatch",     text: "House of Habibi remains the ratified collective form of address for all delegates of the chamber." },
   { tag: "Notice",       text: "The chamber acknowledges 'Try Jesus, Don't Try Me' as the official hymn appended to the FAFO Clause. Mouth checks may follow." },
+,
+  { tag: "Jurisprudence", text: "Holy Cow ceded to Indian Delegation; temporary exemptions granted to constituents in Texas and the American Midwest pending review." },
+  { tag: "Infrastructure", text: "Armenian Delegation stands up the Multicultural Bureau of Records at mbofr.com to log trades, accords, and unresolved matters." }
 ];
 
 // videoId → upload date · all 49 videos in the corpus
-const VIDEO_DATES = {"7613407482530057503":"2026-03-04","7613803034925206797":"2026-03-05","7614188393349647629":"2026-03-06","7614922992572845326":"2026-03-08","7614962671879720205":"2026-03-08","7615276872015940877":"2026-03-09","7615640476984675597":"2026-03-10","7616004766686268686":"2026-03-11","7616398308453403918":"2026-03-12","7616767652660301069":"2026-03-13","7616903382090992910":"2026-03-14","7617142453681868045":"2026-03-14","7617513531096730893":"2026-03-15","7617883075288108302":"2026-03-16","7618029030868126990":"2026-03-17","7618249021106195726":"2026-03-17","7618619141364272397":"2026-03-18","7618991433898380557":"2026-03-19","7619387610711985422":"2026-03-20","7619740002204929294":"2026-03-21","7620477202320149774":"2026-03-23","7620535953488104717":"2026-03-23","7620846271875632397":"2026-03-24","7621220230622170381":"2026-03-25","7621582873090428173":"2026-03-26","7622328598338342157":"2026-03-28","7623072823354887437":"2026-03-30","7623825249246661901":"2026-04-01","7624562838714993933":"2026-04-03","7624926373274045709":"2026-04-04","7625667187675565325":"2026-04-06","7626411445042859277":"2026-04-08","7627528304005778701":"2026-04-11","7628266968088431886":"2026-04-13","7629010277182213390":"2026-04-15","7629753233988259085":"2026-04-17","7629775522121190669":"2026-04-17","7630118836187974926":"2026-04-18","7630579957885897997":"2026-04-19","7630864041950432525":"2026-04-20","7631238138983206157":"2026-04-21","7631658018135936270":"2026-04-22","7631989018875432205":"2026-04-23","7632120381020572942":"2026-04-24","7632730650902007054":"2026-04-25","7632770335007427854":"2026-04-25","7633460188988624142":"2026-04-27","7634199419004521741":"2026-04-29","7634581333309754638":"2026-04-30","7634660053198327054":"2026-04-30","7634974179518893326":"2026-05-01"};
+const VIDEO_DATES = {"7613407482530057503":"2026-03-04","7613803034925206797":"2026-03-05","7614188393349647629":"2026-03-06","7614922992572845326":"2026-03-08","7614962671879720205":"2026-03-08","7615276872015940877":"2026-03-09","7615640476984675597":"2026-03-10","7616004766686268686":"2026-03-11","7616398308453403918":"2026-03-12","7616767652660301069":"2026-03-13","7616903382090992910":"2026-03-14","7617142453681868045":"2026-03-14","7617513531096730893":"2026-03-15","7617883075288108302":"2026-03-16","7618029030868126990":"2026-03-17","7618249021106195726":"2026-03-17","7618619141364272397":"2026-03-18","7618991433898380557":"2026-03-19","7619387610711985422":"2026-03-20","7619740002204929294":"2026-03-21","7620477202320149774":"2026-03-23","7620535953488104717":"2026-03-23","7620846271875632397":"2026-03-24","7621220230622170381":"2026-03-25","7621582873090428173":"2026-03-26","7622328598338342157":"2026-03-28","7623072823354887437":"2026-03-30","7623825249246661901":"2026-04-01","7624562838714993933":"2026-04-03","7624926373274045709":"2026-04-04","7625667187675565325":"2026-04-06","7626411445042859277":"2026-04-08","7627528304005778701":"2026-04-11","7628266968088431886":"2026-04-13","7629010277182213390":"2026-04-15","7629753233988259085":"2026-04-17","7629775522121190669":"2026-04-17","7630118836187974926":"2026-04-18","7630579957885897997":"2026-04-19","7630864041950432525":"2026-04-20","7631238138983206157":"2026-04-21","7631658018135936270":"2026-04-22","7631989018875432205":"2026-04-23","7632120381020572942":"2026-04-24","7632730650902007054":"2026-04-25","7632770335007427854":"2026-04-25","7633460188988624142":"2026-04-27","7634199419004521741":"2026-04-29","7634581333309754638":"2026-04-30","7634660053198327054":"2026-04-30","7634974179518893326":"2026-05-01","7635353511156305166":"2026-05-02"};
 
 // ---------- DOM HELPERS ----------
 function el(tag, attrs, ...children) {
