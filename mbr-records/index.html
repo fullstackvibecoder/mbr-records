@@ -802,6 +802,111 @@
     border-bottom-color: rgba(255,190,46,0.4);
   }
 
+  /* Breaking-news chyron — fixed bottom band, scrolling ticker */
+  body { padding-bottom: 40px; }
+  .chyron {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: #0a1c2e;
+    border-top: 2px solid var(--c-gold);
+    display: flex;
+    align-items: stretch;
+    z-index: 100;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 13px;
+    color: white;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.3);
+  }
+  .chyron-label {
+    background: var(--c-red);
+    color: white;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    flex-shrink: 0;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+  .chyron-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+    margin-right: 9px;
+    animation: chyron-pulse 1.4s infinite;
+    flex-shrink: 0;
+  }
+  .chyron-track {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
+  }
+  .chyron-scroll {
+    display: inline-flex;
+    white-space: nowrap;
+    align-items: center;
+    animation: chyron-scroll 240s linear infinite;
+    padding-left: 100%;
+    will-change: transform;
+  }
+  .chyron-track:hover .chyron-scroll { animation-play-state: paused; }
+  .chyron-item {
+    color: rgba(255,255,255,0.95);
+    margin: 0;
+  }
+  .chyron-item .chyron-tag {
+    color: var(--c-gold);
+    font-weight: 700;
+    margin-right: 6px;
+  }
+  .chyron-sep {
+    color: var(--c-gold);
+    margin: 0 22px;
+    font-size: 11px;
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+  .chyron-time {
+    background: var(--c-primary-darker);
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    border-left: 1px solid rgba(255,255,255,0.12);
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    flex-shrink: 0;
+    font-family: ui-monospace, monospace;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  @keyframes chyron-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+  }
+  @keyframes chyron-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); }
+  }
+
+  /* Footer needs extra clearance from chyron */
+  footer.site-footer { margin-bottom: 0; }
+
+  @media (max-width: 768px) {
+    .chyron { height: 36px; font-size: 12px; }
+    .chyron-label { padding: 0 12px; font-size: 10px; }
+    .chyron-time { display: none; }
+    body { padding-bottom: 36px; }
+  }
+
   .timelimit { margin-top: 6px; color: var(--c-primary-vivid); font-size: 11px; font-family: ui-monospace, monospace; font-weight: 600; }
   .ratified-by { margin-top: 6px; font-size: 11px; color: var(--c-base-light); }
   .owner-line { margin-top: 6px; font-size: 11px; color: var(--c-base-light); }
@@ -984,6 +1089,12 @@
     </div>
   </div>
 </footer>
+
+<aside class="chyron" role="complementary" aria-label="Bureau bulletin ticker">
+  <div class="chyron-label" aria-hidden="true"><span class="chyron-dot"></span>Bulletin</div>
+  <div class="chyron-track"><div class="chyron-scroll" id="chyron-scroll"></div></div>
+  <div class="chyron-time" id="chyron-time">—</div>
+</aside>
 
 <script>
 "use strict";
@@ -1922,6 +2033,30 @@ const ACTION_ITEMS = [
 
 let qaFilter = "";
 
+// ----------------------------------------------------------------------
+// BULLETIN — ticker items. Hand-curated lore in CSPAN-style category prefixes.
+// scripts/update.py rewrites this section per cron run with fresh items.
+// ----------------------------------------------------------------------
+const LORE_BULLETINS = [
+  { tag: "Intelligence", text: "The Auntie Army has opened a forensic review of the banana pudding recipe. No suspects have been named in the public record." },
+  { tag: "Markets",      text: "Pepperoni roll futures remain stable following the Yallapeño Appalachian Fellowship's open-ended commitment to MF Function supply." },
+  { tag: "Advisory",     text: "The Cornflake Raisin Contingency Plan, on the books since March 14, has not been activated. Implementation has not been ordered." },
+  { tag: "Transport",    text: "Flannel and Subaru shipments continue to operate normally. The Rainbow Syndicate's threatened embargo has not been activated." },
+  { tag: "Schedule",     text: "The chamber does not convene Sundays. The Council of Elder Aunties cites unresolvable scheduling conflicts." },
+  { tag: "Personnel",    text: "Stone Cold Steve Austin remains on lease to the Italian delegation. Beer-drinking and cans-of-whoop-ass tour ongoing." },
+  { tag: "Court",        text: "The Travis Kelce Fade has been struck from the public record per the Black Barber Caucus' forensic audit. The Nas Fade is the official term in perpetuity." },
+  { tag: "Procurement",  text: "Espresso and Nana's homemade cannolis continue to arrive at MF Function on schedule under the Pineapple Accords." },
+  { tag: "Security",     text: "The Multicultural Bureau of Safety confirms both officers remain in active deployment in support of the FAFO Clause." },
+  { tag: "Diplomacy",    text: "Sir Patrick Stewart's audiobook selection has not yet been disclosed by the Yay Area Black Delegation. The chair awaits notice." },
+  { tag: "Jurisprudence",text: "On My Mama may be invoked once per calendar year by the Caucasian Caucus. Subsequent invocations subject to lifetime ban without further notice." },
+  { tag: "Infrastructure", text: "All breaking of pasta has ceased at MF Function as of the Pineapple Accords. No violations have been reported." },
+  { tag: "Weather",      text: "Heavens to Betsies status remains unsettled. The Yallapeño Appalachian Fellowship has not formally withdrawn its initial offer." },
+  { tag: "Trade",        text: "The League of Latinos has formally absorbed Holy Mole, Holy Toledo, and Holy Frijoles. Holy Guacamole disposition remains contested." },
+  { tag: "Standing",     text: "The Coalition of the Willing, also styled the Pineapple Posse, retains a separate fusion table at MF Function out of sight from the Gabagoo Guild." },
+  { tag: "Dispatch",     text: "House of Habibi remains the ratified collective form of address for all delegates of the chamber." },
+  { tag: "Notice",       text: "The chamber acknowledges 'Try Jesus, Don't Try Me' as the official hymn appended to the FAFO Clause. Mouth checks may follow." },
+];
+
 // videoId → upload date · all 49 videos in the corpus
 const VIDEO_DATES = {"7613407482530057503":"2026-03-04","7613803034925206797":"2026-03-05","7614188393349647629":"2026-03-06","7614922992572845326":"2026-03-08","7614962671879720205":"2026-03-08","7615276872015940877":"2026-03-09","7615640476984675597":"2026-03-10","7616004766686268686":"2026-03-11","7616398308453403918":"2026-03-12","7616767652660301069":"2026-03-13","7616903382090992910":"2026-03-14","7617142453681868045":"2026-03-14","7617513531096730893":"2026-03-15","7617883075288108302":"2026-03-16","7618029030868126990":"2026-03-17","7618249021106195726":"2026-03-17","7618619141364272397":"2026-03-18","7618991433898380557":"2026-03-19","7619387610711985422":"2026-03-20","7619740002204929294":"2026-03-21","7620477202320149774":"2026-03-23","7620535953488104717":"2026-03-23","7620846271875632397":"2026-03-24","7621220230622170381":"2026-03-25","7621582873090428173":"2026-03-26","7622328598338342157":"2026-03-28","7623072823354887437":"2026-03-30","7623825249246661901":"2026-04-01","7624562838714993933":"2026-04-03","7624926373274045709":"2026-04-04","7625667187675565325":"2026-04-06","7626411445042859277":"2026-04-08","7627528304005778701":"2026-04-11","7628266968088431886":"2026-04-13","7629010277182213390":"2026-04-15","7629753233988259085":"2026-04-17","7629775522121190669":"2026-04-17","7630118836187974926":"2026-04-18","7630579957885897997":"2026-04-19","7630864041950432525":"2026-04-20","7631238138983206157":"2026-04-21","7631658018135936270":"2026-04-22","7631989018875432205":"2026-04-23","7632120381020572942":"2026-04-24","7632730650902007054":"2026-04-25","7632770335007427854":"2026-04-25","7633460188988624142":"2026-04-27","7634199419004521741":"2026-04-29","7634581333309754638":"2026-04-30","7634660053198327054":"2026-04-30","7634974179518893326":"2026-05-01"};
 
@@ -2429,6 +2564,94 @@ document.getElementById("qa-toggle").addEventListener("click", () => {
   btn.textContent = panel.classList.contains("qa-collapsed") ? "expand" : "collapse";
 });
 
+// ---------- BULLETIN CHYRON ----------
+function buildChyronItems() {
+  // Mix four sources into one shuffled feed:
+  //   (a) hand-curated lore bulletins
+  //   (b) most recently filed items from the ledger
+  //   (c) longest-pending matters (highlighting urgency)
+  //   (d) status spotlight from the ITEMS table
+  const items = [];
+
+  // (a) Lore — clone so we can shuffle without mutating
+  LORE_BULLETINS.forEach(b => items.push({ tag: b.tag, text: b.text }));
+
+  // (b) Recently filed items (last 8 by date)
+  const recent = ITEMS.slice().sort((a, b) => b.date.localeCompare(a.date)).slice(0, 8);
+  recent.forEach(i => {
+    const d = fmtDate(i.date);
+    items.push({
+      tag: "Filed " + d,
+      text: i.name + " — entered into the record as " + i.status.toUpperCase() + "."
+    });
+  });
+
+  // (c) Longest-pending matters (top 5 by days open)
+  if (typeof ACTION_ITEMS !== "undefined") {
+    const oldest = ACTION_ITEMS.slice()
+      .filter(m => m.cat !== "active")
+      .sort((a, b) => daysSince(b.since) - daysSince(a.since))
+      .slice(0, 5);
+    oldest.forEach(m => {
+      const days = daysSince(m.since);
+      items.push({
+        tag: "Day " + days,
+        text: m.title + (m.waitingOn ? " — awaiting " + m.waitingOn + "." : ".")
+      });
+    });
+  }
+
+  // (d) Specific high-signal items
+  const ratifiedCount = ITEMS.filter(i => i.status === "ratified").length;
+  const pendingCount = ITEMS.filter(i => i.status === "pending" || i.status === "proposed").length;
+  const contestedCount = ITEMS.filter(i => i.status === "contested").length;
+  items.push({ tag: "Roll Call", text: ITEMS.length + " items indexed; " + ratifiedCount + " in effect, " + pendingCount + " in negotiation, " + contestedCount + " contested." });
+  items.push({ tag: "Reporting", text: Object.keys(VIDEO_DATES).length + " communiqués on file. Continuous filing service in effect." });
+
+  // Shuffle so each refresh feels fresh
+  for (let i = items.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [items[i], items[j]] = [items[j], items[i]];
+  }
+  return items;
+}
+
+function renderChyron() {
+  const scroll = document.getElementById("chyron-scroll");
+  if (!scroll) return;
+  clear(scroll);
+  const items = buildChyronItems();
+  // Build the marquee row (and duplicate it once so the loop reads continuously)
+  const buildRow = () => {
+    const frag = document.createDocumentFragment();
+    items.forEach((b, idx) => {
+      const span = el("span", { class: "chyron-item" });
+      span.appendChild(el("span", { class: "chyron-tag" }, b.tag.toUpperCase() + " ·"));
+      span.appendChild(document.createTextNode(" " + b.text));
+      frag.appendChild(span);
+      if (idx < items.length - 1) frag.appendChild(el("span", { class: "chyron-sep" }, "★"));
+    });
+    return frag;
+  };
+  scroll.appendChild(buildRow());
+  // Duplicate so when the first copy slides off, the second is right behind it (seamless loop)
+  scroll.appendChild(el("span", { class: "chyron-sep" }, "★"));
+  scroll.appendChild(buildRow());
+
+  // Time display in chyron
+  const t = document.getElementById("chyron-time");
+  if (t) {
+    const now = new Date();
+    t.textContent = now.toUTCString().slice(17, 22) + " UTC";
+  }
+
+  // Adjust scroll duration based on content length so reading speed stays consistent
+  const totalLen = items.reduce((sum, b) => sum + b.tag.length + b.text.length, 0);
+  // ~10 chars/sec is comfortable monospace reading speed
+  const seconds = Math.max(120, Math.round(totalLen / 8));
+  scroll.style.animationDuration = seconds + "s";
+}
+
 // ---------- LAST UPDATED + DYNAMIC HEADER ----------
 function renderLastUpdated() {
   const el2 = document.getElementById("last-updated-display");
@@ -2450,6 +2673,7 @@ function renderLastUpdated() {
 // ---------- INIT ----------
 renderLastUpdated();
 renderStats();
+renderChyron();
 renderQuickActions();
 populateFilters();
 renderLedger();

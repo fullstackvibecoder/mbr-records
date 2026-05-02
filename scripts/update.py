@@ -182,8 +182,9 @@ EXTRACTION_TOOL = {
     "name": "extract_decisions",
     "description": (
         "Decide whether a TikTok video is part of George Brett Olson's MF "
-        "Function bit, and if so, extract any new items, accords, or "
-        "rulings introduced or referenced in it."
+        "Function bit. If so, extract three things: (1) NEW items "
+        "introduced, (2) status UPDATES to items already on the record, "
+        "(3) one or two short BULLETIN-style lore items for the news ticker."
     ),
     "input_schema": {
         "type": "object",
@@ -206,10 +207,9 @@ EXTRACTION_TOOL = {
             "items": {
                 "type": "array",
                 "description": (
-                    "New items, trades, leases, gifts, rulings, or pending "
-                    "matters introduced in this video. Empty array if the "
-                    "video is not relevant or only references existing items "
-                    "without introducing anything new."
+                    "NEW items, trades, leases, gifts, rulings, or pending "
+                    "matters introduced for the first time in this video. "
+                    "Empty array if the video only references existing items."
                 ),
                 "items": {
                     "type": "object",
@@ -218,45 +218,24 @@ EXTRACTION_TOOL = {
                         "type": {
                             "type": "string",
                             "enum": [
-                                "phrase",
-                                "food",
-                                "person",
-                                "service",
-                                "rule",
-                                "ritual",
-                                "event",
-                                "body",
-                                "gesture",
-                                "hairstyle",
-                                "recipe",
-                                "request",
+                                "phrase", "food", "person", "service", "rule",
+                                "ritual", "event", "body", "gesture",
+                                "hairstyle", "recipe", "request",
                             ],
                         },
                         "status": {
                             "type": "string",
                             "enum": [
-                                "ratified",
-                                "pending",
-                                "proposed",
-                                "leased",
-                                "gifted",
-                                "banned",
-                                "retired",
-                                "contested",
+                                "ratified", "pending", "proposed", "leased",
+                                "gifted", "banned", "retired", "contested",
                                 "rejected",
                             ],
                         },
                         "kind": {
                             "type": "string",
                             "enum": [
-                                "trade",
-                                "lease",
-                                "gift",
-                                "concession",
-                                "ruling",
-                                "claim",
-                                "request",
-                                "protocol",
+                                "trade", "lease", "gift", "concession",
+                                "ruling", "claim", "request", "protocol",
                             ],
                         },
                         "owner": {"type": "string"},
@@ -272,13 +251,69 @@ EXTRACTION_TOOL = {
                         "sourceQuote": {"type": "string"},
                     },
                     "required": [
-                        "name",
-                        "type",
-                        "status",
-                        "kind",
-                        "owner",
-                        "terms",
+                        "name", "type", "status", "kind", "owner", "terms",
                     ],
+                },
+            },
+            "status_updates": {
+                "type": "array",
+                "description": (
+                    "Status changes to items ALREADY on the record. Match "
+                    "by item_name exactly as it appears in the existing "
+                    "ledger. Only include if the new video CLEARLY moves "
+                    "an existing item (e.g., a pending matter is ratified, "
+                    "a contested matter is resolved). When in doubt, omit."
+                ),
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "item_name": {
+                            "type": "string",
+                            "description": "Exact name of the existing item, as it appears on the ledger.",
+                        },
+                        "new_status": {
+                            "type": "string",
+                            "enum": [
+                                "ratified", "pending", "proposed", "leased",
+                                "gifted", "banned", "retired", "contested",
+                                "rejected",
+                            ],
+                        },
+                        "reason": {
+                            "type": "string",
+                            "description": "Brief justification for the change.",
+                        },
+                        "source_quote": {
+                            "type": "string",
+                            "description": "Direct quote from the transcript supporting this change.",
+                        },
+                    },
+                    "required": ["item_name", "new_status", "reason", "source_quote"],
+                },
+            },
+            "bulletin_items": {
+                "type": "array",
+                "description": (
+                    "One or two SHORT (under 140 char) news-ticker items "
+                    "in the dry CSPAN voice of the Bureau. Treat the bit's "
+                    "world as if it were real: dispatches, advisories, "
+                    "procurement notes, court rulings. Do not state it is "
+                    "fictional. Do not break the frame. Each item has a "
+                    "category tag and body text."
+                ),
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "tag": {
+                            "type": "string",
+                            "description": "One-word category in the style of: Intelligence, Markets, Advisory, Transport, Schedule, Personnel, Court, Procurement, Security, Diplomacy, Jurisprudence, Infrastructure, Weather, Trade, Standing, Dispatch, Notice, Briefing.",
+                        },
+                        "text": {
+                            "type": "string",
+                            "description": "Bulletin body in formal procedural voice, under 140 characters. No exclamation points. No emoji. Treat the bit's universe as real.",
+                        },
+                    },
+                    "required": ["tag", "text"],
                 },
             },
         },
@@ -319,7 +354,21 @@ universe has consistent terminology — only mark relevant if that terminology \
 appears."""
 
 
+def existing_item_summary() -> str:
+    """A compact summary of the current ledger so Claude can match status updates."""
+    html = DASHBOARD.read_text()
+    # Pull each item's name + current status from the ITEMS array
+    pattern = re.compile(r'\{\s*name:\s*"([^"]+)"[^}]*?status:\s*"([^"]+)"', re.DOTALL)
+    rows = pattern.findall(html)
+    if not rows:
+        return "(no existing items found)"
+    # Trim to keep the prompt small
+    lines = [f"  - {name} [{status}]" for name, status in rows]
+    return "\n".join(lines[:120])
+
+
 def analyze(video: dict, transcript: str, client: Anthropic) -> dict:
+    existing = existing_item_summary()
     user_msg = (
         f"Video metadata:\n"
         f"Title: {video.get('title', '')}\n"
@@ -327,7 +376,11 @@ def analyze(video: dict, transcript: str, client: Anthropic) -> dict:
         f"Date: {video.get('upload_date', '')}\n"
         f"Duration: {video.get('duration', 0)}s\n\n"
         f"Transcript:\n{transcript}\n\n"
-        f"Decide relevance and extract items if any."
+        f"Existing items on the record (NAME [status]) — use these EXACT "
+        f"names if proposing status updates:\n{existing}\n\n"
+        f"Tasks: (1) decide relevance; (2) extract NEW items if any; "
+        f"(3) flag any STATUS UPDATES to existing items; (4) write one or "
+        f"two SHORT bulletin items for the chyron, in the Bureau's voice."
     )
     response = client.messages.create(
         model=MODEL,
@@ -340,7 +393,13 @@ def analyze(video: dict, transcript: str, client: Anthropic) -> dict:
     for block in response.content:
         if getattr(block, "type", None) == "tool_use":
             return block.input
-    return {"is_relevant": False, "summary": "", "items": []}
+    return {
+        "is_relevant": False,
+        "summary": "",
+        "items": [],
+        "status_updates": [],
+        "bulletin_items": [],
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -468,6 +527,83 @@ def append_video_date(video_id: str, date_iso: str) -> None:
     DASHBOARD.write_text(new_html)
 
 
+def apply_status_updates(updates: list[dict]) -> int:
+    """Apply status changes to existing ITEMS entries. Conservative: only
+    matches by exact item name. Returns number of updates applied."""
+    if not updates:
+        return 0
+    html = DASHBOARD.read_text()
+    applied = 0
+    for u in updates:
+        name = u.get("item_name", "").strip()
+        new_status = u.get("new_status", "").strip()
+        if not name or not new_status:
+            continue
+        # Find the item block with this exact name and update its status field.
+        # Pattern: { name: "<name>", ... status: "<old>" ... }
+        # Must be careful: only update the status field WITHIN this single item's braces.
+        escaped = re.escape(name)
+        # Match: name: "X", … status: "Y" with content in between but NOT crossing a closing brace
+        item_re = re.compile(
+            r'(\{\s*name:\s*"' + escaped + r'"[^{}]*?status:\s*")([^"]+)(")',
+            re.DOTALL,
+        )
+        m = item_re.search(html)
+        if not m:
+            log(f"   status_update: item not found exactly: '{name}'")
+            continue
+        if m.group(2) == new_status:
+            log(f"   status_update: '{name}' already '{new_status}', skipping")
+            continue
+        log(f"   status_update: '{name}' {m.group(2)} → {new_status} (reason: {u.get('reason','')[:60]})")
+        html = html[:m.start()] + m.group(1) + new_status + m.group(3) + html[m.end():]
+        applied += 1
+    if applied:
+        DASHBOARD.write_text(html)
+    return applied
+
+
+def append_bulletin_items(bulletins: list[dict]) -> int:
+    """Append new bulletins to the LORE_BULLETINS array. Caps total at 30,
+    rotating out the oldest (front of array) when exceeded."""
+    if not bulletins:
+        return 0
+    html = DASHBOARD.read_text()
+    m = re.search(r"const\s+LORE_BULLETINS\s*=\s*\[", html)
+    if not m:
+        log("WARNING: LORE_BULLETINS array not found.")
+        return 0
+    start = m.end()
+    depth = 1
+    i = start
+    while i < len(html) and depth > 0:
+        c = html[i]
+        if c == "[":
+            depth += 1
+        elif c == "]":
+            depth -= 1
+            if depth == 0:
+                break
+        i += 1
+    if depth != 0:
+        log("WARNING: LORE_BULLETINS close not found.")
+        return 0
+    # Render new items
+    rendered = []
+    for b in bulletins:
+        tag = _js_string(b.get("tag", "Notice"))
+        text = _js_string(b.get("text", ""))
+        if not text:
+            continue
+        rendered.append(f'  {{ tag: "{tag}", text: "{text}" }}')
+    if not rendered:
+        return 0
+    insertion = ",\n" + ",\n".join(rendered) + "\n"
+    new_html = html[:i] + insertion + html[i:]
+    DASHBOARD.write_text(new_html)
+    return len(rendered)
+
+
 def update_last_updated() -> None:
     iso = _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds")
     iso = iso.replace("+00:00", "Z")
@@ -538,6 +674,8 @@ def main() -> int:
 
     relevant = 0
     items_added = 0
+    statuses_changed = 0
+    bulletins_added = 0
 
     for v in new_videos:
         vid = v["id"]
@@ -557,10 +695,23 @@ def main() -> int:
 
         if analysis.get("is_relevant"):
             relevant += 1
+            # 1. Append new items
             items = analysis.get("items") or []
             n = append_items_to_dashboard(items, vid, date_iso)
             items_added += n
             log(f"   items appended: {n}")
+            # 2. Apply status updates to existing items
+            status_updates = analysis.get("status_updates") or []
+            s = apply_status_updates(status_updates)
+            statuses_changed += s
+            if s:
+                log(f"   status updates applied: {s}")
+            # 3. Append bulletin items to the chyron feed
+            bulletins = analysis.get("bulletin_items") or []
+            b = append_bulletin_items(bulletins)
+            bulletins_added += b
+            if b:
+                log(f"   bulletin items appended: {b}")
             append_video_date(vid, date_iso)
         else:
             # Still record video-date so future links can resolve.
@@ -572,7 +723,9 @@ def main() -> int:
     sync_deploy()
 
     log(
-        f"Done. {relevant}/{len(new_videos)} relevant; {items_added} items added."
+        f"Done. {relevant}/{len(new_videos)} relevant; "
+        f"{items_added} items added; {statuses_changed} statuses changed; "
+        f"{bulletins_added} bulletins added."
     )
     return 0
 
