@@ -1,0 +1,37 @@
+name: Deploy to Vercel on push
+
+# Deploys mbr-records/ to production on every push to main that touches
+# the deployable subtree. The existing "Refresh MBR Records" workflow
+# continues to deploy on its 6-hour cron when the bot produces content
+# changes; this workflow covers human pushes between cron ticks.
+#
+# No bot-author guard is needed: pushes from the refresh workflow use
+# the default GITHUB_TOKEN, and GitHub's anti-recursion rule prevents
+# such pushes from triggering further workflow runs.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'mbr-records/**'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-mbr-prod
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy mbr-records to Vercel (production)
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          npm i -g vercel@latest --silent
+          cd mbr-records
+          vercel --prod --token "$VERCEL_TOKEN" --yes --scope bottlenecklabs
