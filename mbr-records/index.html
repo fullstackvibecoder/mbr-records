@@ -669,6 +669,96 @@
   .open-card .desc { font-size: 13px; color: var(--c-base-light); line-height: 1.5; }
   .open-card .since { font-size: 11px; color: var(--c-base-light); margin-top: 10px; font-family: ui-monospace, SFMono-Regular, monospace; padding-top: 8px; border-top: 1px solid var(--c-border); }
 
+  /* Founding instruments hero strip */
+  .founding {
+    margin: 18px 0 22px;
+    padding: 18px 22px 20px;
+    background: linear-gradient(180deg, #fbf6e6 0%, #f7eed3 100%);
+    border-top: 3px double var(--c-primary-darker);
+    border-bottom: 3px double var(--c-primary-darker);
+    position: relative;
+  }
+  .founding::before, .founding::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: var(--c-gold-dark);
+  }
+  .founding::before { top: -8px; }
+  .founding::after  { bottom: -8px; }
+  .founding-head { margin-bottom: 14px; }
+  .founding-eyebrow {
+    font-family: "Public Sans", system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: var(--c-gold-dark);
+  }
+  .founding-title {
+    font: 700 20px/1.2 "Source Serif Pro", Georgia, serif;
+    color: var(--c-primary-darker);
+    margin: 2px 0 4px;
+  }
+  .founding-sub {
+    font-size: 12.5px;
+    color: var(--c-base-light);
+    font-style: italic;
+  }
+  .founding-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .founding-card {
+    background: #fffdf6;
+    border: 1px solid var(--c-gold-dark);
+    padding: 14px 16px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+    position: relative;
+  }
+  .founding-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(20,20,20,0.08);
+    background: #ffffff;
+  }
+  .founding-card-cat {
+    font-family: "Public Sans", system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--c-gold-dark);
+  }
+  .founding-card-title {
+    font: 700 16px/1.25 "Source Serif Pro", Georgia, serif;
+    color: var(--c-primary-darker);
+    margin: 4px 0 6px;
+  }
+  .founding-card-desc {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--c-base);
+    flex-grow: 1;
+  }
+  .founding-card-cta {
+    margin-top: 10px;
+    font: 600 12px/1 "Public Sans", system-ui, sans-serif;
+    color: var(--c-primary-vivid);
+    letter-spacing: 0.2px;
+  }
+  .founding-card:hover .founding-card-cta { text-decoration: underline; }
+  @media (max-width: 720px) {
+    .founding { padding: 14px 16px; }
+    .founding-title { font-size: 17px; }
+  }
+
   /* Documents / Archive */
   .doc-section { margin-bottom: 32px; }
   .doc-section-head {
@@ -1116,11 +1206,11 @@
 <nav class="tabs" role="navigation" aria-label="Section navigation">
   <div class="tabs-inner">
     <button data-tab="ledger" class="active">Index</button>
+    <button data-tab="documents">Filings</button>
     <button data-tab="delegations">Member Bodies</button>
     <button data-tab="timeline">Calendar of Accords</button>
     <button data-tab="open">Unresolved</button>
     <button data-tab="rituals">Standing Rules</button>
-    <button data-tab="documents">Archive</button>
     <button data-tab="about">Methodology</button>
   </div>
 </nav>
@@ -1138,6 +1228,14 @@
   <div class="lede" id="page-lede">
     A comprehensive index of items, trades, leases, gifts, rulings, and pending matters entered into the record during the proceedings of the United Delegations of the MF Function. Each entry is cross-referenced to its originating communiqué, filed by the chair <a href="https://www.tiktok.com/@georgebrettolson" target="_blank" rel="noopener">@georgebrettolson</a>. Filings are accepted on an ongoing basis.
   </div>
+  <section class="founding" id="founding-instruments" aria-label="Founding instruments of the United Delegations">
+    <div class="founding-head">
+      <div class="founding-eyebrow">Founding Instruments</div>
+      <div class="founding-title">Of the United Delegations</div>
+      <div class="founding-sub">The Charter of the Bureau and the foundational law that govern the standing assembly. Filed under the seal of the Record Keeper.</div>
+    </div>
+    <div class="founding-grid" id="founding-grid"></div>
+  </section>
   <div class="stats" id="stats"></div>
 </div>
 
@@ -2825,6 +2923,34 @@ function renderRituals() {
   wrap.appendChild(grid);
 }
 
+// ---------- FOUNDING INSTRUMENTS (hero strip) ----------
+function renderFoundingInstruments() {
+  const grid = document.getElementById("founding-grid");
+  if (!grid) return;
+  clear(grid);
+  const featured = DOCUMENTS.filter(d =>
+    d.category === "Foundational Instrument" || d.category === "Charter"
+  );
+  if (!featured.length) {
+    const wrap = document.getElementById("founding-instruments");
+    if (wrap) wrap.style.display = "none";
+    return;
+  }
+  // Charter first (the establishment doc), then foundational law
+  featured.sort((a, b) => {
+    if (a.category === b.category) return a.date.localeCompare(b.date);
+    return a.category === "Charter" ? -1 : 1;
+  });
+  featured.forEach(d => {
+    const card = el("a", { class: "founding-card", href: "/documents/" + d.slug });
+    card.appendChild(el("div", { class: "founding-card-cat" }, d.category));
+    card.appendChild(el("div", { class: "founding-card-title" }, d.title));
+    card.appendChild(el("div", { class: "founding-card-desc" }, d.summary));
+    card.appendChild(el("div", { class: "founding-card-cta" }, "Read full document →"));
+    grid.appendChild(card);
+  });
+}
+
 // ---------- DOCUMENTS / ARCHIVE ----------
 const DOC_CATEGORY_ORDER = ["Foundational Instrument", "Charter", "Accord", "Ruling", "Decree"];
 
@@ -2931,8 +3057,8 @@ const TAB_META = {
                  lede: "Items not yet disposed of as of the close of the current reporting period. Includes pending ratifications, contested ownership, lapsed deadlines, and standing threats not yet activated." },
   rituals:     { title: "Standing Rules and Recurring Proceedings",
                  lede: "Standing protocols, recurring proceedings, and structural conventions of the United Delegations. The chamber does not convene Sundays." },
-  documents:   { title: "Archive of Filed Instruments",
-                 lede: "The certified archive of foundational instruments, charters, and ratified accords of the United Delegations. Each instrument is filed under the seal of the Bureau and available for inspection or print." },
+  documents:   { title: "Filings of Record",
+                 lede: "The certified filings of the United Delegations — foundational law, the Charter of the Bureau, and ratified accords, rulings, and decrees. Each instrument is filed under the seal of the Bureau and available for inspection or print." },
   about:       { title: "Notes on Methodology and Classification",
                  lede: "Provenance of records, classification of statuses, and notes on the automated review process maintained by the Bureau." }
 };
@@ -3128,6 +3254,7 @@ renderTimeline();
 renderOpen();
 renderRituals();
 renderDocuments();
+renderFoundingInstruments();
 renderAbout();
 
 // Honor URL hash on initial load (e.g., /#timeline)
