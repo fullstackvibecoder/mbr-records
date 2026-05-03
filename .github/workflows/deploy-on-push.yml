@@ -20,6 +20,11 @@ concurrency:
   group: deploy-mbr-prod
   cancel-in-progress: false
 
+# Opt JavaScript actions (e.g. actions/checkout@v4) onto Node.js 24 ahead
+# of GitHub's June 2026 forced cutover — matches the cron workflow.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
