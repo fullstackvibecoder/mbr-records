@@ -802,23 +802,21 @@
     border-bottom-color: rgba(255,190,46,0.4);
   }
 
-  /* Breaking-news chyron — fixed bottom band, scrolling ticker */
-  body { padding-bottom: 40px; }
+  /* Breaking-news chyron — sticky band below the tabs, scrolling ticker */
   .chyron {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
     height: 40px;
     background: #0a1c2e;
     border-top: 2px solid var(--c-gold);
+    border-bottom: 1px solid rgba(0,0,0,0.4);
     display: flex;
     align-items: stretch;
-    z-index: 100;
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
     font-size: 13px;
     color: white;
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
   }
   .chyron-label {
     background: var(--c-red);
@@ -896,9 +894,15 @@
     from { transform: translateX(0); }
     to { transform: translateX(-100%); }
   }
-
-  /* Footer needs extra clearance from chyron */
-  footer.site-footer { margin-bottom: 0; }
+  /* Refresh-flash on the BULLETIN label when the bulletin pool rotates */
+  .chyron-label.flash {
+    animation: chyron-flash 1.4s ease-out;
+  }
+  @keyframes chyron-flash {
+    0%   { background: var(--c-red); color: white; }
+    20%  { background: var(--c-gold); color: var(--c-primary-darker); }
+    100% { background: var(--c-red); color: white; }
+  }
 
   @media (max-width: 768px) {
     .chyron { height: 36px; font-size: 12px; }
@@ -992,6 +996,12 @@
     <button data-tab="about">Methodology</button>
   </div>
 </nav>
+
+<aside class="chyron" role="complementary" aria-label="Bureau bulletin ticker">
+  <div class="chyron-label" aria-hidden="true"><span class="chyron-dot"></span>Bulletin</div>
+  <div class="chyron-track"><div class="chyron-scroll" id="chyron-scroll"></div></div>
+  <div class="chyron-time" id="chyron-time">—</div>
+</aside>
 
 <div class="container">
 
@@ -1089,12 +1099,6 @@
     </div>
   </div>
 </footer>
-
-<aside class="chyron" role="complementary" aria-label="Bureau bulletin ticker">
-  <div class="chyron-label" aria-hidden="true"><span class="chyron-dot"></span>Bulletin</div>
-  <div class="chyron-track"><div class="chyron-scroll" id="chyron-scroll"></div></div>
-  <div class="chyron-time" id="chyron-time">—</div>
-</aside>
 
 <script>
 "use strict";
@@ -2060,9 +2064,38 @@ const LORE_BULLETINS = [
   { tag: "Standing",     text: "The Coalition of the Willing, also styled the Pineapple Posse, retains a separate fusion table at MF Function out of sight from the Gabagoo Guild." },
   { tag: "Dispatch",     text: "House of Habibi remains the ratified collective form of address for all delegates of the chamber." },
   { tag: "Notice",       text: "The chamber acknowledges 'Try Jesus, Don't Try Me' as the official hymn appended to the FAFO Clause. Mouth checks may follow." },
-,
   { tag: "Jurisprudence", text: "Holy Cow ceded to Indian Delegation; temporary exemptions granted to constituents in Texas and the American Midwest pending review." },
-  { tag: "Infrastructure", text: "Armenian Delegation stands up the Multicultural Bureau of Records at mbofr.com to log trades, accords, and unresolved matters." }
+  { tag: "Infrastructure", text: "Armenian Delegation stands up the Multicultural Bureau of Records at mbofr.com to log trades, accords, and unresolved matters." },
+  { tag: "Roster",       text: "Sir Ian McKellen, lent under the E-40 Accords, remains in residence with the Yay Area Black Delegation. Shadowfax accommodations are confirmed; petting privileges in effect." },
+  { tag: "Cabinet",      text: "Supreme Delegate Martin Lawrence has not yet returned signed papers on the matter of 'Get to Steppin'.' Take a Hike Pal contingencies hold." },
+  { tag: "Embassy",      text: "Diplomatic relations between the Caucasian Caucus and the Indian Delegation remain warm. The cow-word alliance — informally the 'moos and don'ts' — is being litigated in committee." },
+  { tag: "Calendar",     text: "Saturdays remain reserved for new-business submissions to the floor. Comments are not pinned during voting; the Council of Elder Aunties reaffirms the protocol." },
+  { tag: "Procurement",  text: "West Virginia pepperoni rolls and clear mountain moonshine continue to flow from the Yallapeño Appalachian Fellowship without conditions. The Fellowship asks for nothing in return." },
+  { tag: "Briefing",     text: "Day 49 of the Asian Association's silence on cornflake placement at the chamber's potluck dish. The matter remains open. The Bureau awaits notice." },
+  { tag: "Markets",      text: "Espresso futures stable. Nana's homemade cannoli supply meets MF Function demand under the Pineapple Accords. No price action this cycle." },
+  { tag: "Personnel",    text: "Cookie Williams remains in active service with the Auntie Army. The overnight oats incident review is closed pending no further developments." },
+  { tag: "Recognition",  text: "The Hawaiian Delegation's standing privilege of 'at this time' remains in good standing. No motions to revisit are on the docket." },
+  { tag: "Docket",       text: "Dip Quad is final per Council resolution of April 25; not ratified. Dip Dattle and Fiddly Quad remain in committee review." },
+  { tag: "Records",      text: "The Bureau confirms 49 communiqués on permanent file from the founding session. All entries cross-referenced to originating posts." },
+  { tag: "Court",        text: "The geographic Jawn jurisdiction is recognized as Philadelphia's per Council ruling of April 25. The John Tentendial Congress retains plenary authority." },
+  { tag: "Standing",     text: "The Auxiliary Aunty Division's banana pudding peacekeeping reserve remains at full strength. No deployments have been required since the Pineapple Wars." },
+  { tag: "Archives",     text: "Pre-deprecation invocations of 'Yo Mama' remain on file in the Bureau's permanent record. Access is by request through the Council." },
+  { tag: "Advisory",     text: "Yo Mama and Your Mother continue to retain potency in defensive contexts despite formal deprecation. The Multicultural Bureau of Safety reminds delegates: enemies come with smiles." },
+  { tag: "Conferencing", text: "The UNO Rules Exploratory Committee — Black, Arab, and Asian delegations seated — continues operations. House rules remain provisional pending ratification." },
+  { tag: "Admissions",   text: "Brazilian and other non-Spanish-speaking delegates' application for full entry to the League of Latinos remains pending. No timetable has been issued." },
+  { tag: "Arbitration",  text: "The Cookout-vs-Barbecue Definition deadline elapsed Friday 6 PM PST without resolution. The Black Delegation's internal vote remains formally split." },
+  { tag: "Cabinet",      text: "The Council of OGs has confirmed dispatch of a Grand Primarch to preside over the Summit of Boo Boo the Fool. The Summit is postponed; no new date issued." },
+  { tag: "Sanctions",    text: "The Rainbow Syndicate's threatened embargo on flannel and Subaru shipments has not been activated. Trade flows uninterrupted at filing time." },
+  { tag: "Culture",      text: "'Cutie patootie' was thrown in free of charge by the Caucasian Caucus during On My Mama Accords ratification. The phrase circulates without restriction." },
+  { tag: "Embassy",      text: "The Jamaican Delegation's licensing of 'Holy Smokes' to the Caucasian Delegation remains in effect. Jamaican intellectual property rights are preserved on the record." },
+  { tag: "Borders",      text: "The Pineapple Posse's fusion-pizza table remains seated out of sight from the Gabagoo Guild, in compliance with the Pineapple Accords. Toppings must be baked in." },
+  { tag: "Registry",     text: "All known invocations of On My Mama by the Caucasian Caucus are catalogued. The annual allotment of one (1) remains unused for fiscal year 2026." },
+  { tag: "Briefing",     text: "Atlanta's response on the retraction of 'capping' is overdue by 35 days. The West Coast Black Delegation's 'fronting' contribution awaits ratification on this dependency." },
+  { tag: "Linguistics",  text: "Mayonated remains the most recent linguistic ratification of the Black Betterment Consortium. Field usage is observed within projected ranges." },
+  { tag: "Sightings",    text: "Cheetah Fin reports continue to surface across major retail floor space. Citizens are reminded the term is now ratified vocabulary." },
+  { tag: "Decorum",      text: "All breaking of pasta has ceased at MF Function as of the Pineapple Accords. The Gabagoo Guild's enforcement committee reports no violations." },
+  { tag: "Concierge",    text: "The Big Lebowski's bowling instruction sessions for the Yay Area Black Delegation continue. Lane assignments remain confidential." },
+  { tag: "Liturgy",      text: "The closing benediction — 'God is good all the time, and all the time, God is good' — remains the official sign-off of all MF Function proceedings." },
 ];
 
 // videoId → upload date · all 49 videos in the corpus
@@ -2682,6 +2715,22 @@ function renderLastUpdated() {
 renderLastUpdated();
 renderStats();
 renderChyron();
+// Bulletin rotation — every 90s, re-shuffle the pool and flash the BULLETIN
+// label briefly so it reads as live wire copy. Pause when tab is hidden so
+// we don't spin animations off-screen.
+function rotateBulletin() {
+  if (document.hidden) return;
+  renderChyron();
+  const label = document.querySelector(".chyron-label");
+  if (label) {
+    label.classList.remove("flash");
+    // force reflow so the animation re-runs
+    void label.offsetWidth;
+    label.classList.add("flash");
+  }
+}
+setInterval(rotateBulletin, 90000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) rotateBulletin(); });
 renderQuickActions();
 populateFilters();
 renderLedger();
