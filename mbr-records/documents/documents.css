@@ -1,0 +1,356 @@
+/* Multicultural Bureau of Records — Document stylesheet
+   Used by all filings under /documents/. Matches the index palette. */
+
+:root {
+  --c-bg: #fbf8f1;            /* parchment */
+  --c-bg-paper: #fffdf6;      /* document body */
+  --c-ink: #1b1b1b;
+  --c-ink-soft: #4a4a4a;
+  --c-ink-faint: #6b6b6b;
+  --c-rule: #d8cfb8;
+  --c-rule-soft: #ebe4cf;
+  --c-primary-darker: #112e51;
+  --c-primary: #1a4480;
+  --c-gold: #ffbe2e;
+  --c-gold-dark: #c69505;
+  --c-red: #b50909;
+  --c-stamp: #b50909;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--c-bg);
+  color: var(--c-ink);
+  font-family: "Source Serif Pro", Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.doc-banner {
+  background: var(--c-primary-darker);
+  color: #fff;
+  padding: 8px 0;
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  text-align: center;
+  border-bottom: 4px solid var(--c-gold);
+}
+.doc-banner a { color: var(--c-gold); text-decoration: none; }
+.doc-banner a:hover { text-decoration: underline; }
+
+.doc-page {
+  max-width: 760px;
+  margin: 36px auto 60px;
+  background: var(--c-bg-paper);
+  border: 1px solid var(--c-rule);
+  box-shadow: 0 1px 0 #fff inset, 0 8px 30px rgba(20, 20, 20, 0.08), 0 2px 6px rgba(20, 20, 20, 0.04);
+  padding: 56px 64px 64px;
+  position: relative;
+}
+
+.doc-page::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid var(--c-rule-soft);
+  pointer-events: none;
+}
+
+.doc-letterhead {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 20px;
+  align-items: center;
+  padding-bottom: 18px;
+  border-bottom: 3px double var(--c-primary-darker);
+  margin-bottom: 28px;
+}
+
+.doc-seal {
+  width: 88px;
+  height: 88px;
+  display: block;
+}
+
+.doc-bureau {
+  font-family: "Public Sans", system-ui, sans-serif;
+}
+.doc-bureau .super {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--c-ink-faint);
+  font-weight: 600;
+}
+.doc-bureau .name {
+  font-family: "Source Serif Pro", Georgia, serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--c-primary-darker);
+  line-height: 1.15;
+  margin: 2px 0 4px;
+}
+.doc-bureau .sub {
+  font-size: 12px;
+  color: var(--c-ink-soft);
+  letter-spacing: 0.3px;
+}
+
+.doc-meta {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 16px;
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 12px;
+  color: var(--c-ink-soft);
+  margin-bottom: 24px;
+  padding: 12px 16px;
+  background: #f7f1de;
+  border-left: 3px solid var(--c-gold-dark);
+}
+.doc-meta dt {
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 600;
+  color: var(--c-ink-faint);
+  margin: 0;
+}
+.doc-meta dd {
+  margin: 0;
+  color: var(--c-ink);
+}
+
+.doc-title {
+  text-align: center;
+  margin: 20px 0 8px;
+}
+.doc-title .kicker {
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--c-ink-faint);
+}
+.doc-title h1 {
+  font-family: "Source Serif Pro", Georgia, serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--c-primary-darker);
+  margin: 8px 0 4px;
+  line-height: 1.2;
+}
+.doc-title .subtitle {
+  font-style: italic;
+  color: var(--c-ink-soft);
+  font-size: 15px;
+  margin: 4px 0 0;
+}
+
+.doc-rule {
+  border: 0;
+  border-top: 1px solid var(--c-rule);
+  margin: 24px 0;
+}
+
+.doc-preamble {
+  font-size: 16px;
+  margin: 18px 0 24px;
+}
+.doc-preamble .whereas {
+  margin: 0 0 10px;
+  text-indent: 2em;
+}
+.doc-preamble .whereas .marker {
+  font-variant: small-caps;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--c-primary-darker);
+}
+
+.doc-article {
+  margin: 22px 0;
+}
+.doc-article > h2 {
+  font-family: "Source Serif Pro", Georgia, serif;
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--c-primary-darker);
+  margin: 0 0 6px;
+  font-weight: 700;
+}
+.doc-article > h2 .article-name {
+  font-family: "Source Serif Pro", Georgia, serif;
+  letter-spacing: 0;
+  text-transform: none;
+  font-style: italic;
+  color: var(--c-ink-soft);
+  font-weight: 600;
+  margin-left: 8px;
+  font-size: 14px;
+}
+.doc-article > p { margin: 8px 0; }
+.doc-article ol, .doc-article ul { margin: 8px 0 8px 24px; padding: 0; }
+.doc-article li { margin: 6px 0; }
+
+.clause-num {
+  display: inline-block;
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-weight: 700;
+  color: var(--c-primary-darker);
+  margin-right: 6px;
+}
+
+.callout {
+  margin: 18px 0;
+  padding: 14px 18px;
+  border-left: 4px solid var(--c-gold-dark);
+  background: #f7f1de;
+  font-size: 15px;
+}
+.callout strong { color: var(--c-primary-darker); }
+
+.doc-execution {
+  margin: 36px 0 8px;
+  padding-top: 18px;
+  border-top: 3px double var(--c-primary-darker);
+}
+.doc-execution .heading {
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--c-ink-faint);
+  margin-bottom: 16px;
+}
+
+.signatures {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px 36px;
+  margin: 18px 0 8px;
+}
+.sig {
+  border-bottom: 1px solid var(--c-ink);
+  padding-bottom: 4px;
+  min-height: 64px;
+  display: flex;
+  align-items: flex-end;
+}
+.sig .scribble {
+  font-family: "Caveat", "Homemade Apple", cursive;
+  font-size: 30px;
+  color: var(--c-primary-darker);
+  line-height: 1;
+  transform: rotate(-2deg);
+  display: inline-block;
+}
+.sig .scribble.smaller { font-size: 26px; }
+.sig + .sig-meta {
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--c-ink-faint);
+  margin-top: 4px;
+}
+.sig-block {
+  display: flex;
+  flex-direction: column;
+}
+.sig-block .role {
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--c-ink-faint);
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+.sig-block .delegate {
+  font-size: 13px;
+  color: var(--c-ink);
+  margin-top: 2px;
+  font-style: italic;
+}
+
+.doc-stamp {
+  position: absolute;
+  top: 110px;
+  right: 36px;
+  width: 132px;
+  height: 132px;
+  border: 3px solid var(--c-stamp);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--c-stamp);
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  line-height: 1.1;
+  transform: rotate(-12deg);
+  opacity: 0.78;
+  pointer-events: none;
+}
+.doc-stamp.draft {
+  border-color: var(--c-ink-faint);
+  color: var(--c-ink-faint);
+}
+
+.doc-footer {
+  margin-top: 36px;
+  padding-top: 14px;
+  border-top: 1px solid var(--c-rule);
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 11px;
+  color: var(--c-ink-faint);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.doc-footer .filed-by strong { color: var(--c-primary-darker); }
+
+.doc-back {
+  display: inline-block;
+  margin: 0 0 12px;
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 12px;
+  color: var(--c-primary);
+  text-decoration: none;
+}
+.doc-back:hover { text-decoration: underline; }
+.doc-back::before { content: "‹  "; }
+
+.communique-link {
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--c-primary);
+  text-decoration: none;
+}
+.communique-link:hover { text-decoration: underline; }
+
+@media (max-width: 720px) {
+  .doc-page { margin: 12px; padding: 28px 22px 36px; }
+  .doc-letterhead { grid-template-columns: 64px 1fr; gap: 14px; }
+  .doc-seal { width: 64px; height: 64px; }
+  .doc-bureau .name { font-size: 18px; }
+  .doc-title h1 { font-size: 24px; }
+  .signatures { grid-template-columns: 1fr; gap: 18px; }
+  .doc-stamp { top: 80px; right: 16px; width: 96px; height: 96px; font-size: 11px; }
+}
+
+@media print {
+  body { background: #fff; }
+  .doc-banner, .doc-back { display: none; }
+  .doc-page { box-shadow: none; border: 1px solid #999; margin: 0; max-width: none; }
+}

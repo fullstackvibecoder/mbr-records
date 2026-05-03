@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Multicultural Bureau of Records seal">
+  <circle cx="50" cy="50" r="49" fill="#c69505"/>
+  <circle cx="50" cy="50" r="46" fill="#112e51"/>
+  <circle cx="50" cy="50" r="43" fill="none" stroke="#ffbe2e" stroke-width="0.4"/>
+  <path id="mbr-arc-top" d="M 16,52 A 34,34 0 0 1 84,52" fill="none"/>
+  <path id="mbr-arc-bot" d="M 18,56 A 32,32 0 0 0 82,56" fill="none"/>
+  <text font-family="'Source Serif Pro', Georgia, serif" font-size="6.8" font-weight="700" fill="#ffbe2e" letter-spacing="0.5">
+    <textPath href="#mbr-arc-top" startOffset="50%" text-anchor="middle">MULTICULTURAL BUREAU</textPath>
+  </text>
+  <text font-family="'Source Serif Pro', Georgia, serif" font-size="6.5" font-weight="700" fill="#ffbe2e" letter-spacing="0.5">
+    <textPath href="#mbr-arc-bot" startOffset="50%" text-anchor="middle">★  OF RECORDS  ★</textPath>
+  </text>
+  <circle cx="50" cy="50" r="14" fill="#ffbe2e"/>
+  <circle cx="50" cy="50" r="12" fill="#112e51"/>
+  <polygon points="50,42 52,47.3 57.6,47.5 53.2,51 54.7,56.5 50,53.4 45.3,56.5 46.8,51 42.4,47.5 48,47.3" fill="#ffbe2e"/>
+</svg>

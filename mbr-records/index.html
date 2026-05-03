@@ -669,6 +669,110 @@
   .open-card .desc { font-size: 13px; color: var(--c-base-light); line-height: 1.5; }
   .open-card .since { font-size: 11px; color: var(--c-base-light); margin-top: 10px; font-family: ui-monospace, SFMono-Regular, monospace; padding-top: 8px; border-top: 1px solid var(--c-border); }
 
+  /* Documents / Archive */
+  .doc-section { margin-bottom: 32px; }
+  .doc-section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--c-primary-darker);
+  }
+  .doc-section-head h3 {
+    font: 700 14px/1.2 "Public Sans", system-ui, sans-serif;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--c-primary-darker);
+    margin: 0;
+  }
+  .doc-section-head .count {
+    font-family: ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--c-base-light);
+    letter-spacing: 0.5px;
+  }
+  .doc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+  }
+  .doc-card {
+    background: white;
+    border: 1px solid var(--c-border-strong);
+    border-top: 3px solid var(--c-gold);
+    padding: 16px 18px 14px;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  }
+  .doc-card:hover {
+    border-top-color: var(--c-gold-dark);
+    box-shadow: 0 4px 16px rgba(20,20,20,0.08);
+    transform: translateY(-1px);
+  }
+  .doc-card[data-cat="Foundational Instrument"] { border-top-color: var(--c-red); }
+  .doc-card[data-cat="Charter"] { border-top-color: var(--c-purple); }
+  .doc-card[data-cat="Accord"] { border-top-color: var(--c-gold); }
+  .doc-card[data-cat="Ruling"] { border-top-color: var(--c-primary); }
+  .doc-card[data-cat="Decree"] { border-top-color: var(--c-cyan); }
+  .doc-card .doc-cat {
+    font-family: "Public Sans", system-ui, sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--c-base-light);
+    margin-bottom: 4px;
+  }
+  .doc-card .doc-title-text {
+    font: 700 17px/1.25 "Source Serif Pro", Georgia, serif;
+    color: var(--c-primary-darker);
+    margin: 0 0 6px;
+  }
+  .doc-card .doc-summary {
+    font-size: 13px;
+    color: var(--c-base);
+    line-height: 1.5;
+    flex-grow: 1;
+  }
+  .doc-card .doc-meta-row {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--c-border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 11px;
+    color: var(--c-base-light);
+  }
+  .doc-card .doc-meta-row strong {
+    color: var(--c-primary-darker);
+    font-weight: 600;
+  }
+  .doc-card .doc-cta {
+    margin-top: 10px;
+    font: 600 12px/1 "Public Sans", system-ui, sans-serif;
+    color: var(--c-primary-vivid);
+    letter-spacing: 0.3px;
+  }
+  .doc-card:hover .doc-cta { text-decoration: underline; }
+  .doc-card .doc-status {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 6px;
+    font: 700 9px/1.6 "Public Sans", system-ui, sans-serif;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    border: 1px solid currentColor;
+    color: var(--c-base-light);
+    vertical-align: 1px;
+  }
+  .doc-card .doc-status.pending { color: var(--c-orange); }
+  .doc-card .doc-status.open    { color: var(--c-red); }
+
   /* About */
   .about-block {
     background: white;
@@ -993,6 +1097,7 @@
     <button data-tab="timeline">Calendar of Accords</button>
     <button data-tab="open">Unresolved</button>
     <button data-tab="rituals">Standing Rules</button>
+    <button data-tab="documents">Archive</button>
     <button data-tab="about">Methodology</button>
   </div>
 </nav>
@@ -1064,6 +1169,10 @@
   <div class="meta-row">Standing protocols, recurring events, and structural conventions.</div>
   <div id="rituals-list"></div>
 </section>
+<section class="view" id="view-documents">
+  <div class="meta-row">Filed and certified instruments — foundational law, charters, and ratified accords. Each document is rendered as an official filing of the Bureau, available for inspection or print.</div>
+  <div id="documents-list"></div>
+</section>
 <section class="view" id="view-about">
   <div class="about-block" id="about-block"></div>
 </section>
@@ -1124,6 +1233,7 @@ const DELEGATIONS = [
   { key: "hawaiian", name: "Hawaiian Delegation", role: "Holds 'at this time' privileges." },
   { key: "indian", name: "Indian Delegation", role: "In bilateral talks with Caucasian on cow word alliance ('moos and don'ts')." },
   { key: "nativeam", name: "Native American Delegation", role: "Acknowledged Mar 23 (Super Sunday)." },
+  { key: "armenian", name: "Armenian Delegation, Toronto Chapter", role: "Official Record Keeper of the MFF (confirmed May 2, 2026). Established and maintains the Multicultural Bureau of Records — the standing index of all delegations, trades, accords, rulings, leases, gifts, and unresolved matters." },
   { key: "all", name: "All Delegates / Coalition of Habibis", role: "Collective body. Ratified address: House of Habibi." },
 ];
 
@@ -1748,8 +1858,8 @@ const ITEMS = [
   { name: "Holy Cow", type: "phrase", status: "ratified", kind: "claim", owner: "unassigned", parties: { from: "", to: "" }, terms: "Ownership of Holy Cow opened for claim; no delegation has yet been awarded it.", conditions: [], timeLimit: null, ratifiedBy: null, date: "2026-05-01", videoId: "7634974179518893326", sourceQuote: "But we gotta know, who takes claim of Holy Cow?" }
 ,
   { name: "Holy Snikeys", type: "phrase", status: "ratified", kind: "claim", owner: "Caucasian Caucus", parties: { from: "", to: "" }, terms: "Claimed by the Caucasian Caucus on the basis of Chris Farley's contribution to the phrase's cultural footprint.", conditions: [], timeLimit: null, ratifiedBy: "Caucasian Caucus", date: "2026-05-02", videoId: "7635353511156305166", sourceQuote: "Holy Snikeys is ours due to Chris Farley's contribution." },
-  { name: "Multicultural Bureau of Records", type: "body", status: "ratified", kind: "protocol", owner: "Armenian Delegation", parties: { from: "", to: "" }, terms: "Bureau established by the Armenian Delegation to track negotiations, delegations, finalized trades, ongoing discussions, and unresolved issues.", conditions: [], timeLimit: null, ratifiedBy: "MF Function", date: "2026-05-02", videoId: "7635353511156305166", sourceQuote: "Armenian delegation here, I'd like to introduce you to the Multicultural Bureau of Records, where you can track negotiations, delegations, finalized trades, and ongoing discussions." },
-  { name: "Armenian Delegation", type: "body", status: "ratified", kind: "protocol", owner: "Armenian Delegation", parties: { from: "", to: "" }, terms: "Armenian Delegation seated at the MF Function and assigned stewardship of the Multicultural Bureau of Records as Record Keeper.", conditions: [], timeLimit: null, ratifiedBy: "MF Function", date: "2026-05-02", videoId: "7635353511156305166", sourceQuote: "Armenian delegation here...Thank you, Record Keeper." },
+  { name: "Multicultural Bureau of Records", type: "body", status: "ratified", kind: "protocol", owner: "Armenian Delegation, Toronto Chapter", parties: { from: "", to: "" }, terms: "Bureau established by the Armenian Delegation, Toronto Chapter, to track negotiations, delegations, finalized trades, ongoing discussions, and unresolved issues.", conditions: [], timeLimit: null, ratifiedBy: "MF Function", date: "2026-05-02", videoId: "7635353511156305166", sourceQuote: "Armenian delegation here, I'd like to introduce you to the Multicultural Bureau of Records, where you can track negotiations, delegations, finalized trades, and ongoing discussions." },
+  { name: "Armenian Delegation, Toronto Chapter", type: "body", status: "ratified", kind: "protocol", owner: "Armenian Delegation, Toronto Chapter", parties: { from: "", to: "" }, terms: "Armenian Delegation, Toronto Chapter, seated at the MF Function and confirmed as official Record Keeper of the MFF, with stewardship of the Multicultural Bureau of Records.", conditions: [], timeLimit: null, ratifiedBy: "MF Function", date: "2026-05-02", videoId: "7635353511156305166", sourceQuote: "Armenian delegation here...Thank you, Record Keeper." },
   { name: "Cinco de Mayo White People Taco Night Inquiry", type: "event", status: "contested", kind: "claim", owner: "League of Latinos (Mexican Delegation)", parties: { from: "", to: "" }, terms: "Reports that some Caucasians intend to host white people taco night on Cinco de Mayo have triggered an emergency summit of the Mexican Delegation.", conditions: [], timeLimit: null, ratifiedBy: null, date: "2026-05-02", videoId: "7635353511156305166", sourceQuote: "We also have learned that some Caucasians are thinking about having white people taco night on Cinco de Mayo. The Mexican delegation is holding an emergency summit next week." }
 ];
 
@@ -1931,6 +2041,176 @@ const OPEN_MATTERS = [
   { title: "Bureau of Fanatics Coach", desc: "Visiting coach scheduled for week of Apr 27. Outcome pending.", since: "2026-04-27", videoId: "7633460188988624142" }
 ];
 
+// ---------- DOCUMENTS (ARCHIVE) ----------
+// Each entry corresponds to a static HTML filing under /documents/<slug>.
+// Categories: "Foundational Instrument", "Charter", "Accord", "Ruling", "Decree".
+// Status: "ratified" (default; omit), "pending", or "open" (re-opened to floor).
+const DOCUMENTS = [
+  // ---------- FOUNDATIONAL ----------
+  { slug: "three-laws-of-the-potluck",
+    title: "The Three Laws of the Potluck",
+    category: "Foundational Instrument",
+    filing: "MBR-FND-001", date: "2026-03-18",
+    body: "Council of Elder Aunties",
+    summary: "Foundational law of the United Delegations. Establishes Caucasian casserole inspection by the Church Committee, the contribution restriction for dog-mouth-kissers and cat-counter-toppers, and the Arab Delegation's permanent veto over raisin placement.",
+    videoId: "7618619141364272397" },
+
+  // ---------- CHARTER ----------
+  { slug: "charter-of-the-bureau",
+    title: "Charter of the Multicultural Bureau of Records",
+    category: "Charter",
+    filing: "MBR-CHR-001", date: "2026-05-02",
+    body: "MF Function (plenary)",
+    summary: "Establishment charter of the Bureau. Designates the Armenian Delegation, Toronto Chapter as official Record Keeper of the MFF and sets the Bureau's mandate to index all proceedings of the chamber at mbofr.com.",
+    videoId: "7635353511156305166" },
+
+  // ---------- ACCORDS ----------
+  { slug: "habibi-for-veto-accord",
+    title: "The Habibi-for-Veto Accord",
+    category: "Accord",
+    filing: "MBR-ACC-2026-001", date: "2026-03-15",
+    body: "Rush Hour Coalition (Black + Asian); Council codified Mar 18",
+    summary: "Brokered settlement of Raisin Gate. Confers 'Habibi' upon all delegates; confers permanent raisin veto upon the Arab Delegation. Codified as Provision 3 of the Three Laws of the Potluck on March 18.",
+    videoId: "7617513531096730893" },
+  { slug: "naming-accord",
+    title: "The Naming Accord of the MF Function",
+    category: "Accord",
+    filing: "MBR-ACC-2026-003", date: "2026-03-16",
+    body: "The floor (vote); Bay Area Black Delegation (rename)",
+    summary: "Settles the official name of the standing assembly. Three-option floor vote (Shindig / Hoedown / MFF) carried for MFF; Bay Area Black Delegation forced rename to MF Function on March 16.",
+    videoId: "7617883075288108302" },
+  { slug: "mark-ass-buster-accord",
+    title: "The Mark Ass Buster Accord",
+    category: "Accord",
+    filing: "MBR-ACC-2026-002", date: "2026-03-20",
+    body: "Black Delegation; Caucasian Caucus (mutual)",
+    summary: "Returns 'Mark Ass Buster' (and variants) to circulation in exchange for the Caucasian Caucus's restoration of Numb Nuts, Skating on Thin Ice (followed by buddy/pal/bucko), and Knuckle Sandwich (substituted for the withdrawn 'Ouch Bumps and Thunder Cookies').",
+    videoId: "7619387610711985422" },
+  { slug: "uno-and-spades-accords",
+    title: "The UNO & Spades Accords",
+    category: "Accord",
+    filing: "MBR-ACC-2026-004", date: "2026-03-20",
+    body: "Black; Arab; Asian; Latino; Caucasian (multi-party)",
+    summary: "Opens governance of UNO and Spades. Tri-delegation exploratory committee on UNO rules; 'Cool Your Jets Bro' leased to Black Delegation; 'Tranquilo Mommy/Poppy' contributed by League of Latinos; the chair ordered to stop talking about Spades.",
+    videoId: "7619387610711985422" },
+  { slug: "pineapple-accords",
+    title: "The Pineapple Accords",
+    category: "Accord",
+    filing: "MBR-ACC-2026-005", date: "2026-03-25",
+    body: "MF Function (council vote)",
+    summary: "Settles pizza, pasta, and pineapple jurisdiction. Italian Delegation cedes Mamma Mia, espresso, and cannolis to all delegates; Pineapple Posse accepts baked-in-only and the out-of-sight fusion table; Gabagoo Guild retains topping veto at its own table.",
+    videoId: "7621220230622170381" },
+  { slug: "perpetrating-asshat-trade",
+    title: "The Perpetrating / Asshat Trade Accord",
+    category: "Accord",
+    filing: "MBR-ACC-2026-006", date: "2026-03-28",
+    body: "Council of Elder Aunties",
+    summary: "Black Delegation returns 'Perpetrating' (and shortened forms) in exchange for Caucasian restoration of Asshat, Assclown (good-faith addition), and Tomfoolery. 'Fronting' inclusion held conditional on Atlanta's response to retracting 'capping'.",
+    videoId: "7622328598338342157" },
+  { slug: "get-to-steppin-trade",
+    title: "The Get to Steppin' Trade",
+    category: "Accord", status: "pending",
+    filing: "MBR-ACC-2026-008 (Draft)", date: "2026-04-06",
+    body: "(awaiting Supreme Delegate Martin Lawrence)",
+    summary: "DRAFT — awaiting ratification by Supreme Delegate Martin Lawrence. Black Delegation would return 'Get to Steppin'' in exchange for 'Take a Hike, Pal/Buddy/Bucko' and 'You're Barking Up the Wrong Tree, Buddy' (held in escrow). Caribbean Brigade's 'over' acknowledged.",
+    videoId: "7625667187675565325" },
+  { slug: "dance-encouragement-and-garage-band-accord",
+    title: "The Dance Encouragement & Garage-Band Accord",
+    category: "Accord",
+    filing: "MBR-ACC-2026-009", date: "2026-04-08",
+    body: "Black Delegation; Caucasian Caucus (mutual)",
+    summary: "Mutual cultural exchange. Black Delegation undertakes to encourage white dancing ('I see you'; 'you're doing your thing'); Caucasian Caucus undertakes to return to garages and start music bands, with priorities for a new Nirvana and a new Hoobastank.",
+    videoId: "7626411445042859277" },
+  { slug: "e-40-accords",
+    title: "The E-40 Accords",
+    category: "Accord",
+    filing: "MBR-ACC-2026-013", date: "2026-04-13",
+    body: "Yay Area Black Delegation; Caucasian Caucus",
+    summary: "Two-minute consultation with E-40 in exchange for a five-part Caucasian bundle: Sir Ian McKellen on one-month lease (with Shadowfax petting and riding rights), Sir Patrick Stewart audiobook, free bowling lessons from The Big Lebowski, and forward production from the Black Betterment Consortium.",
+    videoId: "7628266968088431886" },
+  { slug: "new-phrases-e40-round",
+    title: "The New Phrases Ratification (E-40 Round)",
+    category: "Accord",
+    filing: "MBR-ACC-2026-014", date: "2026-04-25",
+    body: "Council of Elder Aunties (selective)",
+    summary: "Selective ratification of phrases produced under the E-40 Accords. Ratified: 'china shop, buddy', 'shooting that across their bow', Mayonated, Cheetah Fin. Not ratified: Dip Quad. 'Dip Dattle' / 'Fiddly Quad' remain in committee.",
+    videoId: "7632730650902007054" },
+  { slug: "on-my-mama-accords",
+    title: "The On My Mama Accords",
+    category: "Accord",
+    filing: "MBR-ACC-2026-016", date: "2026-04-23",
+    body: "Black Delegation; Council of Elder Aunties (FAFO Clause)",
+    summary: "Conditional Caucasian use of 'On My Mama': once per year, witnessed by a Black person, lifetime ban if unseasoned. Holy Guacamole, Holy Frijoles, Holy Toledo, and Holy Mole conceded to the Latinos. Cutie Patootie thrown in free of charge. F Around and Find Out (FAFO) Clause attached as ratified addendum.",
+    videoId: "7631989018875432205" },
+  { slug: "holy-word-jurisdiction",
+    title: "Holy Word Jurisdiction Open Session",
+    category: "Accord", status: "open",
+    filing: "MBR-ACC-2026-017 (Open)", date: "2026-04-30",
+    body: "(open to the floor)",
+    summary: "DRAFT — open session on the ownership of remaining 'Holy ___' phrases. Holy Macaroni: Italian property with joint Black custody for mac and cheese. Holy Smokes: Jamaican IP licensed to Caucasian. Holy Guacamole: ownership RE-OPENED to the floor.",
+    videoId: "7634581333309754638" },
+
+  // ---------- RULINGS ----------
+  { slug: "snickerdoodle-recompense",
+    title: "The Snickerdoodle Recompense",
+    category: "Ruling",
+    filing: "MBR-RUL-2026-003", date: "2026-04-01",
+    body: "Caucasian Caucus (unilateral release)",
+    summary: "Following the failed Banana Pudding offer of March 30 and the chair's near-revocation of the white card, the Caucasian Caucus releases Gamm Gamm's snickerdoodle recipe into the public domain, free of charge, in lieu of further sanction.",
+    videoId: "7623825249246661901" },
+  { slug: "nas-fade-ruling",
+    title: "The Nas Fade Ruling",
+    category: "Ruling",
+    filing: "MBR-RUL-2026-001", date: "2026-04-01",
+    body: "Black Barber Caucus (forensic audit complete)",
+    summary: "The haircut also called the 'Travis Kelce Fade' is, after forensic audit by the Black Barber Caucus, declared a historical clerical heir and shall hereby and forever remain THE NAS FADE. Motion passed.",
+    videoId: "7623825249246661901" },
+  { slug: "mayo-ketchup-shawarma-restoration",
+    title: "The Mayo + Ketchup Shawarma Restoration",
+    category: "Ruling",
+    filing: "MBR-RUL-2026-002", date: "2026-04-04",
+    body: "Council of Elder Aunties (retroactive)",
+    summary: "Retroactive ruling. Mayo + ketchup on shawarma has ALWAYS belonged to the Puerto Ricans. The chair's April 1 declaration is voided ab initio; the April 4 roast battle outcome (Josh Means defeating the chair) is overruled as a matter of jurisdiction.",
+    videoId: "7624926373274045709" },
+
+  // ---------- DECREES ----------
+  { slug: "cornflake-raisin-contingency",
+    title: "The Cornflake Raisin Contingency Plan",
+    category: "Decree",
+    filing: "MBR-DEC-2026-004", date: "2026-03-14",
+    body: "The floor (by acclamation)",
+    summary: "Standing emergency-escalation procedure of the chamber. Invoked when terms cannot be reached by deadline; cornflakes presented with raisins already mixed in. Subject to the Arab veto and the Sunday closure. First invoked on the naming vote.",
+    videoId: "7617142453681868045" },
+  { slug: "whimsical-skedaddling-decree",
+    title: "The Whimsical-Skedaddling Decree",
+    category: "Decree",
+    filing: "MBR-DEC-2026-003", date: "2026-03-17",
+    body: "Irish Association (issuing)",
+    summary: "Irish Association decree imposing one (1) calendar year of forfeit of whimsical skedaddling upon the Caucasian Caucus, as repentance for Raisin Gate. Plain skedaddling permitted. Expires March 17, 2027.",
+    videoId: "7618249021106195726" },
+  { slug: "decree-sunday-closure",
+    title: "Decree on Sunday Closure",
+    category: "Decree",
+    filing: "MBR-DEC-2026-001", date: "2026-03-21",
+    body: "Council of Elder Aunties",
+    summary: "The MF Function does not convene on Sundays — because it's church. No proceedings, votes, ratifications, or filings shall be entered into the record on a Sunday. Saturday business properly carried over resumes Monday.",
+    videoId: "7619740002204929294" },
+  { slug: "decree-saturday-new-business",
+    title: "Decree on Saturday New Business",
+    category: "Decree",
+    filing: "MBR-DEC-2026-002", date: "2026-03-21",
+    body: "Council of Elder Aunties",
+    summary: "Saturdays are designated as the day of new-business submissions to the floor. Pinning and hearting of comments is prohibited during voting; violations are entered into the record as procedural lapse.",
+    videoId: "7619740002204929294" },
+  { slug: "closing-benediction",
+    title: "The Closing Benediction",
+    category: "Decree",
+    filing: "MBR-DEC-2026-005", date: "2026-03-21",
+    body: "Council of Elder Aunties",
+    summary: "Standing liturgical decree fixing the closing benediction of all proceedings: 'God is good all the time, and all the time, God is good.' The form is fixed and may not be paraphrased; both halves must be uttered together.",
+    videoId: "7619740002204929294" }
+];
+
 // ---------- QUICK ACTIONS DATA ----------
 const TODAY = "2026-04-30";
 const ACTION_CATEGORIES = [
@@ -2065,7 +2345,7 @@ const LORE_BULLETINS = [
   { tag: "Dispatch",     text: "House of Habibi remains the ratified collective form of address for all delegates of the chamber." },
   { tag: "Notice",       text: "The chamber acknowledges 'Try Jesus, Don't Try Me' as the official hymn appended to the FAFO Clause. Mouth checks may follow." },
   { tag: "Jurisprudence", text: "Holy Cow ceded to Indian Delegation; temporary exemptions granted to constituents in Texas and the American Midwest pending review." },
-  { tag: "Infrastructure", text: "Armenian Delegation stands up the Multicultural Bureau of Records at mbofr.com to log trades, accords, and unresolved matters." },
+  { tag: "Infrastructure", text: "Armenian Delegation, Toronto Chapter — confirmed as official Record Keeper of the MFF — stands up the Multicultural Bureau of Records at mbofr.com to log trades, accords, and unresolved matters." },
   { tag: "Roster",       text: "Sir Ian McKellen, lent under the E-40 Accords, remains in residence with the Yay Area Black Delegation. Shadowfax accommodations are confirmed; petting privileges in effect." },
   { tag: "Cabinet",      text: "Supreme Delegate Martin Lawrence has not yet returned signed papers on the matter of 'Get to Steppin'.' Take a Hike Pal contingencies hold." },
   { tag: "Embassy",      text: "Diplomatic relations between the Caucasian Caucus and the Indian Delegation remain warm. The cow-word alliance — informally the 'moos and don'ts' — is being litigated in committee." },
@@ -2491,6 +2771,59 @@ function renderRituals() {
   wrap.appendChild(grid);
 }
 
+// ---------- DOCUMENTS / ARCHIVE ----------
+const DOC_CATEGORY_ORDER = ["Foundational Instrument", "Charter", "Accord", "Ruling", "Decree"];
+
+function renderDocuments() {
+  const wrap = document.getElementById("documents-list");
+  clear(wrap);
+
+  const grouped = {};
+  DOCUMENTS.forEach(d => {
+    if (!grouped[d.category]) grouped[d.category] = [];
+    grouped[d.category].push(d);
+  });
+
+  DOC_CATEGORY_ORDER.forEach(cat => {
+    const docs = grouped[cat];
+    if (!docs || !docs.length) return;
+    docs.sort((a, b) => a.date.localeCompare(b.date));
+
+    const section = el("section", { class: "doc-section" });
+    const head = el("div", { class: "doc-section-head" });
+    head.appendChild(el("h3", null, cat + (docs.length > 1 ? "s" : "")));
+    head.appendChild(el("span", { class: "count" }, docs.length + " on file"));
+    section.appendChild(head);
+
+    const grid = el("div", { class: "doc-grid" });
+    docs.forEach(d => {
+      const card = el("a", {
+        class: "doc-card",
+        href: "/documents/" + d.slug,
+        "data-cat": d.category
+      });
+      const catLine = el("div", { class: "doc-cat" }, d.category);
+      if (d.status === "pending") catLine.appendChild(el("span", { class: "doc-status pending" }, "Pending"));
+      else if (d.status === "open") catLine.appendChild(el("span", { class: "doc-status open" }, "Open"));
+      card.appendChild(catLine);
+      card.appendChild(el("h4", { class: "doc-title-text" }, d.title));
+      card.appendChild(el("p", { class: "doc-summary" }, d.summary));
+
+      const meta = el("div", { class: "doc-meta-row" });
+      meta.appendChild(el("span", null, d.filing));
+      const dateSpan = el("span", null, "Ratified ");
+      dateSpan.appendChild(el("strong", null, fmtDate(d.date)));
+      meta.appendChild(dateSpan);
+      card.appendChild(meta);
+
+      card.appendChild(el("div", { class: "doc-cta" }, "Read full document →"));
+      grid.appendChild(card);
+    });
+    section.appendChild(grid);
+    wrap.appendChild(section);
+  });
+}
+
 // ---------- ABOUT ----------
 function renderAbout() {
   const w = document.getElementById("about-block");
@@ -2544,6 +2877,8 @@ const TAB_META = {
                  lede: "Items not yet disposed of as of the close of the current reporting period. Includes pending ratifications, contested ownership, lapsed deadlines, and standing threats not yet activated." },
   rituals:     { title: "Standing Rules and Recurring Proceedings",
                  lede: "Standing protocols, recurring proceedings, and structural conventions of the United Delegations. The chamber does not convene Sundays." },
+  documents:   { title: "Archive of Filed Instruments",
+                 lede: "The certified archive of foundational instruments, charters, and ratified accords of the United Delegations. Each instrument is filed under the seal of the Bureau and available for inspection or print." },
   about:       { title: "Notes on Methodology and Classification",
                  lede: "Provenance of records, classification of statuses, and notes on the automated review process maintained by the Bureau." }
 };
@@ -2738,6 +3073,7 @@ renderDelegations();
 renderTimeline();
 renderOpen();
 renderRituals();
+renderDocuments();
 renderAbout();
 
 // Honor URL hash on initial load (e.g., /#timeline)
