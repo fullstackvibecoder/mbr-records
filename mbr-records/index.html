@@ -1017,6 +1017,29 @@
 
   .timelimit { margin-top: 6px; color: var(--c-primary-vivid); font-size: 11px; font-family: ui-monospace, monospace; font-weight: 600; }
   .ratified-by { margin-top: 6px; font-size: 11px; color: var(--c-base-light); }
+  .ratified-by-link {
+    color: var(--c-primary-vivid);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--c-gold);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+  .ratified-by-link:hover { color: var(--c-primary-darker); text-decoration-color: var(--c-gold-dark); }
+  .filed-pill {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 1px 5px;
+    font-family: "Public Sans", system-ui, sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--c-gold-dark);
+    border: 1px solid var(--c-gold-dark);
+    vertical-align: 1px;
+    line-height: 1.4;
+  }
   .owner-line { margin-top: 6px; font-size: 11px; color: var(--c-base-light); }
   .kind-line { font-size: 11px; color: var(--c-base-lighter); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
 
@@ -2042,6 +2065,22 @@ const OPEN_MATTERS = [
 ];
 
 // ---------- DOCUMENTS (ARCHIVE) ----------
+// Maps `ratifiedBy` strings on ITEMS to the slug of the corresponding filed
+// document. Only unambiguous matches are listed; generic values like
+// "Council of Elder Aunties" or "MF Function" are intentionally omitted.
+const DOC_BY_RATIFIED_BY = {
+  "Pineapple Accords": "pineapple-accords",
+  "E-40 Accords": "e-40-accords",
+  "Spades Accords": "uno-and-spades-accords",
+  "Dance Encouragement Accord": "dance-encouragement-and-garage-band-accord",
+  "Black Delegation Dance Encouragement Accord": "dance-encouragement-and-garage-band-accord",
+  "Black Delegation + Council of Elder Aunties (FAFO Clause)": "on-my-mama-accords",
+  "Irish Association decree": "whimsical-skedaddling-decree",
+  "Black Barber Caucus": "nas-fade-ruling",
+  "Rush Hour Coalition": "habibi-for-veto-accord",
+  "Rush Hour Coalition + Council of Elder Aunties": "habibi-for-veto-accord"
+};
+
 // Each entry corresponds to a static HTML filing under /documents/<slug>.
 // Categories: "Foundational Instrument", "Charter", "Accord", "Ruling", "Decree".
 // Status: "ratified" (default; omit), "pending", or "open" (re-opened to floor).
@@ -2616,7 +2655,22 @@ function renderLedger() {
       condCell.appendChild(ul);
     }
     if (i.timeLimit) condCell.appendChild(el("div", { class: "timelimit" }, "⏱ " + i.timeLimit));
-    if (i.ratifiedBy) condCell.appendChild(el("div", { class: "ratified-by" }, "Ratified by: " + i.ratifiedBy));
+    if (i.ratifiedBy) {
+      const docSlug = DOC_BY_RATIFIED_BY[i.ratifiedBy];
+      if (docSlug) {
+        const wrap = el("div", { class: "ratified-by" }, "Ratified by: ");
+        wrap.appendChild(el("a", {
+          class: "ratified-by-link",
+          href: "/documents/" + docSlug,
+          title: "Open the filed instrument in the Archive"
+        }, i.ratifiedBy));
+        wrap.appendChild(document.createTextNode(" "));
+        wrap.appendChild(el("span", { class: "filed-pill" }, "📜 on file"));
+        condCell.appendChild(wrap);
+      } else {
+        condCell.appendChild(el("div", { class: "ratified-by" }, "Ratified by: " + i.ratifiedBy));
+      }
+    }
     // cell 6: date
     const dateCell = el("td", { style: "white-space:nowrap; font-family:ui-monospace,monospace; font-size:12px; color:var(--muted);" }, fmtDate(i.date));
     // cell 7: source video (TikTok)
