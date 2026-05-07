@@ -2510,6 +2510,8 @@ const DOCUMENTS = [
 ];
 
 // ---------- QUICK ACTIONS DATA ----------
+// TODAY is rewritten by scripts/update.py on each cron run.
+// Format: YYYY-MM-DD (UTC). Drives the "days open" math below.
 const TODAY = "2026-05-07";
 const ACTION_CATEGORIES = [
   { key: "deadline",  label: "Deadline Lapsed",      desc: "Hard deadlines that have already lapsed" },

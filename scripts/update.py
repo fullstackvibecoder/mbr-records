@@ -450,7 +450,13 @@ def _item_to_js(it: dict, video_id: str, date_iso: str) -> str:
     parts.append("ratifiedBy: " + ("null" if not rb else '"' + _js_string(rb) + '"'))
 
     parts.append(f'date: "{date_iso}"')
-    parts.append(f'videoId: "{video_id}"')
+    # TikTok id is the default; an Instagram reel shortcode passes through
+    # `instagramId` instead. Items may carry either or both.
+    if video_id:
+        parts.append(f'videoId: "{video_id}"')
+    ig_id = it.get("instagramId") or it.get("instagram_id")
+    if ig_id:
+        parts.append(f'instagramId: "{_js_string(ig_id)}"')
     sq = it.get("sourceQuote") or ""
     parts.append(f'sourceQuote: "{_js_string(sq)}"')
 
@@ -619,6 +625,25 @@ def update_last_updated() -> None:
         log(f"LAST_UPDATED → {iso}")
 
 
+def update_today() -> None:
+    """Rewrite the TODAY constant in dashboard.html to current UTC date.
+
+    TODAY drives the 'days open' math in the Matters Requiring Attention
+    panel; left static, every entry's age silently drifts.
+    """
+    today = _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%d")
+    html = DASHBOARD.read_text()
+    new_html, n = re.subn(
+        r'const\s+TODAY\s*=\s*"[^"]*";',
+        f'const TODAY = "{today}";',
+        html,
+        count=1,
+    )
+    if n:
+        DASHBOARD.write_text(new_html)
+        log(f"TODAY → {today}")
+
+
 def append_videos_jsonl(videos: list[dict]) -> None:
     """Append new video records to videos.jsonl (preserving prior order)."""
     if not videos:
@@ -669,6 +694,7 @@ def main() -> int:
 
     if not new_videos:
         update_last_updated()
+        update_today()
         sync_deploy()
         return 0
 
@@ -720,6 +746,7 @@ def main() -> int:
     append_videos_jsonl(new_videos)
     append_filtered_jsonl(new_videos)
     update_last_updated()
+    update_today()
     sync_deploy()
 
     log(
