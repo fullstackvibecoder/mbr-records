@@ -214,7 +214,7 @@ A continuing satirical bit in which George Brett Olson, speaking as the **Caucas
 
 ---
 
-## Open / pending matters (as of Apr 30, 2026)
+## Open / pending matters (as of May 7, 2026)
 
 - **¡Ay caramba!** joint custody — terms not finalized.
 - **Holy Guacamole ownership** — floor opened Apr 30; no ruling yet.
@@ -226,6 +226,7 @@ A continuing satirical bit in which George Brett Olson, speaking as the **Caucas
 - **Summit of Boo Boo the Fool** — postponed; Council of OGs sending a Grand Primarch.
 - **Black Delegation safety addendum** to On My Mama Accords — being introduced.
 - **Spicy and seasoned whites' Level 1 spice privileges** — under Auntie Army review.
+- **Blaxican Delegation** — proposed combined African-American × Latino body. Submission from the MaD house (Marla & Dave Thomas) May 7, 2026, appealing to the MBR. Exchange offered to LOL: a sacred sweet potato casserole ("hams") recipe. Chair entered as **Pending LOL Ratification** per the Accords. Source: IG reel `DYC2oCkNmoX`.
 
 ---
 

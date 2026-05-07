@@ -531,6 +531,10 @@
     white-space: nowrap;
   }
   .source-link:hover { color: var(--c-primary-darker); text-decoration: underline; }
+  .source-link.tiktok { color: var(--c-primary-vivid); }
+  .source-link.tiktok:hover { color: var(--c-primary-darker); }
+  .source-link.instagram { color: var(--c-purple); }
+  .source-link.instagram:hover { color: #3a1a66; }
   .item-link {
     margin-left: auto;
     font-size: 10.5px;
@@ -573,6 +577,10 @@
     border-color: var(--c-primary);
     text-decoration: none;
   }
+  .timeline-links .source-link.instagram { background: #f3edff; border-color: #cdb5e6; }
+  .timeline-links .source-link.instagram:hover { background: var(--c-purple); color: white; border-color: var(--c-purple); }
+  .item-link.instagram { background: #f3edff; border-color: #cdb5e6; }
+  .item-link.instagram:hover { background: var(--c-purple); border-color: var(--c-purple); }
   .quote {
     font-style: italic;
     color: var(--c-base-light);
@@ -1446,8 +1454,20 @@ c45 -16 49 -16 76 0 74 44 212 -23 256 -125 11 -24 31 -58 47 -75 34 -41 49
 // ---------- DATA ----------
 // LAST_UPDATED is rewritten by scripts/update.py on each cron run.
 // Format: ISO 8601 (UTC).
-const LAST_UPDATED = "2026-05-07T12:53:35Z";
-const VIDEO_URL = id => "https://www.tiktok.com/@georgebrettolson/video/" + id;
+const LAST_UPDATED = "2026-05-07T21:20:00Z";
+const TIKTOK_URL = id => "https://www.tiktok.com/@georgebrettolson/video/" + id;
+const INSTAGRAM_URL = id => "https://www.instagram.com/reel/" + id + "/";
+// Back-compat: VIDEO_URL accepts either a TikTok numeric id or an IG shortcode.
+// 15+ digits → TikTok video id; anything else → IG reel shortcode.
+const VIDEO_URL = id => /^\d{15,}$/.test(String(id)) ? TIKTOK_URL(id) : INSTAGRAM_URL(id);
+// getSources returns one or more {kind,url,label} entries for an item with
+// optional videoId (TikTok) and/or instagramId (Instagram reel shortcode).
+function getSources(item) {
+  const out = [];
+  if (item && item.videoId) out.push({ kind: "tiktok", url: TIKTOK_URL(item.videoId), label: "TikTok" });
+  if (item && item.instagramId) out.push({ kind: "instagram", url: INSTAGRAM_URL(item.instagramId), label: "Instagram" });
+  return out;
+}
 
 const DELEGATIONS = [
   { key: "caucasian", name: "Caucasian Caucus", role: "Lead negotiator (George). Subgroups: LBC Spicy Mayo Sapiens, Yallapeño Appalachian Fellowship, North Carolina Soul Glow Division of YAM." },
@@ -2110,6 +2130,18 @@ const ITEMS = [
   { name: "Poser", type: "phrase", status: "rejected", kind: "trade", owner: "Caucasian Caucus", parties: { from: "Caucasian Caucus", to: "Black Delegation" }, terms: "Offered as part of the trade; Black Delegation declined the revival.", conditions: [], timeLimit: null, ratifiedBy: null, date: "2026-05-06", videoId: "7636801858840874254", sourceQuote: "Now, while you offer to bring back Poser, we not so fond of that one." },
   { name: "Phoney Bologna", type: "phrase", status: "pending", kind: "request", owner: "Caucasian Caucus", parties: { from: "Caucasian Caucus", to: "Black Delegation" }, terms: "Caucus constituents request that 'phoney bologna' be brought back into circulation.", conditions: [], timeLimit: null, ratifiedBy: null, date: "2026-05-06", videoId: "7636801858840874254", sourceQuote: "my constituents also really, really, really want you guys to bring back Phoney Bologna" },
   { name: "Payaso", type: "phrase", status: "pending", kind: "request", owner: "League of Latinos", parties: { from: "League of Latinos", to: "Caucasian Caucus" }, terms: "Caucus requests the League of Latinos (formerly Mexican Delegation) bring back 'payaso' into rotation.", conditions: [], timeLimit: null, ratifiedBy: null, date: "2026-05-06", videoId: "7636801858840874254", sourceQuote: "can we get the Mexican Delegation to bring back Payaso?" }
+,
+  { name: "Blaxican Delegation", type: "body", status: "pending", kind: "claim", owner: "(proposed)",
+    parties: { from: "MaD house (Marla & Dave Thomas, Black Delegation)", to: "League of Latinos" },
+    terms: "Submission to the Multicultural Bureau of Records for a new combined African-American × Latino delegation, to be styled the Blaxican Delegation. Tabled in connection with a 'haystack'-style taco salad blackened with a soul-food twang.",
+    conditions: [
+      "Pending LOL Ratification per the Accords (chair directive, May 7, 2026)",
+      "Appeal filed with the MBR: no prior combined African-American × Latino delegation on record",
+      "Exchange offered to League of Latinos: a sacred sweet potato casserole ('hams') recipe held by the submitters"
+    ],
+    timeLimit: null, ratifiedBy: null, date: "2026-05-07",
+    instagramId: "DYC2oCkNmoX",
+    sourceQuote: "I submit, therefore, for a new delegation called the Blaxican delegation. And if that is appropriate, please get back to us as soon as possible." }
 ];
 
 const ACCORDS = [
@@ -2287,7 +2319,8 @@ const OPEN_MATTERS = [
   { title: "Black Delegation Safety Addendum (On My Mama)", desc: "Black Delegation introducing addendum to ensure Caucasian Caucus safety for potential use. Pending.", since: "2026-04-25", videoId: "7632730650902007054" },
   { title: "Cornflakes on Asian Dish", desc: "George's open question Mar 13. Asian Association never responded.", since: "2026-03-13", videoId: "7616767652660301069" },
   { title: "Heavens to Betsies status", desc: "Originally a YAF gift Mar 21; later requested by Black Delegation Apr 17 (suggesting non-acceptance); not in final On My Mama Accords.", since: "2026-04-17", videoId: "7629753233988259085" },
-  { title: "Bureau of Fanatics Coach", desc: "Visiting coach scheduled for week of Apr 27. Outcome pending.", since: "2026-04-27", videoId: "7633460188988624142" }
+  { title: "Bureau of Fanatics Coach", desc: "Visiting coach scheduled for week of Apr 27. Outcome pending.", since: "2026-04-27", videoId: "7633460188988624142" },
+  { title: "Blaxican Delegation — proposed combined Black × Latino body", desc: "Submission from the MaD house (Marla & Dave Thomas) on May 7, 2026 to the Multicultural Bureau of Records. Requests recognition of a new combined African-American × Latino delegation; offers a sacred sweet potato casserole ('hams') recipe to the League of Latinos in exchange. Chair entered as Pending LOL Ratification per the Accords.", since: "2026-05-07", instagramId: "DYC2oCkNmoX" }
 ];
 
 // ---------- DOCUMENTS (ARCHIVE) ----------
@@ -2477,7 +2510,7 @@ const DOCUMENTS = [
 ];
 
 // ---------- QUICK ACTIONS DATA ----------
-const TODAY = "2026-04-30";
+const TODAY = "2026-05-07";
 const ACTION_CATEGORIES = [
   { key: "deadline",  label: "Deadline Lapsed",      desc: "Hard deadlines that have already lapsed" },
   { key: "waiting",   label: "Awaiting Counterparty", desc: "Pending response from a named party" },
@@ -2583,6 +2616,12 @@ const ACTION_ITEMS = [
     desc: "Black Delegation requested Arab + Asian + Black tri-committee Mar 19. Formation status unclear.",
     waitingOn: "Arab + Asian + Black Delegations",
     since: "2026-03-19", videoId: "7618991433898380557" },
+
+  // Pending LOL ratification (chair directive May 7, 2026)
+  { cat: "waiting",   title: "Blaxican Delegation — proposed combined body",
+    desc: "Submission from the MaD house (Marla & Dave Thomas) appealing to the MBR for recognition of a new combined African-American × Latino delegation. Exchange offered to LOL: a sacred sweet potato casserole ('hams') recipe. Chair entered as Pending LOL Ratification per the Accords.",
+    waitingOn: "League of Latinos",
+    since: "2026-05-07", instagramId: "DYC2oCkNmoX" },
 ];
 
 let qaFilter = "";
@@ -2817,7 +2856,15 @@ function renderQuickActions() {
       days === 0 ? "today" : (days === 1 ? "1 day" : days + " days") + " open");
     left.appendChild(daysSpan);
     meta.appendChild(left);
-    meta.appendChild(el("a", { class: "source-link", href: VIDEO_URL(item.videoId), target: "_blank", rel: "noopener" }, "▶ TikTok ↗"));
+    getSources(item).forEach((s, idx) => {
+      meta.appendChild(el("a", {
+        class: "source-link " + s.kind,
+        href: s.url,
+        target: "_blank",
+        rel: "noopener",
+        style: idx === 0 ? null : "margin-left:8px;"
+      }, "▶ " + s.label + " ↗"));
+    });
     card.appendChild(meta);
 
     grid.appendChild(card);
@@ -2908,16 +2955,17 @@ function renderLedger() {
     }
     // cell 6: date
     const dateCell = el("td", { style: "white-space:nowrap; font-family:ui-monospace,monospace; font-size:12px; color:var(--muted);" }, fmtDate(i.date));
-    // cell 7: source video (TikTok)
-    const srcCell = el("td", null,
-      el("a", {
-        class: "source-link",
-        href: VIDEO_URL(i.videoId),
-        target: "_blank",
-        rel: "noopener",
-        title: "Watch the source TikTok where this record was discussed"
-      }, "▶ TikTok ↗")
-    );
+    // cell 7: source video (TikTok and/or Instagram)
+    const srcCell = el("td", null);
+    const srcWrap = el("div", { style: "display:flex; flex-direction:column; gap:4px;" });
+    getSources(i).forEach(s => srcWrap.appendChild(el("a", {
+      class: "source-link " + s.kind,
+      href: s.url,
+      target: "_blank",
+      rel: "noopener",
+      title: "Source: " + s.label
+    }, "▶ " + s.label + " ↗")));
+    srcCell.appendChild(srcWrap);
     tbody.appendChild(el("tr", null, nameCell, typeCell, statusCell, partyCell, condCell, dateCell, srcCell));
   });
   document.getElementById("ledger-count").textContent = rows.length + " of " + ITEMS.length + " items";
@@ -2961,13 +3009,13 @@ function renderDelegations() {
         li.appendChild(el("strong", null, i.name));
         li.appendChild(document.createTextNode(" "));
         li.appendChild(el("span", { class: "badge " + i.status }, i.status));
-        li.appendChild(el("a", {
-          class: "source-link item-link",
-          href: VIDEO_URL(i.videoId),
+        getSources(i).forEach(s => li.appendChild(el("a", {
+          class: "source-link item-link " + s.kind,
+          href: s.url,
           target: "_blank",
           rel: "noopener",
-          title: "Watch the TikTok where this was decided (" + fmtDate(i.date) + ")"
-        }, "▶ TikTok"));
+          title: s.label + " · " + fmtDate(i.date)
+        }, "▶ " + s.label)));
         ul.appendChild(li);
       });
       card.appendChild(ul);
@@ -2978,13 +3026,13 @@ function renderDelegations() {
       involves.forEach(i => {
         const li = el("li", null);
         li.appendChild(document.createTextNode(i.name));
-        li.appendChild(el("a", {
-          class: "source-link item-link",
-          href: VIDEO_URL(i.videoId),
+        getSources(i).forEach(s => li.appendChild(el("a", {
+          class: "source-link item-link " + s.kind,
+          href: s.url,
           target: "_blank",
           rel: "noopener",
-          title: "Watch the TikTok (" + fmtDate(i.date) + ")"
-        }, "▶ TikTok"));
+          title: s.label + " · " + fmtDate(i.date)
+        }, "▶ " + s.label)));
         ul.appendChild(li);
       });
       card.appendChild(ul);
@@ -3035,7 +3083,15 @@ function renderOpen() {
     card.appendChild(el("div", { class: "titletop" }, m.title));
     card.appendChild(el("div", { class: "desc" }, m.desc));
     const since = el("div", { class: "since" }, "since " + fmtDate(m.since) + " · ");
-    since.appendChild(el("a", { class: "source-link", href: VIDEO_URL(m.videoId), target: "_blank", rel: "noopener" }, "▶ TikTok ↗"));
+    getSources(m).forEach((s, idx) => {
+      since.appendChild(el("a", {
+        class: "source-link " + s.kind,
+        href: s.url,
+        target: "_blank",
+        rel: "noopener",
+        style: idx === 0 ? null : "margin-left:8px;"
+      }, "▶ " + s.label + " ↗"));
+    });
     card.appendChild(since);
     grid.appendChild(card);
   });
@@ -3052,8 +3108,16 @@ function renderRituals() {
     card.appendChild(el("div", { class: "role" }, r.desc));
     const meta = el("div", { style: "margin-top:12px;" });
     meta.appendChild(el("span", { class: "type-badge" }, "since " + fmtDate(r.date)));
-    meta.appendChild(document.createTextNode(" "));
-    meta.appendChild(el("a", { class: "source-link", href: VIDEO_URL(r.videoId), target: "_blank", rel: "noopener", style: "margin-left:8px;" }, "▶ TikTok ↗"));
+    getSources(r).forEach(s => {
+      meta.appendChild(document.createTextNode(" "));
+      meta.appendChild(el("a", {
+        class: "source-link " + s.kind,
+        href: s.url,
+        target: "_blank",
+        rel: "noopener",
+        style: "margin-left:8px;"
+      }, "▶ " + s.label + " ↗"));
+    });
     card.appendChild(meta);
     grid.appendChild(card);
   });
