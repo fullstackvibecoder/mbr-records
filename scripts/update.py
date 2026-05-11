@@ -50,6 +50,23 @@ ACCOUNT = "georgebrettolson"
 CUTOFF = _dt.datetime(2026, 3, 3, tzinfo=_dt.timezone.utc)
 MODEL = "claude-opus-4-7"
 
+# Instagram ingest (policy P1: only @georgebrettolson's reels are
+# auto-ingested; third-party reels go through scripts/file_submission.py).
+IG_HANDLE = ACCOUNT  # same handle on both platforms
+IG_DEDUPE_WINDOW_DAYS = 2     # how far to look on the TikTok side for a mirror
+IG_DEDUPE_MIN_JACCARD = 0.55  # transcript-overlap threshold to call it a mirror
+
+# Optional dependency: instaloader.  IG ingest skips gracefully if missing.
+_IG_IMPORT_ERROR: str | None = None
+try:
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from instagram import enumerate_reels as _ig_enumerate_reels
+    from instagram import transcript_jaccard as _ig_transcript_jaccard
+    _INSTAGRAM_AVAILABLE = True
+except Exception as _e:  # pragma: no cover - import-time fallback
+    _INSTAGRAM_AVAILABLE = False
+    _IG_IMPORT_ERROR = str(_e)
+
 # ---------------------------------------------------------------------------
 # small helpers
 # ---------------------------------------------------------------------------
@@ -625,6 +642,202 @@ def update_last_updated() -> None:
         log(f"LAST_UPDATED → {iso}")
 
 
+def existing_instagram_ids() -> set[str]:
+    """Read `instagramId` strings already present in dashboard.html."""
+    if not DASHBOARD.exists():
+        return set()
+    return set(re.findall(r'instagramId:\s*"([^"]+)"', DASHBOARD.read_text()))
+
+
+def patch_instagram_id_into_items(tiktok_id: str, ig_shortcode: str) -> int:
+    """Patch `instagramId` onto every item carrying the given videoId.
+
+    Returns the number of items mutated.  Items that already carry an
+    instagramId are left alone.  Used by IG-mirror dedupe: when a new IG
+    reel is found to mirror a known TikTok, we add the IG shortcode to
+    the existing items rather than creating duplicate ITEMS rows.
+    """
+    html = DASHBOARD.read_text()
+    pattern = re.compile(
+        r'\{\s*name:\s*"[^"]*"[^{}]*?videoId:\s*"' + re.escape(tiktok_id) + r'"[^{}]*?\}',
+        re.DOTALL,
+    )
+    matches = list(pattern.finditer(html))
+    if not matches:
+        return 0
+    new_html = html
+    offset = 0
+    patched = 0
+    for m in matches:
+        block = m.group(0)
+        if "instagramId:" in block:
+            continue
+        new_block = re.sub(
+            r'(videoId:\s*"[^"]*")',
+            r'instagramId: "' + ig_shortcode + r'", \1',
+            block,
+            count=1,
+        )
+        start = m.start() + offset
+        end = m.end() + offset
+        new_html = new_html[:start] + new_block + new_html[end:]
+        offset += len(new_block) - len(block)
+        patched += 1
+    if patched:
+        DASHBOARD.write_text(new_html)
+    return patched
+
+
+def _load_recent_tiktoks(window_days: int) -> list[dict]:
+    """Return TikToks uploaded within the last `window_days` days that
+    have an on-disk transcript.  Used for IG-mirror dedupe."""
+    if not VIDEOS_JSONL.exists():
+        return []
+    cutoff = _dt.datetime.now(_dt.timezone.utc) - _dt.timedelta(days=window_days * 3)
+    rows: list[dict] = []
+    for line in VIDEOS_JSONL.read_text().splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            v = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        upload = v.get("upload_date")
+        vid = v.get("id")
+        if not upload or not vid:
+            continue
+        try:
+            udt = _dt.datetime.strptime(upload, "%Y%m%d").replace(tzinfo=_dt.timezone.utc)
+        except ValueError:
+            continue
+        if udt < cutoff:
+            continue
+        tx = TRANSCRIPTS_DIR / f"{upload}_{vid}.txt"
+        if not tx.exists():
+            continue
+        rows.append({
+            "id": vid,
+            "upload_date": upload,
+            "upload_dt": udt,
+            "transcript": tx.read_text(),
+        })
+    return rows
+
+
+def _find_mirror_tiktok(reel: dict, transcript: str, recent: list[dict]) -> str | None:
+    """If the reel mirrors a recent TikTok (within window + Jaccard
+    threshold), return that TikTok's id.  Else None."""
+    if not transcript or not recent:
+        return None
+    try:
+        rdt = _dt.datetime.strptime(reel["upload_date"], "%Y%m%d").replace(tzinfo=_dt.timezone.utc)
+    except (KeyError, ValueError):
+        return None
+    window = _dt.timedelta(days=IG_DEDUPE_WINDOW_DAYS)
+    best: tuple[float, str] | None = None
+    for t in recent:
+        if abs(t["upload_dt"] - rdt) > window:
+            continue
+        score = _ig_transcript_jaccard(transcript, t["transcript"])
+        if best is None or score > best[0]:
+            best = (score, t["id"])
+    if best and best[0] >= IG_DEDUPE_MIN_JACCARD:
+        return best[1]
+    return None
+
+
+def _download_ig_audio(reel: dict) -> Path:
+    AUDIO_DIR.mkdir(exist_ok=True)
+    target = AUDIO_DIR / f"{reel['upload_date']}_IG_{reel['id']}.m4a"
+    if target.exists():
+        return target
+    cmd = ["yt-dlp", "--no-warnings",
+           "-x", "--audio-format", "m4a",
+           "-o", str(AUDIO_DIR / "%(upload_date)s_IG_%(id)s.%(ext)s"),
+           reel["webpage_url"]]
+    # In CI we won't have browser cookies; rely on instaloader's session
+    # to have populated yt-dlp's working dir, or just try anonymous.
+    cookies = os.environ.get("YT_DLP_COOKIES_FROM_BROWSER")
+    if cookies:
+        cmd[1:1] = ["--cookies-from-browser", cookies]
+    subprocess.run(cmd, check=True, timeout=180)
+    return target
+
+
+def ingest_instagram(client: Anthropic) -> tuple[int, int]:
+    """Auto-ingest new reels from @georgebrettolson.
+
+    Returns (items_appended, mirror_patches).  Safe to call when IG auth
+    isn't configured — logs and returns (0, 0).
+    """
+    if not _INSTAGRAM_AVAILABLE:
+        log(f"IG ingest: instaloader unavailable ({_IG_IMPORT_ERROR}); skipping.")
+        return 0, 0
+    if "INSTAGRAM_USERNAME" not in os.environ:
+        log("IG ingest: INSTAGRAM_USERNAME not set; skipping.")
+        return 0, 0
+    if not (os.environ.get("INSTALOADER_SESSION_FILE") or os.environ.get("INSTAGRAM_SESSION_B64")):
+        log("IG ingest: no session credentials set; skipping.")
+        return 0, 0
+
+    log(f"IG ingest: enumerating @{IG_HANDLE}")
+    try:
+        reels = _ig_enumerate_reels(IG_HANDLE, since=CUTOFF)
+    except Exception as e:
+        log(f"IG ingest: enumeration failed: {e}; skipping.")
+        return 0, 0
+
+    known_ig = existing_instagram_ids()
+    new_reels = [r for r in reels if r["id"] not in known_ig]
+    log(f"IG ingest: {len(reels)} total, {len(known_ig)} known, {len(new_reels)} new")
+    if not new_reels:
+        return 0, 0
+
+    recent = _load_recent_tiktoks(window_days=IG_DEDUPE_WINDOW_DAYS)
+    items_added = 0
+    mirror_patches = 0
+
+    for r in new_reels:
+        date_iso = _format_iso_date(r["upload_date"])
+        log(f"-- IG {r['id']} {r['upload_date']}: {(r.get('caption') or '')[:60]}")
+        try:
+            audio = _download_ig_audio(r)
+            transcript = transcribe(audio)
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
+            log(f"   download/transcribe failed: {e}; skipping.")
+            continue
+
+        mirror_id = _find_mirror_tiktok(r, transcript, recent)
+        if mirror_id:
+            n = patch_instagram_id_into_items(mirror_id, r["id"])
+            mirror_patches += n
+            log(f"   mirror of TikTok {mirror_id}: patched {n} items with instagramId")
+            continue
+
+        analysis = analyze({"id": r["id"], "upload_date": r["upload_date"],
+                            "webpage_url": r["webpage_url"]},
+                           transcript, client)
+        log(f"   relevant={analysis.get('is_relevant')} summary={analysis.get('summary', '')[:80]}")
+        if not analysis.get("is_relevant"):
+            continue
+        items = analysis.get("items") or []
+        for it in items:
+            it["instagramId"] = r["id"]
+        # video_id="" → _item_to_js omits videoId, emits instagramId from item dict
+        n = append_items_to_dashboard(items, video_id="", date_iso=date_iso)
+        items_added += n
+        log(f"   IG-only items appended: {n}")
+        s = apply_status_updates(analysis.get("status_updates") or [])
+        if s:
+            log(f"   status updates applied: {s}")
+        b = append_bulletin_items(analysis.get("bulletin_items") or [])
+        if b:
+            log(f"   bulletin items appended: {b}")
+
+    return items_added, mirror_patches
+
+
 def update_today() -> None:
     """Rewrite the TODAY constant in dashboard.html to current UTC date.
 
@@ -693,9 +906,11 @@ def main() -> int:
     log(f"Total: {len(all_videos)}; known: {len(known)}; new: {len(new_videos)}")
 
     if not new_videos:
+        ig_added, ig_patched = ingest_instagram(client)
         update_last_updated()
         update_today()
         sync_deploy()
+        log(f"No new TikToks. IG: {ig_added} new items, {ig_patched} mirror patches.")
         return 0
 
     relevant = 0
@@ -745,14 +960,19 @@ def main() -> int:
 
     append_videos_jsonl(new_videos)
     append_filtered_jsonl(new_videos)
+
+    ig_added, ig_patched = ingest_instagram(client)
+
     update_last_updated()
     update_today()
     sync_deploy()
 
     log(
-        f"Done. {relevant}/{len(new_videos)} relevant; "
-        f"{items_added} items added; {statuses_changed} statuses changed; "
-        f"{bulletins_added} bulletins added."
+        f"Done. {relevant}/{len(new_videos)} TikToks relevant; "
+        f"{items_added} TikTok items + {ig_added} IG items added; "
+        f"{statuses_changed} statuses changed; "
+        f"{bulletins_added} bulletins added; "
+        f"{ig_patched} IG-mirror patches."
     )
     return 0
 

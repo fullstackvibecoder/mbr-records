@@ -44,10 +44,32 @@ records. If Claude is uncertain about a video, the video is skipped.
 Set these in **Settings → Secrets and variables → Actions** for the
 repo:
 
-| Secret | Source |
-|---|---|
-| `ANTHROPIC_API_KEY` | https://console.anthropic.com → API Keys |
-| `VERCEL_TOKEN` | https://vercel.com/account/tokens (scope: `bottlenecklabs` team) |
+| Secret | Source | Required? |
+|---|---|---|
+| `ANTHROPIC_API_KEY` | https://console.anthropic.com → API Keys | yes |
+| `VERCEL_TOKEN` | https://vercel.com/account/tokens (scope: `bottlenecklabs` team) | yes |
+| `INSTAGRAM_USERNAME` | Plain username for the IG account that will scrape (NOT @georgebrettolson — use a separate account you control) | optional — IG ingest skips if absent |
+| `INSTAGRAM_SESSION_B64` | `base64 -w0 < ~/.config/instaloader/session-<user>` after running `instaloader --login=<user>` locally once | optional — see above |
+
+### Optional: Instagram ingest
+
+The cron auto-ingests reels from `@georgebrettolson` per policy P1 (only
+George's own account; third-party reels go through
+`scripts/file_submission.py`).  If `INSTAGRAM_USERNAME` and
+`INSTAGRAM_SESSION_B64` are both set, the cron will also enumerate his
+IG reels each tick, dedupe against TikTok mirrors (transcript-overlap
+Jaccard ≥ 0.55 within ±2 days → patch `instagramId` onto the existing
+item), and ingest IG-only reels (like the Blaxican filing) as new items.
+If either secret is missing the IG step is skipped silently.
+
+To populate the session secret once locally:
+
+```bash
+pip install instaloader
+instaloader --login=<your-scraper-account>   # prompts for password + 2FA
+base64 -w0 < ~/.config/instaloader/session-<your-scraper-account>
+# paste output into the INSTAGRAM_SESSION_B64 GitHub secret
+```
 
 ### Manual run
 
@@ -81,6 +103,33 @@ whisper audio/*.m4a --model small.en --output_dir transcripts --output_format tx
 ```
 
 The structured data (the `ITEMS`, `ACCORDS`, `OPEN_MATTERS`, `RITUALS` arrays in the script) was hand-curated by reading every transcript and extracting decisions. That's the part you can't automate — it requires understanding the bit.
+
+## Backfilling Instagram sources
+
+The cron only matches IG↔TikTok going forward.  To backfill IG
+shortcodes against the existing 100+ TikTok items, run the matcher
+locally and review the proposal:
+
+```bash
+# Enumerate George's reels and propose matches.  Lazily downloads +
+# transcribes IG audio only when a date window has multiple candidates.
+python scripts/match_ig_to_tiktok.py
+
+# Eyeball proposed_ig_matches.json.  Each row has confidence:
+# high (single candidate in window) / medium / low / ambiguous.
+
+# Apply the high-confidence matches.  --dry-run first if cautious.
+python scripts/apply_ig_matches.py --min-confidence high --dry-run
+python scripts/apply_ig_matches.py --min-confidence high
+```
+
+For one-off third-party submissions (e.g. delegate reels filed *to* the
+bureau, like the Blaxican Delegation proposal from `@madhouse4real`):
+
+```bash
+python scripts/file_submission.py https://www.instagram.com/reels/<shortcode>/
+# Writes a draft into pending_submissions/<shortcode>.json for review.
+```
 
 ## Fork it for another creator
 

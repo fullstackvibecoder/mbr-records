@@ -39,7 +39,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install --quiet --upgrade pip
-          pip install --quiet yt-dlp openai-whisper anthropic
+          pip install --quiet yt-dlp openai-whisper anthropic instaloader
 
       - name: Cache whisper model
         uses: actions/cache@v4
@@ -50,6 +50,9 @@ jobs:
       - name: Run refresh pipeline
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # IG ingest is opt-in.  Set both to enable; absent → IG step is skipped.
+          INSTAGRAM_USERNAME: ${{ secrets.INSTAGRAM_USERNAME }}
+          INSTAGRAM_SESSION_B64: ${{ secrets.INSTAGRAM_SESSION_B64 }}
         run: python scripts/update.py
 
       - name: Commit changes (if any)

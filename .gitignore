@@ -7,6 +7,13 @@ whisper.log
 enum.log
 download_archive.txt
 
+# IG backfill working files (commit only the curated result, not the proposal)
+proposed_ig_matches.json
+pending_submissions/
+
+# Python cache
+scripts/__pycache__/
+
 # Vercel
 .vercel/
 mbr-records/.vercel/
