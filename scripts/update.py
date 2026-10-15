@@ -30,6 +30,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 try:
@@ -102,18 +103,33 @@ def existing_video_ids() -> set[str]:
 
 
 def enumerate_account() -> list[dict]:
-    res = subprocess.run(
-        [
-            "yt-dlp",
-            "--flat-playlist",
-            "--dump-json",
-            f"https://www.tiktok.com/@{ACCOUNT}",
-        ],
-        capture_output=True,
-        text=True,
-        check=True,
-        timeout=600,
-    )
+    # TikTok intermittently blocks GitHub runner IPs (about half the scheduled
+    # runs failed 10-12..10-15). Retry, then skip TikTok for this run instead of
+    # failing the whole job, so the Instagram ingest still happens.
+    res = None
+    for attempt in range(1, 4):
+        try:
+            res = subprocess.run(
+                [
+                    "yt-dlp",
+                    "--flat-playlist",
+                    "--dump-json",
+                    f"https://www.tiktok.com/@{ACCOUNT}",
+                ],
+                capture_output=True,
+                text=True,
+                check=True,
+                timeout=600,
+            )
+            break
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
+            err = (getattr(e, "stderr", "") or "").strip().splitlines()[-1:] or [str(e)]
+            log(f"TikTok enumerate attempt {attempt}/3 failed: {err[0][:300]}")
+            if attempt < 3:
+                time.sleep(30 * attempt)
+    if res is None:
+        log("TikTok enumerate failed 3 times; skipping TikTok this run.")
+        return []
     rows: list[dict] = []
     for line in res.stdout.splitlines():
         line = line.strip()
